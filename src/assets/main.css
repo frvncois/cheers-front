@@ -1,0 +1,99 @@
+:root {
+    --purple: #50303C;
+    --yellow: #ffbf57;
+    --light: #F1E4CC;
+    --green: #5D624A;
+    --brown: #5A381C;
+    --accent: #452833;
+
+    --space-xs: 0.5em;
+    --space-sm: 1.5em;
+    --space-rg: 2.5em;
+    --space-md: 3.5em;
+    --space-lg: 5.25em;
+    --space-xl: 8em;
+    --space-2xl: 20em;
+
+    --font-sm: 0.75em;
+    --font-rg: 1em;
+    --font-md: 1.5em;
+    --font-lg: 2.5em;
+    --font-xl: 3.5em;
+}
+
+* {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+@font-face {
+    font-family: 'body';
+    src: url(body.otf);
+}
+
+@font-face {
+    font-family: 'italic';
+    src: url(italic.otf);
+}
+
+body {
+    background: var(--purple);
+    color: var(--yellow);
+    font-family: 'body';
+    margin: 0;
+    font-size: 16px;
+}
+
+p {
+    line-height: 1.5;
+    margin: 0;
+}
+
+a {
+    color: currentColor;
+    text-decoration: none;
+}
+
+h1, h2, h3, h4 {
+    font-weight: normal;
+    line-height: 1;
+    margin: 0;
+}
+
+
+h2 {
+    font-size: var(--font-md);
+}
+
+ul, li {
+    list-style-type: none;
+    padding: unset;
+    margin: unset;
+}
+
+button {
+    border: unset;
+    padding: var(--space-sm) 0;
+    background-color: unset;
+    color: inherit;
+    font-family: inherit;
+    cursor: pointer;
+    font-size: inherit;
+}
+
+input {
+	transition: all 0.5s ease-in;
+}
+
+input::placeholder {
+	opacity: 0.3;
+	transition: opacity 0.5s ease-in;
+}
+
+input:focus::placeholder {
+	opacity: 0;
+}
+
+input:focus {
+    outline: none;
+}

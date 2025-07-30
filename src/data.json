@@ -1,0 +1,229 @@
+{
+  "products": [
+    {
+      "id": "chem-cookies",
+      "title": "Chem Cookies",
+      "category": "Indica",
+      "format": "3,5g",
+      "aroma": "Épicé, citronné, terreux",
+      "terpenes": "Caryophyllene",
+      "parent": "Girls Scout Cookies x Chem Dawg",
+      "thc": "24-30%",
+      "cbd": "0-2%",
+      "availability": "QDC"
+    },
+    {
+      "id": "vanilla-ice",
+      "title": "Vanilla Ice",
+      "category": "Indica",
+      "format": "3,5g",
+      "aroma": "Citronné, boisé, fleural",
+      "terpenes": "Myrcème",
+      "parent": "Face Off Og x Kush Mints",
+      "thc": "24-30%",
+      "cbd": "0-2%",
+      "availability": "QDC"
+    },
+    {
+      "id": "pomelo-soda",
+      "title": "Pomelo Soda",
+      "category": "Hybride",
+      "format": "3,5g",
+      "aroma": "Fruité, diesel, sucré",
+      "terpenes": "Terpinolène",
+      "parent": "Cherry Punch x King Sherb",
+      "thc": "10-16%",
+      "cbd": "0-2%",
+      "availability": "QDC"
+    },
+    {
+      "id": "cerise-et-lime",
+      "title": "Cerise et Lime",
+      "category": "Mélange",
+      "format": "2 x 3,5g",
+      "aroma": "Black Cherry Lime",
+      "terpenes": "Terpinolène",
+      "parent": "n/a",
+      "thc": "20-26%",
+      "cbd": "0-3%",
+      "availability": "QDC"
+    },
+    {
+      "id": "holy-kush-flower",
+      "title": "Holy Kush",
+      "category": "Indica",
+      "format": "3,5g",
+      "aroma": "Épicé, boisé, diesel",
+      "terpenes": "Myrcène",
+      "parent": "Strawberry Diesel  x Holy Grail Kush",
+      "thc": "24-30%",
+      "cbd": "0-2%",
+      "availability": "International"
+    },
+    {
+      "id": "holy-kush-preroll",
+      "title": "Holy Kush",
+      "category": "Indica",
+      "format": "5 x 0,4g",
+      "aroma": "Épicé, boisé, diesel",
+      "terpenes": "Myrcène",
+      "parent": "Strawberry Diesel x Holy Grail Kush",
+      "thc": "24-30%",
+      "cbd": "0-2%",
+      "availability": "International"
+    },
+    {
+      "id": "alien-kush",
+      "title": "Alien Kush",
+      "category": "Indica",
+      "format": "3,5 g",
+      "aroma": "Citrus, woodyy, floral",
+      "terpenes": "Myrcène",
+      "parent": "Alien Cookies x Kush Mints",
+      "thc": "28-34%",
+      "cbd": "0-2%",
+      "availability": "OCS"
+    },
+    {
+      "id": "strawberry-grail",
+      "title": "Strawberry Grail",
+      "category": "Indica",
+      "format": "3,5 g ou 7g",
+      "aroma": "Spicy, woody, diesel",
+      "terpenes": "Myrcène",
+      "parent": "Strawberry diesel x Holy grail kush",
+      "thc": "28-34%",
+      "cbd": "0-2%",
+      "availability": "OCS"
+    },
+    {
+      "id": "sugar-daddy-flower",
+      "title": "Sugar daddy",
+      "category": "Indica",
+      "format": "3,5g ou 7g",
+      "aroma": "Citrus, Creamy, Woody",
+      "terpenes": "Myrcène",
+      "parent": "J.Gold X White",
+      "thc": "26-32%",
+      "cbd": "0-2%",
+      "availability": "OCS"
+    },
+    {
+      "id": "c4",
+      "title": "C4",
+      "category": "Indica",
+      "format": "3,5g",
+      "aroma": "Spicy, Citrus, Earthy",
+      "terpenes": "Caryohyllene",
+      "parent": "Girls Scout Cookies x Chem Dawg",
+      "thc": "26-32%",
+      "cbd": "0-2%",
+      "availability": "OCS"
+    },
+    {
+      "id": "sugar-daddy-preroll",
+      "title": "Sugar Daddy",
+      "category": "Indica",
+      "format": "1 x 1g",
+      "aroma": "Citrus, Creamy, Woody",
+      "terpenes": "Caryohyllene",
+      "parent": "J.Gold X White",
+      "thc": "26-32%",
+      "cbd": "0-2%",
+      "availability": "OCS"
+    },
+    {
+      "id": "midnight-cake",
+      "title": "Midnight Cake",
+      "category": "Blend Indica",
+      "format": "5 x 0,5g",
+      "aroma": "Woody, Diesel, Citrus",
+      "terpenes": "Caryohyllene",
+      "parent": "n/a",
+      "thc": "28-34%",
+      "cbd": "0-2%",
+      "availability": "OCS"
+    },
+    {
+      "id": "cap-junky",
+      "title": "Cap Junky",
+      "category": "Indica",
+      "format": "n/a",
+      "aroma": "Sweet, floral, earthy",
+      "terpenes": "Caryohyllene",
+      "parent": "Alien Cookies x Kush Mints",
+      "thc": "28-34%",
+      "cbd": "0-2",
+      "availability": "International"
+    },
+    {
+      "id": "strawberry-grail-international",
+      "title": "Strawberry Grail",
+      "category": "Indica",
+      "format": "n/a",
+      "aroma": "Spicy, Woody, Diesel",
+      "terpenes": "Caryohyllene",
+      "parent": "Strawberry Diesel  x Holy Grail Kush",
+      "thc": "28-34%",
+      "cbd": "0-2",
+      "availability": "International"
+    },
+    {
+      "id": "apples-n-bananas",
+      "title": "Apples N' Bananas",
+      "category": "Hybrid",
+      "format": "n/a",
+      "aroma": "Gassy, Creamy, Sweet",
+      "terpenes": "Caryohyllene",
+      "parent": "Blue power male x Grandaddy purple x Platinum Cookies",
+      "thc": "22-28%",
+      "cbd": "0-2",
+      "availability": "International"
+    },
+    {
+      "id": "chem-cookies-44",
+      "title": "Chem Cookies #44",
+      "category": "Indica",
+      "format": "n/a",
+      "aroma": "Spicy, Citrus, Earthy",
+      "terpenes": "Caryohyllene",
+      "parent": "Girls Scout Cookies x Chem Dawg",
+      "thc": "28-34%",
+      "cbd": "0-2",
+      "availability": "International"
+    },
+    {
+      "id": "animal-face",
+      "title": "Aniaml Face",
+      "category": "Indica",
+      "format": "n/a",
+      "aroma": "Citrus, Creamy, Woody",
+      "terpenes": "Caryohyllene",
+      "parent": "Animal Face x Kush Mints",
+      "thc": "24-32%",
+      "cbd": "0-2",
+      "availability": "International"
+    },
+    {
+      "id": "cherry-blast",
+      "title": "Cherry Blast",
+      "category": "Hybrid",
+      "format": "n/a",
+      "aroma": "Sweet, Floral, Citrus",
+      "terpenes": "Caryohyllene",
+      "parent": "Jet Fuel Gelato x Orange Cookies",
+      "thc": "24-32%",
+      "cbd": "0-2",
+      "availability": "International"
+    }
+  ],
+  "metadata": {
+    "totalProducts": 18,
+    "lastUpdated": "2025-07-29T21:49:14.551Z",
+    "availabilityOptions": [
+      "QDC",
+      "OCS",
+      "International"
+    ]
+  }
+}
