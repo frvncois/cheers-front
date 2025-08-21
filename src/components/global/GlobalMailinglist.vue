@@ -1,6 +1,6 @@
 <template>
     <section>
-        <div class="mailinglist">
+        <div class="mailinglist" data-animate="fade" data-animate-duration="2000">
             <div>
                 <h1>
                     Une infolettre pour rester à la page

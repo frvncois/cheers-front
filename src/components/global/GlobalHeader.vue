@@ -19,15 +19,12 @@ const toggleNav = () => {
 
 const closeNav = () => {
 	isClosing.value = true;
-	
-	// Wait for animation to complete
 	setTimeout(() => {
 		isNavVisible.value = false;
 		isClosing.value = false;
-	}, 600); // Match your CSS transition duration
+	}, 600);
 };
 
-// Close nav AFTER route changes (new page is already visible)
 watch(() => router.currentRoute.value.path, () => {
 	if (isNavVisible.value) {
 		closeNav();
@@ -36,9 +33,13 @@ watch(() => router.currentRoute.value.path, () => {
 </script>
 
 <template>
-	<header :class="{ 'header-brown': isNavVisible }">
-		<div><CheersIcon /></div>
-		<div @click="toggleNav">Toggle</div>
+	<header :class="{ 'header-brown': isNavVisible }" data-animate="fade">
+		<div class="logo"><CheersIcon /></div>
+		<div class="toggle" @click="toggleNav">
+			<span></span>
+			<span></span>
+			<span></span>
+		</div>
 	</header>
 	
 	<div class="mask" :class="{ 'is-open': isNavVisible, 'is-closing': isClosing }">
@@ -77,6 +78,7 @@ header {
 	display: flex;
 	flex-direction: row;
 	justify-content: space-between;
+	align-items: center;
 	position: fixed;
 	top: 0;
 	left: 0;
@@ -85,6 +87,26 @@ header {
 	color: var(--yellow);
 	padding: var(--space-rg);
 	transition: color 0.3s ease;
+	> .logo svg {
+		height: 4em;
+	}
+	> .toggle {
+		height: 4em;
+		width: 2em;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: 10px;
+		cursor: pointer;
+		> span {
+			width: 100%;
+			height: 1px;
+			background: currentColor;
+			&:nth-child(2) {
+				width: 50%;
+			}
+		}
+	}
 }
 
 .header-brown {

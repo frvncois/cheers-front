@@ -2,13 +2,13 @@
 <section>
   <div class="cta">
     <div class="is-content">
-      <h2>Producteur passioné</h2>
+      <h2 data-animate="fade" data-animate-delay="500">Producteur passioné</h2>
       <div class="is-title">
-        <div><h1>Produire un <span>cannabis</span></h1></div>
-        <div><h1>qui fait <span>honneur</span> à</h1></div>
-        <div><h1>la <span>culture</span></h1></div>
+        <div><h1 data-animate="fade-up" data-animate-delay="150" data-animate-duration="1000">Produire un <span>cannabis</span></h1></div>
+        <div><h1 data-animate="fade-up" data-animate-delay="350" data-animate-duration="1000">qui fait <span>honneur</span> à</h1></div>
+        <div><h1 data-animate="fade-up" data-animate-delay="500" data-animate-duration="1000">la <span>culture</span></h1></div>
       </div>
-      <h2>Cannabis de qualité</h2>
+      <h2 data-animate="fade" data-animate-delay="500">Cannabis de qualité</h2>
       </div>
     <div speed="-0.5" class="is-image">
       <img src="@/assets/cup.png"/>
@@ -16,41 +16,6 @@
   </div>
 </section>
 </template>
-
-<script setup>
-import { onMounted, onUnmounted } from 'vue';
-
-let observer;
-
-onMounted(() => {
-  const titleElement = document.querySelector('.cta .is-title');
-  
-  observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        const divs = entry.target.querySelectorAll('div');
-        divs.forEach((div, index) => {
-          div.style.animationDelay = `${index * 150}ms`;
-          div.classList.add('animate');
-        });
-        observer.unobserve(entry.target);
-      }
-    });
-  }, {
-    threshold: 0.3
-  });
-  
-  if (titleElement) {
-    observer.observe(titleElement);
-  }
-});
-
-onUnmounted(() => {
-  if (observer) {
-    observer.disconnect();
-  }
-});
-</script>
 
 <style scoped>
 .cta {
@@ -61,6 +26,9 @@ justify-content: space-between;
 align-items: end;
 text-align: center;
 padding: var(--space-rg);
+> .is-title div {
+  overflow: hidden;
+}
  > div {
 flex-shrink: 0;
  &:last-child {
@@ -82,23 +50,5 @@ margin-top: -6em;
       margin: auto;
   }
  }
-}
-
-/* ONLY animation additions */
-.cta .is-title div {
-overflow: hidden;
-opacity: 0;
-transform: translateY(50%);
-}
-
-.cta .is-title div.animate {
-animation: slideUp 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
-}
-
-@keyframes slideUp {
- to {
-opacity: 1;
-transform: translateY(0%);
-}
 }
 </style>

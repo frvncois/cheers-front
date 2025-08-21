@@ -2,18 +2,18 @@
   <section>
     <div class="tagline">
       <div class="is-content">
-        <div speed="0.25" class="is-image">
-          <img src="@/assets/intro.png"/>
+        <div class="is-image">
+          <img src="@/assets/intro.png" speed="1.25" data-animate="reveal" data-animate-duration="2000"/>
         </div>
-        <div class="is-title">
+        <div class="is-title" animte="fade-up">
           <h1>Du premier plan<br>au dernier puff,<br>on cultive l'excellence</h1>
         </div>
         <div class="is-image">
-          <img speed="-0.25" src="@/assets/intro.png"/>
+          <img src="@/assets/intro.png" speed="1.25" data-animate="reveal" data-animate-duration="2000"/>
         </div>
       </div>
       <div class="is-cover">
-        <img speed="0.5" src="@/assets/intro.png"/>
+        <img speed="1.25" src="@/assets/intro.png" data-animate="reveal" data-animate-duration="2000"/>
       </div>
     </div>
   </section>
@@ -31,20 +31,24 @@
         flex-direction: row;
         gap: var(--space-md);
         > .is-image {
-        flex: 1;
-        overflow: hidden;
-        position: relative;
-        aspect-ratio: 1;
-        &:last-child {
-            display: flex;
-            align-items: flex-end;
-        }
-        > img {
-          position: absolute;
-            aspect-ratio: 1;
+          display: flex;
+          align-items: center;
+          overflow: hidden;
+          position: relative;
+          aspect-ratio: 1;
+          flex: 1;
+          height: 100%;
+          width: 100%;
+          background: var(--accent);
+          &:last-child {
+            margin-top: 30%;
+          }
+          > img {
+            position: absolute;
             width: 100%;
             object-fit: cover;
-        }
+            height: 150%;
+          }
         }
         > .is-title {
         flex: 1;
@@ -62,7 +66,7 @@
         overflow: hidden;
         height: 50vh;
         position: relative;
-        background: red;
+        background: var(--accent);
         > img {
           position: absolute;
           bottom: 0;

@@ -10,7 +10,7 @@
       "parent": "Girls Scout Cookies x Chem Dawg",
       "thc": "24-30%",
       "cbd": "0-2%",
-      "availability": "QDC"
+      "availability": "SQDC"
     },
     {
       "id": "vanilla-ice",
@@ -22,7 +22,7 @@
       "parent": "Face Off Og x Kush Mints",
       "thc": "24-30%",
       "cbd": "0-2%",
-      "availability": "QDC"
+      "availability": "SQDC"
     },
     {
       "id": "pomelo-soda",
@@ -34,7 +34,7 @@
       "parent": "Cherry Punch x King Sherb",
       "thc": "10-16%",
       "cbd": "0-2%",
-      "availability": "QDC"
+      "availability": "SQDC"
     },
     {
       "id": "cerise-et-lime",
@@ -46,7 +46,7 @@
       "parent": "n/a",
       "thc": "20-26%",
       "cbd": "0-3%",
-      "availability": "QDC"
+      "availability": "SQDC"
     },
     {
       "id": "holy-kush-flower",
@@ -221,7 +221,7 @@
     "totalProducts": 18,
     "lastUpdated": "2025-07-29T21:49:14.551Z",
     "availabilityOptions": [
-      "QDC",
+      "SQDC",
       "OCS",
       "International"
     ]

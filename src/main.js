@@ -3,32 +3,26 @@ import { createApp } from 'vue'
 import { createPinia } from 'pinia'
 import Lenis from 'lenis'
 import './assets/scrollr.js'
+import './assets/animate.js';
 import App from './App.vue'
 import router from './router'
 
 const app = createApp(App)
 
-const lenis = new Lenis({
-  autoRaf: true,
-});
+const lenis = new Lenis({ autoRaf: true })
+window.lenis = lenis
 
-// Make lenis globally available for scrollr
-window.lenis = lenis;
-
-lenis.on('scroll', (e) => {
-  console.log(e);
-  // Update scrollr elements on Lenis scroll
-  if (window.scrollr) {
-    window.scrollr.updateElements();
-  }
-});
-
-// Scroll to top on route change
 router.beforeEach((to, from, next) => {
-  lenis.scrollTo(0, { immediate: true });
-  next();
-});
+  lenis.scrollTo(0, { immediate: true })
+  next()
+})
 
 app.use(createPinia())
 app.use(router)
 app.mount('#app')
+
+window.scrollr = new window.Scrollr({
+  multiplier: 0.08,
+  ease: 0.15,
+  clamp: [-2, 2]
+})

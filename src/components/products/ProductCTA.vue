@@ -1,9 +1,9 @@
 <template>
     <div class="cta">
         <div class="is-content">
-            <div><h2>Cultivé avec <br>passion</h2></div>
-            <div><h1>Chaque gramme<br>est le fruit de<br>notre savoir-faire</h1></div>
-            <div><h2>Partagé<br>avec plaisir</h2></div>
+            <div><h2 data-animate="fade-up" data-animate-delay="500">Cultivé avec <br>passion</h2></div>
+            <div><h1 data-animate="reveal" data-animate-duration="2000">Chaque gramme<br>est le fruit de<br>notre savoir-faire</h1></div>
+            <div><h2 data-animate="fade-up" data-animate-delay="500">Partagé<br>avec plaisir</h2></div>
         </div>
     </div>
 </template>

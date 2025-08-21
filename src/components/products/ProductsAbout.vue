@@ -2,10 +2,10 @@
     <section>
         <div class="about">
             <div class="is-content">
-                <h2>Chaque gramme <br>est le fruit de <br>notre savoir-faire</h2>
-                <p>Ici, on ne fait pas que cultiver du cannabis. On élève une plante avec passion, on affine chaque détail, on soigne chaque récolte comme un grand cru. Cheers Cannabis, c’est l’amour du produit bien fait, la culture indoor maîtrisée, et une vibe qui sent bon l’authenticité. Que tu sois connaisseur ou juste curieux, ici, t’es au bon endroit.</p>
+                <h2 data-animate="fade" data-animate-duration="2500">Chaque gramme <br>est le fruit de <br>notre savoir-faire</h2>
+                <p data-animate="fade" data-animate-delay="250">Ici, on ne fait pas que cultiver du cannabis. On élève une plante avec passion, on affine chaque détail, on soigne chaque récolte comme un grand cru. Cheers Cannabis, c’est l’amour du produit bien fait, la culture indoor maîtrisée, et une vibe qui sent bon l’authenticité. Que tu sois connaisseur ou juste curieux, ici, t’es au bon endroit.</p>
             </div>
-            <div class="is-cover">
+            <div class="is-cover" data-animate="reveal">
                 <img src="@/assets/intro.png"/>
             </div>
         </div>

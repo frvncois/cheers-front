@@ -5,32 +5,32 @@ import CheersIcon from '@/assets/CheersIcon.vue';
 
 <template>
     <footer>
-        <div class="is-logo">
+        <div class="is-logo" data-animate="reveal" data-animate-duration="1500">
         <CheersLogo/>
         </div>
         <ul>
-            <li>
-                <a>Accueil</a>
+            <li data-animate="fade" data-animate-delay="500" data-animate-duration="1000">
+                <RouterLink to="/">Accueil</RouterLink>
             </li>
-            <li>
-                <a>Produits</a>
+            <li data-animate="fade" data-animate-delay="600" data-animate-duration="1000">
+                <RouterLink to="/products">Produits</RouterLink>
                 <a>Saint-Laurent</a>
             </li>
-            <li>
+            <li data-animate="fade" data-animate-delay="700" data-animate-duration="1000">
                 <a>À propos</a>
                 <a>Blog</a>
                 <a>Contact</a>
             </li>
-            <li>
+            <li data-animate="fade" data-animate-delay="800" data-animate-duration="1000">
                 <a>Instagram</a>
                 <a>Facebook</a>
                 <a>Infolettre</a>
             </li>
-            <li>
+            <li class="imprint" data-animate="fade" data-animate-delay="800" data-animate-duration="1000">
               <CheersIcon/>
             </li>
         </ul>
-        <div class="imprint">
+        <div class="imprint" data-animate="fade" data-animate-delay="800" data-animate-duration="1000">
           <p>© 2025 cheerscannabis.com. Tous droits réservés</p>
         </div>
     </footer>

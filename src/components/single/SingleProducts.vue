@@ -10,24 +10,24 @@ const products = productsStore.getAllProducts
   <section>
     <div class="products">
         <div class="is-title">
-            <h2>Découvrez nos autres gammes et<br>produits de la famille Cheers</h2>
+            <h2 data-animate="reveal" data-animate-duration="750">Découvrez nos autres gammes et<br>produits de la famille Cheers</h2>
         </div>
       <ul class="is-items">
-        <li class="is-item" v-for="product in products" :key="product.id">
+        <li class="is-item" v-for="product in products" :key="product.id" >
           <router-link 
             :to="{ name: 'product', params: { id: product.id } }"
             class="is-link"
           >
-            <div class="is-title">
+            <div class="is-title" data-animate="reveal" data-animate-delay="250" data-animate-duration="1000">
               <h1>{{ product.title }}</h1>
             </div>
-            <div class="is-details">
+            <div class="is-details" data-animate="fade" data-animate-delay="250" data-animate-duration="1000">
               <h2>{{ product.aroma }}</h2>
             </div>
-            <div class="is-type">
+            <div class="is-type" data-animate="fade" data-animate-delay="300" data-animate-duration="1000">
               <h2>{{ product.terpenes }}</h2>
             </div>
-            <div class="is-type">
+            <div class="is-type" data-animate="fade" data-animate-delay="350" data-animate-duration="1000">
               <div>{{ product.thc }}</div>
               <div>{{ product.cbd }}</div>
             </div>

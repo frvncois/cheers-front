@@ -5,11 +5,11 @@ import Element01 from '@/assets/Element01.vue';
 <template>
     <section>
         <div class="testimonials">
-            <div class="is-title">
+            <div class="is-title" data-animate="fade" data-animate-delay="0" data-animate-duration="1500">
                 <h1>Votre avis <br>nous intéresse</h1>
                 <Element01/>
             </div>
-            <div class="is-content">
+            <div class="is-content" data-animate="fade" data-animate-delay="0" data-animate-duration="1500">
                 <p>Si vous avez essayé nos produits, nous serions ravis de connaître votre avis. Vos commentaires nous aident à améliorer constamment notre qualité et à mieux répondre à vos attentes.</p>
                 <button>Laisser un avis</button>
             </div>

@@ -1,5 +1,5 @@
 <template>
-    <div class="breadcrumb">
+    <div class="breadcrumb" data-animate="fade" data-animate-duration="1000">
         <a>Produits</a> / <p>{{ props.product.title }}</p>
     </div>
 </template>
@@ -18,5 +18,6 @@ const props = defineProps({
   display: flex;
   padding: var(--space-rg);
   margin-top: var(--space-xl);
+  gap: var(--space-xs);
 }
 </style>

@@ -32,7 +32,7 @@ const endDrag = () => {
 <template>
   <section>
     <div class="slider">
-      <div class="is-header">
+      <div class="is-header" data-animate="fade-up">
         <div><h1>Découvrez<br>nos produits</h1></div>
         <div><button>Voir tout nos produits</button></div>
       </div>
@@ -44,11 +44,11 @@ const endDrag = () => {
             @mouseup="endDrag"
             @mouseleave="endDrag">
           <li class="is-item" v-for="product in products" :key="product.title">
-            <div class="is-header">
+            <div class="is-header" data-animate="reveal">
               <h1>{{ product.title }}</h1>
               <h2>{{ product.aroma }}</h2>
             </div>
-            <div class="is-details">
+            <div class="is-details" data-animate="fade">
               <div><p>THC</p>{{ product.thc }}</div>
               <div><p>CBD</p>{{ product.cbd }}</div>
               <div>IMG</div>

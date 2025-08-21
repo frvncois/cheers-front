@@ -36,25 +36,35 @@ const endDrag = () => {
             @mousemove="drag"
             @mouseup="endDrag"
             @mouseleave="endDrag">
-          <li class="is-item">
+          <li class="is-item" data-animate="reveal" data-animate-delay="0" data-animate-duration="1000">
+            <img src="@/assets/thumb.png"/>
           </li>
-          <li class="is-item">
+          <li class="is-item" data-animate="reveal" data-animate-delay="100" data-animate-duration="1000">
+            <img src="@/assets/thumb.png"/>
           </li>
-          <li class="is-item">
+          <li class="is-item" data-animate="reveal" data-animate-delay="200" data-animate-duration="1000">
+            <img src="@/assets/thumb.png"/>
           </li>
-          <li class="is-item">
+          <li class="is-item" data-animate="reveal" data-animate-delay="300" data-animate-duration="1000">
+            <img src="@/assets/thumb.png"/>
           </li>
-          <li class="is-item">
+          <li class="is-item" data-animate="reveal" data-animate-delay="400" data-animate-duration="1000">
+            <img src="@/assets/thumb.png"/>
           </li>
-          <li class="is-item">
+          <li class="is-item" data-animate="reveal" data-animate-delay="500" data-animate-duration="1000">
+            <img src="@/assets/thumb.png"/>
           </li>
-          <li class="is-item">
+          <li class="is-item" data-animate="reveal" data-animate-delay="600" data-animate-duration="1000">
+            <img src="@/assets/thumb.png"/>
           </li>
-          <li class="is-item">
+          <li class="is-item" data-animate="reveal" data-animate-delay="700" data-animate-duration="1000">
+            <img src="@/assets/thumb.png"/>
           </li>
-          <li class="is-item">
+          <li class="is-item" data-animate="reveal" data-animate-delay="800" data-animate-duration="1000">
+            <img src="@/assets/thumb.png"/>
           </li>
-          <li class="is-item">
+          <li class="is-item" data-animate="reveal" data-animate-delay="900" data-animate-duration="1000">
+            <img src="@/assets/thumb.png"/>
           </li>
         </ul>
       </div>
@@ -79,9 +89,16 @@ const endDrag = () => {
             scrollbar-width: none;
             -ms-overflow-style: none;
             > .is-item {
-                background: #452833;
+                background: var(--accent);
                 flex: 0 0 20vw;
-                aspect-ratio: 1;
+                aspect-ratio: 2/3;
+                overflow: hidden;
+                & img {
+                  height: 100%;
+                  object-fit: cover;
+                  pointer-events: none;
+                  user-select: none;
+                }
             }
         }
     }

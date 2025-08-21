@@ -5,11 +5,11 @@
                 <div speed="0.5">
                     <img src="@/assets/cup.png"/>
                 </div>
-                <p>Notre équipe travaille sans relâche pour perfectionner nos techniques de culture. Nous investissons continuellement dans la recherche et le développement pour rester à la pointe de l'industrie et répondre aux besoins de nos clients.</p>
+                <p data-animate="fade" data-animate-duration="2500">Notre équipe travaille sans relâche pour perfectionner nos techniques de culture. Nous investissons continuellement dans la recherche et le développement pour rester à la pointe de l'industrie et répondre aux besoins de nos clients.</p>
             </div>
             <div class="is-bottom">
-                <h2>Cultivé avec<br>passion</h2>
-                <h2>Partagé<br>avec plaisir</h2>
+                <h2 data-animate="reveal" data-animate-duration="1000">Cultivé avec<br>passion</h2>
+                <h2 data-animate="reveal" data-animate-duration="1000">Partagé<br>avec plaisir</h2>
             </div>
         </div>
     </section>
