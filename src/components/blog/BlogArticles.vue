@@ -92,4 +92,16 @@ const getStrapiImageUrl = (url) => {
         }
     }
 }
+
+@media screen and (max-width: 768px) {
+  .articles {
+    padding: 0 0;
+    > .is-item {
+      display: flex;
+      padding: var(--space-sm);
+      flex-direction: column;
+    }
+  }
+}
+
 </style>

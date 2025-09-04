@@ -1,11 +1,76 @@
+<template>
+	<header 
+		:style="{ 
+			color: isNavVisible ? currentNavText : currentHeaderColor 
+		}"
+		data-animate="fade"
+	>
+		<div class="logo">
+			<router-link to="/"><CheersIcon /></router-link>
+		</div>
+		<div class="burger" @click="toggleNav">
+			<div class="toggle" :class="{ 'is-hidden': isNavVisible }">
+				<span></span>
+				<span></span>
+				<span></span>
+			</div>
+			<div class="close" :class="{ 'is-visible': isNavVisible }">
+				<ButtonClose />
+			</div>
+		</div>
+	</header>
+	
+	<div class="mask" :class="{ 'is-open': isNavVisible, 'is-closing': isClosing }">
+		<nav 
+			v-if="isNavVisible || isClosing"
+			:style="{ 
+				backgroundColor: currentNavBg,
+				color: currentNavText
+			}"
+		>
+			<ul>
+				<li>
+					<router-link to="/">{{ translationStore.translations.navigation[translationStore.currentLanguage].home }}</router-link>
+				</li>
+				<li>
+					<router-link to="/products">{{ translationStore.translations.navigation[translationStore.currentLanguage].products }}</router-link>
+					<router-link to="/saint-laurent">{{ translationStore.translations.navigation[translationStore.currentLanguage].saintLaurent }}</router-link>
+				</li>
+				<li>
+					<router-link to="/about">{{ translationStore.translations.navigation[translationStore.currentLanguage].about }}</router-link>
+					<router-link to="/blog">{{ translationStore.translations.navigation[translationStore.currentLanguage].blog }}</router-link>
+					<router-link to="/contact">{{ translationStore.translations.navigation[translationStore.currentLanguage].contact }}</router-link>
+				</li>
+				<li>
+					<a href="https://www.instagram.com/cheerscannabis" target="_blank">{{ translationStore.translations.navigation[translationStore.currentLanguage].instagram }}</a>
+					<a href="https://www.facebook.com/Cheerscannabinc" target="_blank">{{ translationStore.translations.navigation[translationStore.currentLanguage].facebook }}</a>
+					<a href="https://www.cheerscannabis.com/newsletter" target="_blank">{{ translationStore.translations.navigation[translationStore.currentLanguage].newsletter }}</a>
+				</li>
+				<li>
+					<button @click="handleLanguageSwitch" class="language-btn">
+						{{ languageButtonText }}
+					</button>
+					<Element01/>
+				</li>
+			</ul>
+			<div class="is-logo">
+				<CheersLogo/>
+			</div>
+		</nav>
+	</div>
+</template>
+
 <script setup>
-import { ref, watch, onMounted, onUnmounted, nextTick } from 'vue';
+import { ref, watch, onMounted, onUnmounted, nextTick, computed } from 'vue';
 import { useRouter } from 'vue-router';
 import CheersIcon from '@/assets/CheersIcon.vue';
 import CheersLogo from '@/assets/CheersLogo.vue';
 import Element01 from '@/assets/Element01.vue';
+import { useTranslationStore } from '@/stores/translation.js';
+import ButtonClose from '@/assets/ButtonClose.vue';
 
 const router = useRouter();
+const translationStore = useTranslationStore();
 const isNavVisible = ref(false);
 const isClosing = ref(false);
 
@@ -13,6 +78,16 @@ const isClosing = ref(false);
 const currentHeaderColor = ref('var(--yellow)');
 const currentNavBg = ref('var(--yellow)');
 const currentNavText = ref('var(--purple)');
+
+// Language switcher logic
+const languageButtonText = computed(() => {
+	return translationStore.currentLanguage === 'fr' ? 'English' : 'Français'
+});
+
+const handleLanguageSwitch = () => {
+	translationStore.toggleLanguage();
+	console.log(`🌐 Language switched to: ${translationStore.currentLanguage}`);
+};
 
 const toggleNav = () => {
 	if (isNavVisible.value) {
@@ -66,7 +141,7 @@ const updateColors = () => {
 					case 'green':
 						headerColor = 'var(--light)';
 						navBg = 'var(--light)';
-						navText = 'var(--purple)';
+						navText = 'var(--green)';
 						break;
 					default:
 						headerColor = 'var(--yellow)';
@@ -108,60 +183,6 @@ watch(() => router.currentRoute.value.path, () => {
 });
 </script>
 
-<template>
-	<header 
-		:style="{ 
-			color: isNavVisible ? currentNavText : currentHeaderColor 
-		}"
-		data-animate="fade"
-	>
-		<div class="logo">
-			<router-link to="/"><CheersIcon /></router-link>
-		</div>
-		<div class="toggle" @click="toggleNav">
-			<span></span>
-			<span></span>
-			<span></span>
-		</div>
-	</header>
-	
-	<div class="mask" :class="{ 'is-open': isNavVisible, 'is-closing': isClosing }">
-		<nav 
-			v-if="isNavVisible || isClosing"
-			:style="{ 
-				backgroundColor: currentNavBg,
-				color: currentNavText
-			}"
-		>
-			<ul>
-				<li>
-					<router-link to="/">Accueil</router-link>
-				</li>
-				<li>
-					<router-link to="/products">Produits</router-link>
-					<router-link to="/saint-laurent">Saint-Laurent</router-link>
-				</li>
-				<li>
-					<router-link to="/about">À propos</router-link>
-					<router-link to="/blog">Blog</router-link>
-					<router-link to="/contact">Contact</router-link>
-				</li>
-				<li>
-					<a href="https://www.instagram.com/cheerscannabis" target="_blank">Instagram</a>
-					<a href="https://www.facebook.com/Cheerscannabinc" target="_blank">Facebook</a>
-					<a href="https://www.cheerscannabis.com/newsletter" target="_blank">Infolettre</a>
-				</li>
-				<li>
-					<Element01/>
-				</li>
-			</ul>
-			<div class="is-logo">
-				<CheersLogo/>
-			</div>
-		</nav>
-	</div>
-</template>
-
 <style scoped>
 header {
 	display: flex;
@@ -181,24 +202,67 @@ header .logo svg {
 	height: 4em;
 }
 
+.burger {
+	position: relative;
+	height: 4em;
+	width: 2em;
+	cursor: pointer;
+}
+
 header .toggle {
+	position: absolute;
+	top: 0;
+	left: 0;
 	height: 4em;
 	width: 2em;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	gap: 10px;
-	cursor: pointer;
+	justify-content: center;
+	gap: 8px;
+	opacity: 1;
+	transform: scale(1) rotate(0deg);
+	transition: opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1), 
+	            transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+header .toggle.is-hidden {
+	opacity: 0;
+	transform: scale(0.8) rotate(45deg);
+	pointer-events: none;
 }
 
 header .toggle span {
 	width: 100%;
 	height: 1px;
 	background: currentColor;
+	transition: all 0.3s ease;
 }
 
 header .toggle span:nth-child(2) {
 	width: 50%;
+}
+
+header .close {
+	position: absolute;
+	top: 0;
+	left: 0;
+	height: 4em;
+	width: 2em;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	opacity: 0;
+	transform: scale(0.8) rotate(-90deg);
+	pointer-events: none;
+	transition: opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1), 
+	            transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+header .close.is-visible {
+	opacity: 1;
+	transform: scale(1) rotate(0deg);
+	pointer-events: all;
 }
 
 .mask {
@@ -268,7 +332,28 @@ nav .is-logo svg {
 	height: 100%;
 }
 
+.language-btn {
+	background: transparent;
+	border: 1px solid currentColor;
+	color: inherit;
+	padding: var(--space-xs) var(--space-sm);
+	border-radius: var(--space-sm);
+	cursor: pointer;
+	font-family: inherit;
+	font-size: var(--font-sm);
+	transition: all 0.3s ease;
+	margin-bottom: var(--space-sm);
+}
+
+.language-btn:hover {
+	background: currentColor;
+	color: var(--yellow);
+}
+
 @media screen and (max-width: 768px) {
+	header {
+		padding: var(--space-sm);
+	}
 	nav ul {
 		flex-direction: column;
 		gap: 0;
@@ -305,6 +390,11 @@ nav .is-logo svg {
 	
 	nav .is-logo {
 		top: 2.5em;
+	}
+
+	.language-btn {
+		font-size: var(--font-sm);
+		padding: var(--space-xs);
 	}
 }
 </style>

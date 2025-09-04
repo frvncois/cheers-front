@@ -3,30 +3,30 @@
     <div class="products">
             <div><h2 data-animate="reveal" data-animate-delay="500">Notre produit phare</h2></div>
       <div class="is-items">
-        <div class="is-item">
+        <div class="is-item" data-animate="reveal" data-animate-delay="500">
             <div>
-                <h3 data-animate="reveal" data-animate-delay="500">Fleur séchée</h3>
-                <h3 data-animate="reveal" data-animate-delay="500">THC 24%</h3>
+                <h3>Fleur séchée</h3>
+                <h3>THC 24%</h3>
             </div>
             <div>
                 <img src="@/assets/flower.png" alt="Fleur séchée" />
             </div>
             <div>
-                <h3 data-animate="reveal" data-animate-delay="500">Holy Kush</h3>
-                <h3 data-animate="reveal" data-animate-delay="500">Format<br>35g</h3>
+                <h3>Holy Kush</h3>
+                <h3>Format<br>35g</h3>
             </div>
         </div>
-        <div class="is-item">
+        <div class="is-item"data-animate="reveal" data-animate-delay="500">
             <div>
-                <h3 data-animate="reveal" data-animate-delay="500">Fleur séchée</h3>
-                <h3 data-animate="reveal" data-animate-delay="500">THC 24%</h3>
+                <h3>Fleur séchée</h3>
+                <h3>THC 24%</h3>
             </div>
             <div>
                 <img src="@/assets/flower.png" alt="Fleur séchée" />
             </div>
             <div>
-                <h3 data-animate="reveal" data-animate-delay="500">Holy Kush</h3>
-                <h3 data-animate="reveal" data-animate-delay="500">Format<br>35g</h3>
+                <h3>Holy Kush</h3>
+                <h3>Format<br>35g</h3>
             </div>
         </div>
       </div>
@@ -49,6 +49,9 @@
     justify-content: space-between;
     align-items: flex-start;
     gap: var(--space-xl);
+    & img {
+        margin: auto;
+    }
     > .is-item {
         flex: 1;
         display: flex;
@@ -64,8 +67,17 @@
 }
 
 @media screen and (max-width: 768px) {
-  .about {
+  .products {
     flex-direction: column;
+    padding: var(--space-sm);
+    > .is-items {
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+      & img {
+        margin: auto;
+      }
+    }
   }
 }
 </style>

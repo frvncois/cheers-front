@@ -5,7 +5,6 @@ import SaintLaurentLogo from '@/assets/SaintLaurentLogo.vue';
 <template>
   <section data-bg="green">
     <div class="footer">
-        <img src="@/assets/bud.png" speed="-0.5"/>
         <img src="@/assets/flower.png" speed="-0.75"/>
       <div class="is-logo "data-animate="reveal" data-animate-delay="0" data-animate-duration="1000">
         <SaintLaurentLogo/>
@@ -22,23 +21,24 @@ import SaintLaurentLogo from '@/assets/SaintLaurentLogo.vue';
   position: relative;
   background: var(--green);
   color: var(--light);
-  > .is-logo svg {
+  align-items: center;
+  & .is-logo {
     width: 100%;
     height: auto;
+    display: flex;
+    > svg {
+      height: auto;
+      width: 100%;
+    }
   }
   > img {
     position: absolute;
-    &:nth-child(1) {
-        width: 15em;
-        top: 75%;
-    }
-    &:nth-child(2) {
         width: 25em;
         top: var(--space-xl);
         left: auto;
-        right: var(--space-xl);
+        right: auto;
         transform: rotate(8deg);
-    }
+    
   }
 }
 </style>

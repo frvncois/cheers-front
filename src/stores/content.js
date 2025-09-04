@@ -95,11 +95,18 @@ export const useContentStore = defineStore('content', {
   actions: {
     // Generic fetch function
     async fetchFromStrapi(endpoint, options = {}) {
+      // Import translation store to get current language
+      const { useTranslationStore } = await import('@/stores/translation.js')
+      const translationStore = useTranslationStore()
+      
       const baseURL = import.meta.env.VITE_STRAPI_URL || 'http://localhost:1337'
       const { populate = '*', sort, filters, pagination } = options
       
       let url = `${baseURL}/api/${endpoint}`
       const params = new URLSearchParams()
+      
+      // ADD LOCALE PARAMETER FOR STRAPI I18N
+      params.append('locale', translationStore.currentLanguage)
       
       if (populate) params.append('populate', populate)
       if (sort) params.append('sort', sort)
@@ -282,77 +289,77 @@ export const useContentStore = defineStore('content', {
       }
     },
 
-async fetchBlog(options = {}, force = false) {
-  if (!force && this.isDataFresh('blog') && this.blog.length > 0) {
-    console.log('📝 Using cached blog posts')
-    return this.blog
-  }
-  
-  console.log('📝 Fetching blog posts from Strapi...')
-  this.loading.blog = true
-  this.errors.blog = null
-  
-  try {
-    const defaultOptions = {
-      populate: '*',
-      sort: 'createdAt:desc',
-      pagination: { pageSize: 100 }
-    }
-    
-    const response = await this.fetchFromStrapi('blogs', { // Changed to 'blogs'
-      ...defaultOptions,
-      ...options
-    })
-    
-    console.log('📝 Blog response:', response)
-    this.blog = response.data || []
-    this.lastFetched.blog = Date.now()
-    console.log(`✅ Blog posts loaded successfully: ${this.blog.length} posts`)
-    return this.blog
-  } catch (error) {
-    console.error('❌ Blog posts error:', error.message)
-    this.errors.blog = error.message
-    throw error
-  } finally {
-    this.loading.blog = false
-  }
-},
+    async fetchBlog(options = {}, force = false) {
+      if (!force && this.isDataFresh('blog') && this.blog.length > 0) {
+        console.log('📝 Using cached blog posts')
+        return this.blog
+      }
+      
+      console.log('📝 Fetching blog posts from Strapi...')
+      this.loading.blog = true
+      this.errors.blog = null
+      
+      try {
+        const defaultOptions = {
+          populate: '*',
+          sort: 'createdAt:desc',
+          pagination: { pageSize: 100 }
+        }
+        
+        const response = await this.fetchFromStrapi('blogs', { // Changed to 'blogs'
+          ...defaultOptions,
+          ...options
+        })
+        
+        console.log('📝 Blog response:', response)
+        this.blog = response.data || []
+        this.lastFetched.blog = Date.now()
+        console.log(`✅ Blog posts loaded successfully: ${this.blog.length} posts`)
+        return this.blog
+      } catch (error) {
+        console.error('❌ Blog posts error:', error.message)
+        this.errors.blog = error.message
+        throw error
+      } finally {
+        this.loading.blog = false
+      }
+    },
 
     // Fetch all content at once
-async fetchAllContent(force = false) {
-  console.log('🚀 Starting to fetch all content from Strapi...')
-  this.loading.all = true
-  this.errors.general = null
-  
-  try {
-    const results = await Promise.allSettled([
-      this.fetchHome(force),
-      this.fetchAbout(force),
-      this.fetchSaintLaurent(force),
-      this.fetchProducts({}, force),
-      this.fetchBlog({}, force) // Added this line
-    ])
-    
-    console.log('📊 All content fetch results:', results)
-    
-    // Log any failures
-    const contentTypes = ['home', 'about', 'saintLaurent', 'products', 'blog'] // Added 'blog'
-    results.forEach((result, index) => {
-      if (result.status === 'rejected') {
-        console.error(`❌ Failed to load ${contentTypes[index]}:`, result.reason)
-      } else {
-        console.log(`✅ Successfully loaded ${contentTypes[index]}`)
+    async fetchAllContent(force = false) {
+      console.log('🚀 Starting to fetch all content from Strapi...')
+      this.loading.all = true
+      this.errors.general = null
+      
+      try {
+        const results = await Promise.allSettled([
+          this.fetchHome(force),
+          this.fetchAbout(force),
+          this.fetchSaintLaurent(force),
+          this.fetchProducts({}, force),
+          this.fetchBlog({}, force)
+        ])
+        
+        console.log('📊 All content fetch results:', results)
+        
+        // Log any failures
+        const contentTypes = ['home', 'about', 'saintLaurent', 'products', 'blog']
+        results.forEach((result, index) => {
+          if (result.status === 'rejected') {
+            console.error(`❌ Failed to load ${contentTypes[index]}:`, result.reason)
+          } else {
+            console.log(`✅ Successfully loaded ${contentTypes[index]}`)
+          }
+        })
+        
+      } catch (error) {
+        console.error('💥 Error in fetchAllContent:', error)
+        this.errors.general = error.message
+      } finally {
+        this.loading.all = false
+        console.log('🏁 Finished fetching all content')
       }
-    })
-    
-  } catch (error) {
-    console.error('💥 Error in fetchAllContent:', error)
-    this.errors.general = error.message
-  } finally {
-    this.loading.all = false
-    console.log('🏁 Finished fetching all content')
-  }
-},
+    },
 
     // Find product by slug
     findProductBySlug(slug) {
@@ -474,4 +481,3 @@ async fetchAllContent(force = false) {
     }
   }
 })
-

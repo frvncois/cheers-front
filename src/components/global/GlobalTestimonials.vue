@@ -60,7 +60,10 @@ import ButtonBorder from '@/assets/ButtonBorder.vue';
     .testimonials {
     flex-direction: column;
     gap: var(--space-md);
-    padding: var(--space-xl) var(--space-rg) 0 var(--space-rg);
+    padding: var(--space-xl) var(--space-sm);
+    & a {
+        margin: auto;
+    }
     }
 }
 </style>

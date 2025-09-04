@@ -1,19 +1,73 @@
+<script setup>
+import { computed } from 'vue'
+import { useContentStore } from '@/stores/content.js'
+
+const contentStore = useContentStore()
+
+const intro = computed(() => {
+  return contentStore.home?.Intro || ''
+})
+
+const introImage = computed(() => {
+  if (!contentStore.home?.Intro_Image) return null
+  const baseURL = import.meta.env.VITE_STRAPI_URL || 'http://localhost:1337'
+  return `${baseURL}${contentStore.home.Image01_CTA.url}`
+})
+
+const intro2Image = computed(() => {
+  if (!contentStore.home?.Intro_Image) return null
+  const baseURL = import.meta.env.VITE_STRAPI_URL || 'http://localhost:1337'
+  return `${baseURL}${contentStore.home.Image02_CTA.url}`
+})
+
+const intro3Image = computed(() => {
+  if (!contentStore.home?.Intro_Image) return null
+  const baseURL = import.meta.env.VITE_STRAPI_URL || 'http://localhost:1337'
+  return `${baseURL}${contentStore.home.Image03_CTA.url}`
+})
+</script>
+
+
 <template>
   <section data-bg="purple">
     <div class="tagline">
       <div class="is-content">
         <div class="is-image">
-          <img src="@/assets/intro.png" speed="1.25" data-animate="reveal" data-animate-duration="2000"/>
+        <img
+          v-if="introImage"
+          :src="introImage"
+          alt="Intro image"
+          data-animate="reveal"
+          data-animate-duration="2000"
+          data-animate-delay="0"
+          speed="-0.75"
+        >
         </div>
         <div class="is-title" animte="fade-up">
           <h1>Du premier plan<br>au dernier puff,<br>on cultive l'excellence</h1>
         </div>
         <div class="is-image">
-          <img src="@/assets/intro.png" speed="1.25" data-animate="reveal" data-animate-duration="2000"/>
+        <img
+          v-if="intro2Image"
+          :src="intro2Image"
+          alt="Intro image"
+          data-animate="reveal"
+          data-animate-duration="2000"
+          data-animate-delay="0"
+          speed="0.75"
+        >
         </div>
       </div>
       <div class="is-cover">
-        <img speed="1.25" src="@/assets/intro.png" data-animate="reveal" data-animate-duration="2000"/>
+        <img
+          v-if="intro3Image"
+          :src="intro3Image"
+          alt="Intro image"
+          data-animate="reveal"
+          data-animate-duration="2000"
+          data-animate-delay="0"
+          speed="0.75"
+        >
       </div>
     </div>
   </section>

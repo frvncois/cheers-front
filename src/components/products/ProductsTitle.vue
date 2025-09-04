@@ -45,8 +45,11 @@
 }
 
 @media screen and (max-width: 768px) {
-    .title p {
-        display: none;
+    .title {
+        padding: var(--space-sm);
+            p {
+            display: none;
+        }
     }
 }
 </style>

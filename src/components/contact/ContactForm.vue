@@ -36,11 +36,6 @@ import ButtonBorder from '@/assets/ButtonBorder.vue';
                 <button>Envoyer<ButtonMailing/><ButtonBorder /></button>
             </form>
         </div>
-        <div class="cover">
-            <div class="is-image">
-                <img speed="-1" src="@/assets/hero.png" alt="Contact Cover"/>
-            </div>
-        </div>
         <div class="overlay">
             <div class="is-image">
                 <img speed="-0.5" src="@/assets/hero.png" alt="Contact Cover"/>
@@ -54,14 +49,14 @@ import ButtonBorder from '@/assets/ButtonBorder.vue';
 
 <style scoped>
 section {
-    background: var(--yellow);
-    color: var(--purple);
-    position: relative;
     > .contact {
         display: flex;
         flex-direction: row;
-        padding: var(--space-2xl) var(--space-2xl) 0 var(--space-2xl);
+        padding: var(--space-2xl);
         gap: var(--space-lg);
+    background: var(--yellow);
+    color: var(--purple);
+    position: relative;
         > .is-content {
             display: flex;
             flex-direction: column;
@@ -149,4 +144,19 @@ section {
     }
 }
 
+@media screen and (max-width: 768px) {
+section {
+  > .contact {
+      padding: var(--space-lg);
+      padding-top: 50vh;
+      flex-direction: column;
+    }
+    > .overlay {
+        display: none;
+    }
+    > .cover {
+        display: none;
+    }
+  }
+}
 </style>

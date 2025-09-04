@@ -110,6 +110,7 @@ section {
     > .is-items {
       display: flex;
       align-items: center;
+      justify-content: space-between;
       gap: var(--space-xl);
       width: 200vw;
       height: 100vh;
@@ -147,6 +148,10 @@ section {
             text-align: left;
           }
         }
+        &:last-child {
+          width: 20em;
+          padding-right: var(--space-xl);
+        }
         > .is-image {
           background: var(--purple);
           > img {
@@ -162,4 +167,55 @@ section {
     }
   }
 }
+
+@media (max-width: 768px) {
+  .intro {
+    height: auto;
+      > .is-track {
+      position: relative;
+      height: auto;
+      overflow: visible;
+      > .is-items {
+        width: 100%;
+        height: 100%;
+        flex-direction: column;
+        align-items: stretch;
+        transform: none !important;
+        gap: 0;
+          > .is-item {
+          height: auto;
+          padding: var(--space-sm);
+          &:first-child {
+            padding-top: 50vh;
+            padding-bottom: 0;
+                gap: var(--space-sm);
+            & > .is-content {
+              flex: 1;
+              width: 100%;
+              margin-left: unset;
+            }
+          }
+          &:nth-child(2) {
+            padding-bottom: unset;
+            text-align: left;
+            gap: var(--space-sm);
+            flex:1;
+            > h1 {
+              max-width: 5ch;
+            }
+          }
+          &:nth-child(3) {
+            padding-top: unset;
+            align-items: stretch;
+            gap: var(--space-sm);
+            > h1 {
+              text-align: right;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
 </style>

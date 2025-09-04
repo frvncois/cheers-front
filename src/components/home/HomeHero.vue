@@ -1,14 +1,32 @@
-<script setup>
-import CheersLogo from '@/assets/CheersLogo.vue'
-</script>
-
 <template>
   <section data-bg="purple">
     <div class="hero">
       <div class="is-title">
-        <div><h1 data-animate="fade-up" data-animate-trigger="0.1" data-animate-delay="150">Chaque <span>gramme</span> est</h1></div>
-        <div><h1 data-animate="fade-up" data-animate-delay="350" data-animate-duration="1000">le <span>fruit</span> de</h1></div>
-        <div><h1 data-animate="fade-up" data-animate-delay="550" data-animate-duration="1000">notre savoir-faire</h1></div>
+        <div>
+          <h1
+            data-animate="fade-up"
+            data-animate-trigger="0.1"
+            data-animate-delay="150"
+            v-html="translationStore.translations.home[translationStore.currentLanguage].heroTitle1"
+          ></h1>
+        </div>
+        <div>
+          <h1
+            data-animate="fade-up"
+            data-animate-delay="350"
+            data-animate-duration="1000"
+            v-html="translationStore.translations.home[translationStore.currentLanguage].heroTitle2"
+          ></h1>
+        </div>
+        <div>
+          <h1
+            data-animate="fade-up"
+            data-animate-delay="550"
+            data-animate-duration="1000"
+          >
+            {{ translationStore.translations.home[translationStore.currentLanguage].heroTitle3 }}
+          </h1>
+        </div>
       </div>
       <div class="is-content">
         <CheersLogo />
@@ -16,6 +34,19 @@ import CheersLogo from '@/assets/CheersLogo.vue'
     </div>
   </section>
 </template>
+
+<script setup>
+import CheersLogo from '@/assets/CheersLogo.vue'
+
+const props = defineProps({
+  translationStore: {
+    type: Object,
+    required: true
+  }
+})
+
+const translationStore = props.translationStore
+</script>
 
 <style scoped>
 .hero {

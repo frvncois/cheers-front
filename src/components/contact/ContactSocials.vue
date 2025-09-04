@@ -49,4 +49,21 @@ section {
         }
     }
 }
+
+@media screen and (max-width: 768px) {
+    section {
+    background: var(--light);
+    color: var(--purple);
+    padding: var(--space-xl)  var(--space-2xl);
+    > .socials {
+        > .is-title {
+            flex-direction: column;
+        }
+        > .is-content {
+            flex-direction: column;
+            gap: var(--space-lg);
+        }
+    }
+    }
+}
 </style>

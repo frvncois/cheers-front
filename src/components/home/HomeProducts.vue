@@ -169,7 +169,20 @@ const rangeText = (min, max) => {
       flex-direction: column;
       align-items: flex-start;
       gap: var(--space-rg);
+      padding: var(--space-sm);
       padding-bottom: 0;
+    }
+    & .is-items {
+      padding: var(--space-sm) var(--space-sm);
+      > .is-item {
+        flex: 0 0 60vw;
+        > .is-details {
+          grid-template-columns: 1fr 1fr;
+          & img {
+            right: -5em;
+          }
+        }
+      }
     }
   }
 }

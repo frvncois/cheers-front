@@ -70,7 +70,7 @@ margin-top: -6em;
       top: var(--space-lg);
       width: 100vw;
       height: 75vh;
-      margin-top: 0;
+      margin-top: 1em;
       > img {
         height: 25vh;
       }

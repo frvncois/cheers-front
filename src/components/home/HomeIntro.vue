@@ -15,7 +15,6 @@ const introImage = computed(() => {
   const baseURL = import.meta.env.VITE_STRAPI_URL || 'http://localhost:1337'
   return `${baseURL}${contentStore.home.Intro_Image.url}`
 })
-
 </script>
 
 <template>
@@ -37,10 +36,10 @@ const introImage = computed(() => {
         </button>
       </div>
       <div class="is-actions" data-animate="fade" data-animate-delay="250" data-animate-duration="200">
-        <button>
+        <router-link to="/products">
           <span>Où acheter</span>
           <ButtonBorder />
-        </button>
+        </router-link>
       </div>
       <div class="is-cover">
         <img
@@ -49,6 +48,7 @@ const introImage = computed(() => {
           alt="Intro image"
           data-animate="reveal"
           data-animate-duration="2000"
+          data-animate-delay="0"
           speed="-0.75"
         >
       </div>
@@ -116,7 +116,7 @@ const introImage = computed(() => {
     flex: 0 0 calc(50% - var(--space-rg));
     align-items: flex-start;
     justify-content: flex-end;
-    > button {
+    > a {
       position: relative;
       z-index: 1;
       padding: 2.5em;
@@ -151,8 +151,12 @@ const introImage = computed(() => {
 }
 
 @media screen and (max-width: 768px) {
+  .intro {
+    padding: var(--space-sm);
+  }
   .about {
     flex-direction: column;
+    padding: var(--space-sm);
     >  .is-actions {
       justify-content: center;
     }

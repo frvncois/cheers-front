@@ -172,6 +172,9 @@ const rangeText = (min, max) => {
   }
   .is-item {
     border-bottom: 1px solid var(--yellow);
+    > .is-link {
+    padding: var(--space-sm)!important;
+    }
   }
   h1 {
     font-size: var(--font-rg);

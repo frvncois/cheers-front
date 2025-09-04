@@ -59,11 +59,11 @@ const galleryImages = computed(() => {
             v-for="(image, index) in galleryImages" 
             :key="image.id"
             class="is-item" 
-            data-animate="reveal" 
-            :data-animate-delay="index * 100" 
-            data-animate-duration="1000"
           >
             <img 
+                        data-animate="reveal" 
+            :data-animate-delay="index * 100" 
+            data-animate-duration="1000"
               :src="image.url" 
               :alt="image.alt"
             />
@@ -92,8 +92,23 @@ const galleryImages = computed(() => {
       > .is-item {
         background: var(--accent);
         flex: 0 0 20vw;
-        aspect-ratio: 2/3;
+        height: 30em;
         overflow: hidden;
+        &:nth-child(2) {
+          flex: 0 0 40vw;
+        }
+        &:nth-child(3) {
+          flex: 0 0 25vw;
+        }
+        &:nth-child(4) {
+          flex: 0 0 40vw;
+        }
+        &:nth-child(5) {
+          flex: 0 0 20vw;
+        }
+        &:nth-child(6) {
+          flex: 0 0 50vw;
+        }
         & img {
           height: 100%;
           width: 100%;
@@ -112,5 +127,25 @@ const galleryImages = computed(() => {
 
 .is-items:active {
   cursor: grabbing;
+}
+
+@media screen and (max-width: 768px) {
+  .slider {
+    flex-direction: column;
+    gap: 0;
+    & .is-items {
+    gap: var(--space-sm)!important;
+      padding: var(--space-sm)!important;
+      > .is-item {
+        flex: 0 0 60vw!important;
+        > .is-details {
+          grid-template-columns: 1fr 1fr;
+          & img {
+            right: -5em;
+          }
+        }
+      }
+    }
+  }
 }
 </style>

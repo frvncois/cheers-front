@@ -65,6 +65,7 @@ import Element03 from '@/assets/Element03.vue';
         gap: var(--space-xs);
         align-items: center;
         border-radius: 10em;
+        justify-content: center;
         padding: var(--space-sm) var(--space-md);
         transition: all 0.3s ease;
         &:hover {
@@ -83,9 +84,13 @@ import Element03 from '@/assets/Element03.vue';
 
 @media screen and (max-width: 768px) {
     .mailinglist {
-    flex-direction: column;
-    gap: var(--space-md);
-    padding: var(--space-xl) var(--space-rg);
+        flex-direction: column;
+        gap: var(--space-md);
+        padding: var(--space-xl) var(--space-rg);
+        & form {
+            flex-direction: column;
+            gap: var(--space-sm);
+        }
     }
 }
 </style>

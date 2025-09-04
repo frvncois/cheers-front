@@ -23,6 +23,7 @@ import SaintLaurentLogo from '@/assets/SaintLaurentLogo.vue';
   padding: var(--space-2xl) var(--space-rg);
   position: relative;
   background: var(--green);
+  gap: var(--space-lg);
   color: var(--light);
   > .is-title {
     display: flex;
@@ -46,6 +47,13 @@ import SaintLaurentLogo from '@/assets/SaintLaurentLogo.vue';
   }
   > .is-title h2:last-child {
     text-align: right;
+  }
+}
+@media screen and (max-width: 768px) {
+  .intro {
+    gap: var(--space-rg);
+    padding: var(--space-sm);
+    padding-top: 50vh;
   }
 }
 </style>

@@ -58,7 +58,9 @@ import Element03 from '@/assets/Element03.vue';
 
 @media screen and (max-width: 768px) {
     .about {
-        flex-direction: column;
+        flex-direction: column-reverse;
+        margin-top: unset;
+        gap: unset;
         > .is-content {
             order: 2;
         }

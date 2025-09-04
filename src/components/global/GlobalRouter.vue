@@ -260,7 +260,7 @@ defineExpose({
     flex-direction: column;
     justify-content: center;
     align-items: stretch;
-    gap: var(--space-md);
+    gap: var(--space-rg);
     background: var(--yellow);
     color: var(--purple);
     width: min(30em, 90vw);
@@ -279,12 +279,13 @@ defineExpose({
       gap: var(--space-xs);
       margin: auto;
       & input {
-        border: unset;
-        border-bottom: 1px solid var(--purple);
+        border: 1px solid var(--purple);
+        border-radius: 5em;
         background: transparent;
         appearance: textfield;
         font-size: var(--font-md);
         text-align: center;
+        font-family: inherit;
       }
     }
     > .is-locations {
@@ -300,6 +301,11 @@ defineExpose({
         padding: var(--space-xs);
         border-radius: var(--space-sm);
         cursor: pointer;
+        transition: all 0.3s ease;
+        &:hover {
+          background: var(--purple);
+          color: var(--yellow);
+        }
       }
       label:has(input:checked) {
         background: var(--purple);
@@ -314,10 +320,20 @@ defineExpose({
       flex: 1;
       > button {
         background: var(--purple);
+          border: 1px solid var(--purple);
         color: var(--yellow);
         padding: var(--space-xs) var(--space-sm);
         border-radius: var(--space-sm);
+        transition: all 0.3s ease;
+        &:hover {
+          border: 1px solid var(--purple);
+          background: var(--yellow);
+          color: var(--purple);
+        }
       }
+    }
+    > .is-policy {
+      font-size: var(--font-sm);
     }
   }
   & p {
@@ -341,4 +357,60 @@ button:disabled {
   opacity: 0.6;
   cursor: not-allowed;
 }
+
+/* Add this to your GlobalRouter.vue <style> section */
+
+/* Custom checkbox styles */
+.is-actions label {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+  cursor: pointer;
+}
+
+.is-actions input[type="checkbox"] {
+  /* Hide default checkbox */
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  
+  /* Create custom circular checkbox */
+  width: 1.2em;
+  height: 1.2em;
+  border: 2px solid var(--purple);
+  border-radius: 50%;
+  background: transparent;
+  cursor: pointer;
+  
+  /* Smooth transitions */
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  
+  /* Position for pseudo-element */
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  
+  /* Prevent shrinking in flex layout */
+  flex-shrink: 0;
+}
+
+.is-actions input[type="checkbox"]:checked {
+  background: var(--purple);
+  border-color: var(--purple);
+  transform: scale(1.1);
+}
+
+.is-actions input[type="checkbox"]:checked::after {
+  content: '';
+  width: 0.4em;
+  height: 0.4em;
+  background: var(--yellow);
+  border-radius: 50%;
+  display: block;
+  transform: scale(1);
+  transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+
 </style>

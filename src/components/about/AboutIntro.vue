@@ -37,13 +37,12 @@ const missionImage = computed(() => {
 </template>
 
 <style scoped>
-section {
-    background: var(--light);
-    color: var(--purple);
-   > .intro {
+.intro {
     display: flex;
     gap: var(--space-md);
     padding: 0 var(--space-xl) var(--space-xl) var(--space-xl);
+    background: var(--light);
+    color: var(--purple);
     > .is-content {
         display: flex;
         flex-direction: column;
@@ -69,8 +68,13 @@ section {
         }
     }
 }
-}
 
+@media screen and (max-width: 768px) {
+    .intro {
+        padding: var(--space-sm);
+        flex-direction: column;
+    }
+}
 
 </style>
 

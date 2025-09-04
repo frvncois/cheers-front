@@ -47,4 +47,14 @@ import Element04 from '@/assets/Element04.vue';
         }
     }
 }
+
+@media screen and (max-width: 768px) {
+  .intro {
+    padding: var(--space-sm);
+    padding-top: 50vh;
+    > .is-title {
+        flex-direction: column;
+    }
+  }
+  }
 </style>

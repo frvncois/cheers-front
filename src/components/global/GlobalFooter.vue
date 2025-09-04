@@ -111,7 +111,7 @@ onUnmounted(() => {
               <CheersIcon/>
             </li>
         </ul>
-        <div class="imprint" data-animate="fade" data-animate-delay="800" data-animate-duration="1000">
+        <div class="imprint" data-animate="fade" data-animate-delay="400" data-animate-duration="1000">
           <p>© 2025 cheerscannabis.com. Tous droits réservés</p>
         </div>
     </footer>
@@ -180,17 +180,28 @@ display: flex;
 
 @media screen and (max-width: 768px) {
   footer {
-    gap: var(--space-md);
+    gap: var(--space-sm);
   > ul {
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: var(--space-md);
-      padding: 0 var(--space-rg);
+      padding: 0 var(--space-sm);
       margin-bottom: 0;
       & svg {
         display: none;
       }
+      }
+
+    > .is-logo {
+      margin: var(--space-sm);
+    }
+    > .imprint {
+      padding: var(--space-sm);
+      padding-top: unset;
+      > p {
+        max-width: 18ch;
+      }
     }
   }
-  }
+}
 </style>

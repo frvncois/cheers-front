@@ -16,6 +16,10 @@ const props = defineProps({
   filteredProducts: {
     type: Array,
     default: () => []
+  },
+  translationStore: {
+    type: Object,
+    required: true
   }
 })
 
@@ -24,18 +28,17 @@ const contentStore = useContentStore()
 const galleryImages = computed(() => {
   return contentStore.home?.Gallery || []
 })
-
 </script>
 
 <template>
-  <HomeHero />
-  <HomeIntro />
-  <HomeProducts :products="props.filteredProducts" />
-  <HomeMarquee />
+  <HomeHero :translation-store="props.translationStore" />
+  <HomeIntro :translation-store="props.translationStore" />
+  <HomeProducts :products="props.filteredProducts" :translation-store="props.translationStore" />
+  <HomeMarquee :translation-store="props.translationStore" />
   <GlobalImageMarquee :images="galleryImages" />
-  <HomeCTA />
-  <GlobalTestimonials />
-  <HomeTagline />
-  <GlobalMailinglist />
-  <GlobalFooter />
+  <HomeCTA :translation-store="props.translationStore" />
+  <GlobalTestimonials :translation-store="props.translationStore" />
+  <HomeTagline :translation-store="props.translationStore" />
+  <GlobalMailinglist :translation-store="props.translationStore" />
+  <GlobalFooter :translation-store="props.translationStore" />
 </template>
