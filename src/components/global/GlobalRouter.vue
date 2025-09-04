@@ -58,6 +58,10 @@
         {{ errors.age }}
       </div>
       
+      <div v-if="errors.general" class="error-message">
+        {{ errors.general }}
+      </div>
+      
       <div class="is-policy">
         <p>By entering this site you agree to our terms and conditions, privacy and cookie policy.</p>
       </div>
@@ -76,16 +80,20 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue'
-import { useUserStore } from '@/stores/user'
+import { ref, computed, onMounted } from 'vue'
 import CheersIcon from '@/assets/CheersIcon.vue'
 
-const userStore = useUserStore()
+// Receive userStore as prop from App.vue
+const props = defineProps({
+  userStore: {
+    type: Object,
+    required: true
+  }
+})
 
-// Component state
+// Component state - ALWAYS START WITH MODAL VISIBLE
 const showModal = ref(true)
 const isSubmitting = ref(false)
-const rememberMe = ref(false)
 
 // Form data
 const birthday = ref({
@@ -93,120 +101,57 @@ const birthday = ref({
   month: '',
   year: ''
 })
-
 const selectedLocation = ref('')
+const rememberMe = ref(false)
 
-// Available locations with their legal drinking ages
-const locations = ref([
-  { code: 'QC', name: 'Québec', legalAge: 18 },
-  { code: 'CA', name: 'Canada', legalAge: 19 },
-  { code: 'DE', name: 'Germany', legalAge: 16 },
-  { code: 'UK', name: 'UK', legalAge: 18 }
-])
+// Get locations from store
+const locations = computed(() => props.userStore.availableLocations)
+const currentYear = computed(() => new Date().getFullYear())
 
 // Error handling
 const errors = ref({
   birthday: '',
   location: '',
-  age: ''
+  age: '',
+  general: ''
 })
 
-const currentYear = computed(() => new Date().getFullYear())
-
-// Validation functions
-const validateBirthday = () => {
-  const { day, month, year } = birthday.value
-  
-  if (!day || !month || !year) {
-    errors.value.birthday = 'Please enter a complete birthdate'
-    return false
-  }
-  
-  const birthDate = new Date(year, month - 1, day)
-  const today = new Date()
-  
-  // Check if date is valid
-  if (birthDate.getDate() != day || birthDate.getMonth() != month - 1 || birthDate.getFullYear() != year) {
-    errors.value.birthday = 'Please enter a valid date'
-    return false
-  }
-  
-  // Check if date is not in the future
-  if (birthDate > today) {
-    errors.value.birthday = 'Birthdate cannot be in the future'
-    return false
-  }
-  
-  errors.value.birthday = ''
-  return true
-}
-
-const validateLocation = () => {
-  if (!selectedLocation.value) {
-    errors.value.location = 'Please select your location'
-    return false
-  }
-  errors.value.location = ''
-  return true
-}
-
-const validateAge = () => {
-  const { day, month, year } = birthday.value
-  const birthDate = new Date(year, month - 1, day)
-  const today = new Date()
-  
-  // Calculate age
-  let age = today.getFullYear() - birthDate.getFullYear()
-  const monthDiff = today.getMonth() - birthDate.getMonth()
-  
-  if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
-    age--
-  }
-  
-  // Get legal age for selected location
-  const location = locations.value.find(loc => loc.code === selectedLocation.value)
-  const legalAge = location ? location.legalAge : 18
-  
-  if (age < legalAge) {
-    errors.value.age = `You must be at least ${legalAge} years old to access this site in ${location.name}`
-    return false
-  }
-  
-  errors.value.age = ''
-  return true
-}
-
+// Clear all errors
 const clearErrors = () => {
-  errors.value = {
-    birthday: '',
-    location: '',
-    age: ''
-  }
+  Object.keys(errors.value).forEach(key => {
+    errors.value[key] = ''
+  })
 }
 
+// Main form validation and submission handler
 const handleConfirm = async () => {
   clearErrors()
   isSubmitting.value = true
   
   try {
-    // Validate all fields
-    const isBirthdayValid = validateBirthday()
-    const isLocationValid = validateLocation()
-    
-    if (!isBirthdayValid || !isLocationValid) {
+    // Step 1: Validate birthday
+    const birthdayValidation = props.userStore.validateBirthday(birthday.value)
+    if (!birthdayValidation.isValid) {
+      errors.value.birthday = birthdayValidation.error
       return
     }
     
-    // Validate age
-    const isAgeValid = validateAge()
-    if (!isAgeValid) {
+    // Step 2: Validate location
+    const locationValidation = props.userStore.validateLocation(selectedLocation.value)
+    if (!locationValidation.isValid) {
+      errors.value.location = locationValidation.error
       return
     }
     
-    // Get location details
-    const locationDetails = locations.value.find(loc => loc.code === selectedLocation.value)
+    // Step 3: Calculate age and validate against legal requirements
+    const age = props.userStore.calculateAge(birthday.value)
+    const ageValidation = props.userStore.validateAge(age, selectedLocation.value)
+    if (!ageValidation.isValid) {
+      errors.value.age = ageValidation.error
+      return
+    }
     
-    // Prepare user data
+    // Step 4: Prepare user data for storage
     const userData = {
       birthday: {
         day: parseInt(birthday.value.day),
@@ -215,32 +160,88 @@ const handleConfirm = async () => {
       },
       location: {
         code: selectedLocation.value,
-        name: locationDetails.name,
-        legalAge: locationDetails.legalAge
+        name: locationValidation.location.name,
+        legalAge: locationValidation.location.legalAge
       },
       rememberMe: rememberMe.value,
       verifiedAt: new Date().toISOString()
     }
     
-    // Save to store
-    await userStore.setUserData(userData)
+    // Step 5: Save user data to store
+    const result = await props.userStore.setUserData(userData)
+    if (!result.success) {
+      errors.value.general = result.error || 'Failed to save verification data'
+      return
+    }
     
-    // Close modal
+    // Step 6: Success - close modal and emit verification event
     showModal.value = false
-    
-    // Emit event to parent component
-    emit('verified', userData)
+    emit('verified', {
+      success: true,
+      user: props.userStore.user,
+      canAccessProducts: props.userStore.canAccessProducts()
+    })
     
   } catch (error) {
     console.error('Error during verification:', error)
-    errors.value.age = 'An error occurred during verification. Please try again.'
+    errors.value.general = 'An unexpected error occurred. Please try again.'
   } finally {
     isSubmitting.value = false
   }
 }
 
+// Check for existing valid session but DON'T auto-hide modal
+onMounted(async () => {
+  try {
+    const loadResult = await props.userStore.loadFromStorage()
+    
+    if (loadResult.success && props.userStore.isVerified && props.userStore.isSessionValid) {
+      // User has valid session - pre-fill form but keep modal visible
+      if (props.userStore.user.birthday) {
+        birthday.value = {
+          day: props.userStore.user.birthday.day.toString(),
+          month: props.userStore.user.birthday.month.toString(),
+          year: props.userStore.user.birthday.year.toString()
+        }
+      }
+      
+      if (props.userStore.user.location?.code) {
+        selectedLocation.value = props.userStore.user.location.code
+      }
+      
+      rememberMe.value = props.userStore.user.rememberMe || false
+      
+      // KEEP MODAL VISIBLE - user must click confirm every time
+    }
+  } catch (error) {
+    console.error('Error loading stored verification:', error)
+  }
+})
+
 // Define emits
 const emit = defineEmits(['verified'])
+
+// Expose methods for parent component if needed
+defineExpose({
+  showModal: () => { 
+    showModal.value = true 
+    clearErrors()
+  },
+  hideModal: () => { 
+    showModal.value = false 
+  },
+  resetForm: () => {
+    birthday.value = { day: '', month: '', year: '' }
+    selectedLocation.value = ''
+    rememberMe.value = false
+    clearErrors()
+  },
+  forceVerification: () => {
+    props.userStore.resetUser()
+    showModal.value = true
+    clearErrors()
+  }
+})
 </script>
 
 <style scoped>
@@ -325,5 +326,19 @@ const emit = defineEmits(['verified'])
   }
 }
 
+.error-message {
+  color: var(--error-color, #e74c3c);
+  font-size: var(--font-sm);
+  margin-top: calc(var(--space-xs) * -0.5);
+  text-align: center;
+}
 
+.is-date input.error {
+  border-bottom-color: var(--error-color, #e74c3c);
+}
+
+button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
 </style>

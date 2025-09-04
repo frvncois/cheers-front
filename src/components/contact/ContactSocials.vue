@@ -1,5 +1,5 @@
 <template>
-<section>
+<section data-bg="yellow">
     <div class="socials">
         <div class="is-title">
             <h1>Retrouvez Cheers sur les réseau sociaux</h1>

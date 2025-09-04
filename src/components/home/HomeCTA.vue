@@ -1,5 +1,5 @@
 <template>
-<section>
+  <section data-bg="purple">
   <div class="cta">
     <div class="is-content">
       <h2 data-animate="fade" data-animate-delay="500">Producteur passioné</h2>
@@ -51,4 +51,46 @@ margin-top: -6em;
   }
  }
 }
+
+@media screen and (max-width: 768px) {
+  .cta {
+    flex-direction: column;
+    gap: 0;
+    position: relative;
+
+    >  .is-content {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-xl);
+      height: 75vh;
+    }
+
+    > .is-image {
+      position: absolute;
+      top: var(--space-lg);
+      width: 100vw;
+      height: 75vh;
+      margin-top: 0;
+      > img {
+        height: 25vh;
+      }
+    }
+    h2 {
+      grid-column: 1;
+      grid-row: 2; 
+      text-align: left;
+    }
+
+    .is-title {
+      grid-column: span 2;
+    }
+
+    h2:nth-child(3) {
+      grid-column: 2;
+      grid-row: 2;
+      text-align: right;
+}
+  }
+
+  }
 </style>

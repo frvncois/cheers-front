@@ -1,10 +1,16 @@
+<script setup>
+import ButtonMailing from '@/assets/ButtonMailing.vue';
+import Element03 from '@/assets/Element03.vue';
+</script>
+
 <template>
-    <section>
+  <section data-bg="purple">
         <div class="mailinglist" data-animate="fade" data-animate-duration="2000">
             <div>
                 <h1>
-                    Une infolettre pour rester à la page
+                    Une infolettre pour <br>rester à la page
                 </h1>
+                <Element03/>
             </div>
             <div>
                 <p>
@@ -12,7 +18,7 @@
                 </p>
                 <form>
                     <input placeholder="Adresse courriel"/>
-                    <button>S'inscrire</button>
+                    <button>S'inscrire<ButtonMailing/></button>
                 </form>
             </div>
         </div>
@@ -22,7 +28,7 @@
 <style scoped>
 .mailinglist {
     display: flex;
-    gap: var(--space-md);
+    gap: var(--space-xl);
     padding: var(--space-xl) var(--space-2xl);
     > div {
         flex: 1;
@@ -34,7 +40,7 @@
         
         > svg {
             position: absolute;
-            top: 0;
+            bottom: 0;
             right: 0;
         }
     }
@@ -44,11 +50,27 @@
         border-bottom: 1px solid var(--accent);
         padding: var(--space-sm) 0;
         flex: 1;
+        color: var(--yellow);
+        &::placeholder {
+            color: var(--yellow);
+        }
+        &:focus {
+            outline: unset;
+            border-bottom: 1px solid var(--yellow);
+        }
     }
     & button {
         background: var(--accent);
+        display: flex;
+        gap: var(--space-xs);
+        align-items: center;
         border-radius: 10em;
         padding: var(--space-sm) var(--space-md);
+        transition: all 0.3s ease;
+        &:hover {
+            background: var(--yellow);
+            color: var(--purple);
+        }
     }
     & h1 {
         font-size: var(--font-lg);
@@ -56,6 +78,14 @@
     & form {    
         display: flex;
         flex: 1;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .mailinglist {
+    flex-direction: column;
+    gap: var(--space-md);
+    padding: var(--space-xl) var(--space-rg);
     }
 }
 </style>

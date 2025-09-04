@@ -1,5 +1,5 @@
 <template>
-    <section>
+  <section data-bg="purple">
         <div class="title">
             <div class="is-content">
                 <div speed="0.5">
@@ -42,5 +42,11 @@
                 text-align: right;
             }
         }
+}
+
+@media screen and (max-width: 768px) {
+    .title p {
+        display: none;
+    }
 }
 </style>

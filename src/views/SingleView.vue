@@ -1,8 +1,6 @@
 <script setup>
-import { ref, onMounted, nextTick } from 'vue'
 import { computed } from 'vue'
 import { useRoute } from 'vue-router'
-import { useProductsStore } from '@/stores/products'
 import SingleBreadcrumbs from '@/components/single/SingleBreadcrumbs.vue'
 import SingleProduct from '@/components/single/SingleProduct.vue'
 import SingleTagline from '@/components/single/SingleTagline.vue'
@@ -10,41 +8,44 @@ import SingleProducts from '@/components/single/SingleProducts.vue'
 import GlobalMailinglist from '@/components/global/GlobalMailinglist.vue'
 import GlobalFooter from '@/components/global/GlobalFooter.vue'
 
+// Props from App.vue (filtered products)
+const props = defineProps({
+  filteredProducts: {
+    type: Array,
+    default: () => []
+  }
+})
+
 const route = useRoute()
-const productsStore = useProductsStore()
 
-const currentProduct = computed(() =>
-  productsStore.getAllProducts.find(p => p.id === route.params.id)
-)
-const otherProducts = computed(() =>
-  productsStore.getAllProducts.filter(p => p.id !== route.params.id)
-)
+// Find current product by ID from route params
+const currentProduct = computed(() => {
+  const productId = route.params.id
+  return props.filteredProducts.find(p => p.id == productId || p.documentId === productId)
+})
 
-const enterHeight = ref('100vh')
-onMounted(async () => {
-  await nextTick()
-  requestAnimationFrame(() => {
-    enterHeight.value = '0vh'
-  })
+// Other products (excluding current one)
+const otherProducts = computed(() => {
+  if (!currentProduct.value) return props.filteredProducts
+  return props.filteredProducts.filter(p => 
+    p.id !== currentProduct.value.id && p.documentId !== currentProduct.value.documentId
+  )
 })
 </script>
-
 <template>
-  <div class="page-enter" :style="{ height: enterHeight }" aria-hidden="true"></div>
-  <SingleBreadcrumbs :product="currentProduct" />
+  <SingleBreadcrumbs :current-product="currentProduct" />
   <SingleProduct :product="currentProduct" />
   <SingleTagline />
-  <SingleProducts :products="otherProducts" :current-product="currentProduct" />
+  <SingleProducts :products="otherProducts" />
   <GlobalMailinglist />
   <GlobalFooter />
 </template>
-
 <style scoped>
 .page-enter {
   position: fixed;
-  top: 0; left: 0; right: 0;
+  inset: 0;
   width: 100vw;
-  height: 100vh;               /* starts full */
+  height: 100vh;
   background: var(--yellow);
   z-index: 9999;
   pointer-events: none;

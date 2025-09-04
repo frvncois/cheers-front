@@ -1,6 +1,12 @@
 <script setup>
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 
+const props = defineProps({
+  images: {
+    type: Array,
+    default: () => []
+  }
+})
 
 const sliderRef = ref(null)
 const isDragging = ref(false)
@@ -24,47 +30,43 @@ const drag = (e) => {
 const endDrag = () => {
   isDragging.value = false
 }
+
+const galleryImages = computed(() => {
+  const baseURL = import.meta.env.VITE_STRAPI_URL || 'http://localhost:1337'
+  
+  return props.images.map((image, index) => ({
+    id: image.id || index,
+    url: `${baseURL}${image.url}`,
+    alt: image.alternativeText || image.name || `Gallery image ${index + 1}`,
+    name: image.name || `Image ${index + 1}`
+  }))
+})
 </script>
 
 <template>
-  <section>
+  <section data-bg="purple">
     <div class="slider">
       <div class="is-container">
-        <ul class="is-items" 
-            ref="sliderRef"
-            @mousedown="startDrag"
-            @mousemove="drag"
-            @mouseup="endDrag"
-            @mouseleave="endDrag">
-          <li class="is-item" data-animate="reveal" data-animate-delay="0" data-animate-duration="1000">
-            <img src="@/assets/thumb.png"/>
-          </li>
-          <li class="is-item" data-animate="reveal" data-animate-delay="100" data-animate-duration="1000">
-            <img src="@/assets/thumb.png"/>
-          </li>
-          <li class="is-item" data-animate="reveal" data-animate-delay="200" data-animate-duration="1000">
-            <img src="@/assets/thumb.png"/>
-          </li>
-          <li class="is-item" data-animate="reveal" data-animate-delay="300" data-animate-duration="1000">
-            <img src="@/assets/thumb.png"/>
-          </li>
-          <li class="is-item" data-animate="reveal" data-animate-delay="400" data-animate-duration="1000">
-            <img src="@/assets/thumb.png"/>
-          </li>
-          <li class="is-item" data-animate="reveal" data-animate-delay="500" data-animate-duration="1000">
-            <img src="@/assets/thumb.png"/>
-          </li>
-          <li class="is-item" data-animate="reveal" data-animate-delay="600" data-animate-duration="1000">
-            <img src="@/assets/thumb.png"/>
-          </li>
-          <li class="is-item" data-animate="reveal" data-animate-delay="700" data-animate-duration="1000">
-            <img src="@/assets/thumb.png"/>
-          </li>
-          <li class="is-item" data-animate="reveal" data-animate-delay="800" data-animate-duration="1000">
-            <img src="@/assets/thumb.png"/>
-          </li>
-          <li class="is-item" data-animate="reveal" data-animate-delay="900" data-animate-duration="1000">
-            <img src="@/assets/thumb.png"/>
+        <ul 
+          class="is-items"
+          ref="sliderRef"
+          @mousedown="startDrag"
+          @mousemove="drag"
+          @mouseup="endDrag"
+          @mouseleave="endDrag"
+        >
+          <li 
+            v-for="(image, index) in galleryImages" 
+            :key="image.id"
+            class="is-item" 
+            data-animate="reveal" 
+            :data-animate-delay="index * 100" 
+            data-animate-duration="1000"
+          >
+            <img 
+              :src="image.url" 
+              :alt="image.alt"
+            />
           </li>
         </ul>
       </div>
@@ -73,50 +75,42 @@ const endDrag = () => {
 </template>
 
 <style scoped>
-
 .slider {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-md);
-    > .is-container {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+  > .is-container {
+    overflow: hidden;
+    > .is-items {
+      display: flex;
+      overflow-x: auto;
+      gap: var(--space-rg);
+      padding: var(--space-rg);
+      cursor: grab;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+      > .is-item {
+        background: var(--accent);
+        flex: 0 0 20vw;
+        aspect-ratio: 2/3;
         overflow: hidden;
-        > .is-items {
-            display: flex;
-            overflow-x: auto;
-            gap: var(--space-rg);
-            padding: var(--space-rg);
-            cursor: grab;
-            scrollbar-width: none;
-            -ms-overflow-style: none;
-            > .is-item {
-                background: var(--accent);
-                flex: 0 0 20vw;
-                aspect-ratio: 2/3;
-                overflow: hidden;
-                & img {
-                  height: 100%;
-                  object-fit: cover;
-                  pointer-events: none;
-                  user-select: none;
-                }
-            }
+        & img {
+          height: 100%;
+          width: 100%;
+          object-fit: cover;
+          pointer-events: none;
+          user-select: none;
         }
+      }
     }
+  }
 }
 
-.is-wrap {
-
-}
-
-.is-wrap::-webkit-scrollbar {
+.is-items::-webkit-scrollbar {
   display: none;
 }
 
-.is-wrap:active {
+.is-items:active {
   cursor: grabbing;
-}
-
-.is-item {
-
 }
 </style>

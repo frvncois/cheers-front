@@ -1,9 +1,9 @@
 <template>
     <div class="cta">
         <div class="is-content">
-            <div><h2 data-animate="fade-up" data-animate-delay="500">Cultivé avec <br>passion</h2></div>
-            <div><h1 data-animate="reveal" data-animate-duration="2000">Chaque gramme<br>est le fruit de<br>notre savoir-faire</h1></div>
-            <div><h2 data-animate="fade-up" data-animate-delay="500">Partagé<br>avec plaisir</h2></div>
+            <h2 data-animate="fade-up" data-animate-delay="500">Cultivé avec <br>passion</h2>
+            <h1 data-animate="reveal" data-animate-duration="2000">Chaque gramme<br>est le fruit de<br>notre savoir-faire</h1>
+            <h2 data-animate="fade-up" data-animate-delay="500">Partagé<br>avec plaisir</h2>
         </div>
     </div>
 </template>
@@ -35,4 +35,47 @@
         }
     }
 }
+
+@media screen and (max-width: 768px) {
+  .cta {
+    flex-direction: column;
+    gap: 0;
+    position: relative;
+
+    >  .is-content {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-xl);
+    h2:first-child {
+      grid-column: 1;
+      grid-row: 2; 
+      text-align: left;
+
+    }
+
+    h1 {
+      grid-column: span 2;
+      text-align: center;
+    }
+
+    h2:last-child {
+      grid-column: 2;
+      grid-row: 2;
+      text-align: right;
+    }
+    }
+
+    > .is-image {
+      position: absolute;
+      top: var(--space-lg);
+      width: 100vw;
+      height: 75vh;
+      margin-top: 0;
+      > img {
+        height: 25vh;
+      }
+    }
+  }
+
+  }
 </style>

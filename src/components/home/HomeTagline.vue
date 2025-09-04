@@ -1,5 +1,5 @@
 <template>
-  <section>
+  <section data-bg="purple">
     <div class="tagline">
       <div class="is-content">
         <div class="is-image">
@@ -74,6 +74,12 @@
           height: 200%;
           object-fit: cover;
         }
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .tagline {
+    display: none;
     }
 }
 </style>

@@ -1,5 +1,5 @@
 <script setup>
-import { ref, watch } from 'vue';
+import { ref, watch, onMounted, onUnmounted, nextTick } from 'vue';
 import { useRouter } from 'vue-router';
 import CheersIcon from '@/assets/CheersIcon.vue';
 import CheersLogo from '@/assets/CheersLogo.vue';
@@ -8,6 +8,11 @@ import Element01 from '@/assets/Element01.vue';
 const router = useRouter();
 const isNavVisible = ref(false);
 const isClosing = ref(false);
+
+// Header and nav colors
+const currentHeaderColor = ref('var(--yellow)');
+const currentNavBg = ref('var(--yellow)');
+const currentNavText = ref('var(--purple)');
 
 const toggleNav = () => {
 	if (isNavVisible.value) {
@@ -25,16 +30,94 @@ const closeNav = () => {
 	}, 600);
 };
 
+// Update all colors based on current section
+const updateColors = () => {
+	const sections = document.querySelectorAll('section');
+	
+	if (!sections.length) return;
+	
+	// Find the section at the top of viewport
+	for (const section of sections) {
+		const rect = section.getBoundingClientRect();
+		
+		if (rect.top <= 100 && rect.bottom > 0) {
+			const bgColor = section.getAttribute('data-bg');
+			
+			if (bgColor) {
+				// Set header color based on section background
+				let headerColor, navBg, navText;
+				
+				switch(bgColor) {
+					case 'yellow':
+						headerColor = 'var(--purple)';
+						navBg = 'var(--purple)';
+						navText = 'var(--yellow)';
+						break;
+					case 'purple':
+						headerColor = 'var(--yellow)';
+						navBg = 'var(--yellow)';
+						navText = 'var(--purple)';
+						break;
+					case 'light':
+						headerColor = 'var(--purple)';
+						navBg = 'var(--purple)';
+						navText = 'var(--light)';
+						break;
+					case 'green':
+						headerColor = 'var(--light)';
+						navBg = 'var(--light)';
+						navText = 'var(--purple)';
+						break;
+					default:
+						headerColor = 'var(--yellow)';
+						navBg = 'var(--yellow)';
+						navText = 'var(--purple)';
+				}
+				
+				currentHeaderColor.value = headerColor;
+				currentNavBg.value = navBg;
+				currentNavText.value = navText;
+				
+				break; // Exit loop once we find the active section
+			}
+		}
+	}
+};
+
+onMounted(() => {
+	// Initial color check
+	nextTick(() => {
+		updateColors();
+	});
+	
+	// Listen to scroll
+	window.addEventListener('scroll', updateColors, { passive: true });
+});
+
+onUnmounted(() => {
+	window.removeEventListener('scroll', updateColors);
+});
+
 watch(() => router.currentRoute.value.path, () => {
 	if (isNavVisible.value) {
 		closeNav();
 	}
+	nextTick(() => {
+		updateColors();
+	});
 });
 </script>
 
 <template>
-	<header :class="{ 'header-brown': isNavVisible }" data-animate="fade">
-		<div class="logo"><CheersIcon /></div>
+	<header 
+		:style="{ 
+			color: isNavVisible ? currentNavText : currentHeaderColor 
+		}"
+		data-animate="fade"
+	>
+		<div class="logo">
+			<router-link to="/"><CheersIcon /></router-link>
+		</div>
 		<div class="toggle" @click="toggleNav">
 			<span></span>
 			<span></span>
@@ -43,24 +126,30 @@ watch(() => router.currentRoute.value.path, () => {
 	</header>
 	
 	<div class="mask" :class="{ 'is-open': isNavVisible, 'is-closing': isClosing }">
-		<nav v-if="isNavVisible || isClosing">
+		<nav 
+			v-if="isNavVisible || isClosing"
+			:style="{ 
+				backgroundColor: currentNavBg,
+				color: currentNavText
+			}"
+		>
 			<ul>
 				<li>
 					<router-link to="/">Accueil</router-link>
 				</li>
 				<li>
 					<router-link to="/products">Produits</router-link>
-					<router-link to="/">Saint-Laurent</router-link>
+					<router-link to="/saint-laurent">Saint-Laurent</router-link>
 				</li>
 				<li>
 					<router-link to="/about">À propos</router-link>
-					<router-link to="/">Blog</router-link>
+					<router-link to="/blog">Blog</router-link>
 					<router-link to="/contact">Contact</router-link>
 				</li>
 				<li>
-					<a>Instagram</a>
-					<a>Facebook</a>
-					<a>Infolettre</a>
+					<a href="https://www.instagram.com/cheerscannabis" target="_blank">Instagram</a>
+					<a href="https://www.facebook.com/Cheerscannabinc" target="_blank">Facebook</a>
+					<a href="https://www.cheerscannabis.com/newsletter" target="_blank">Infolettre</a>
 				</li>
 				<li>
 					<Element01/>
@@ -84,33 +173,32 @@ header {
 	left: 0;
 	right: 0;
 	z-index: 6;
-	color: var(--yellow);
 	padding: var(--space-rg);
-	transition: color 0.3s ease;
-	> .logo svg {
-		height: 4em;
-	}
-	> .toggle {
-		height: 4em;
-		width: 2em;
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		gap: 10px;
-		cursor: pointer;
-		> span {
-			width: 100%;
-			height: 1px;
-			background: currentColor;
-			&:nth-child(2) {
-				width: 50%;
-			}
-		}
-	}
+	transition: color 0.1s ease;
 }
 
-.header-brown {
-	color: var(--purple);
+header .logo svg {
+	height: 4em;
+}
+
+header .toggle {
+	height: 4em;
+	width: 2em;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 10px;
+	cursor: pointer;
+}
+
+header .toggle span {
+	width: 100%;
+	height: 1px;
+	background: currentColor;
+}
+
+header .toggle span:nth-child(2) {
+	width: 50%;
 }
 
 .mask {
@@ -142,36 +230,81 @@ nav {
 	flex-direction: column;
 	justify-content: flex-end;
 	height: 100vh;
-	background: var(--yellow);
-	color: var(--purple);
-	& ul {
-		display: flex;
-		padding: 0 var(--space-rg);
-		gap: var(--space-md);
-		position: relative;
-		& li {
-			display: flex;
-			flex-direction: column;
-			flex: 1;
-			position: relative;
-			> a {
-				padding: var(--space-xs) 0;
-			}
-			&:last-child {
-				position: absolute;
-				bottom: 0;
-				right: var(--space-md);
-			}
-		}
+	transition: background-color 0.1s ease, color 0.1s ease;
+}
+
+nav ul {
+	display: flex;
+	padding: 0 var(--space-rg);
+	gap: var(--space-md);
+	position: relative;
+}
+
+nav ul li {
+	display: flex;
+	flex-direction: column;
+	flex: 1;
+	position: relative;
+}
+
+nav ul li > a {
+	padding: var(--space-xs) 0;
+}
+
+nav ul li:last-child {
+	position: absolute;
+	bottom: 0;
+	right: var(--space-md);
+}
+
+nav .is-logo {
+	position: relative;
+	margin: 0 var(--space-rg);
+	top: 4.75em;
+}
+
+nav .is-logo svg {
+	width: 100%;
+	height: 100%;
+}
+
+@media screen and (max-width: 768px) {
+	nav ul {
+		flex-direction: column;
+		gap: 0;
+		padding: 0;
 	}
-	> .is-logo {
-		position: relative;
-		margin: 0 var(--space-rg);
-		top: 4.75em;
-		> svg {
-			width: 100%;
-			height: 100%;
-		}
+	
+	nav ul li > a {
+		text-align: center;
+		font-size: var(--font-lg);
+		padding: 0;
+	}
+	
+	nav ul li:nth-child(4) {
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		flex-direction: row;
+		margin-top: var(--space-md);
+		border-bottom: 1px solid currentColor;
+	}
+	
+	nav ul li:nth-child(4) > a {
+		border-top: 1px solid currentColor;
+		font-size: var(--font-rg)!important;
+		padding: var(--space-sm);
+	}
+	
+	nav ul li:nth-child(4) > a:nth-child(2) {
+		border-left: 1px solid currentColor;
+	}
+	
+	nav ul li:nth-child(4) > a:last-child {
+		grid-column: span 2;
+	}
+	
+	nav .is-logo {
+		top: 2.5em;
 	}
 }
 </style>

@@ -40,7 +40,7 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <section data-bg="purple">
+  <section data-bg="green">
   <div class="marquee" ref="sectionRef">
       <div class="is-wrap">
         <div class="is-track" ref="marqueeRef">
@@ -126,6 +126,8 @@ onUnmounted(() => {
     justify-content: center;
     gap: var(--space-lg);
     padding: var(--space-lg) 0;
+    background-color: var(--green);
+    color: var(--light);
     > .is-track {
       display: flex;
       min-width: 200vw;
@@ -152,6 +154,8 @@ display: flex;
   flex-direction: column;
   justify-content: flex-end;
   z-index: 5;
+    background-color: var(--green);
+    color: var(--light);
   > ul {
     display: flex;
     padding: var(--space-rg);

@@ -4,7 +4,6 @@ import AboutIntro from '@/components/about/AboutIntro.vue';
 import GlobalFooter from '@/components/global/GlobalFooter.vue';
 import GlobalTestimonials from '@/components/global/GlobalTestimonials.vue';
 import GlobalTextMarquee from '@/components/global/GlobalTextMarquee.vue';
-
 </script>
 
 <template>

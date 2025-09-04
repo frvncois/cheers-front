@@ -1,13 +1,35 @@
+<script setup>
+import { computed } from 'vue'
+import { useContentStore } from '@/stores/content.js'
+
+const contentStore = useContentStore()
+
+const mission = computed(() => {
+  return contentStore.about?.Mission || ''
+})
+
+const missionImage = computed(() => {
+  if (!contentStore.about?.Image_Mission) return null
+  const baseURL = import.meta.env.VITE_STRAPI_URL || 'http://localhost:1337'
+  return `${baseURL}${contentStore.about.Image_Mission.url}`
+})
+</script>
+
 <template>
-    <section>
+    <section data-bg="light">
         <div class="intro">
             <div class="is-content">
-                <h2>Chaque gramme<br>est le fruit de<br>notre savoir-faire</h2>
-                <p>Ici, on ne fait pas que cultiver du cannabis. On élève une plante avec passion, on affine chaque détail, on soigne chaque récolte comme un grand cru. Cheers Cannabis, c’est l’amour du produit bien fait, la culture indoor maîtrisée, et une vibe qui sent bon l’authenticité. Que tu sois connaisseur ou juste curieux, ici, t’es au bon endroit.</p>
-                <p>Si vous avez des questions sur nos produits ou des commentaires à nous faire, vous pouvez toujours nous contacter grâce au formulaire en cliquant sur le lien suivant.</p>
+                <h2 data-animate="fade" data-animate-duration="1000"> Chaque gramme<br>est le fruit de<br>notre savoir-faire</h2>
+                <p data-animate="fade" data-animate-duration="1000">{{ mission }}</p>
             </div>
             <div class="is-action">
-                <img src="@/assets/intro.png"/>
+              <img
+                v-if="missionImage"
+                :src="missionImage"
+                alt="Mission image"
+                data-animate="reveal"
+                data-animate-duration="2000"
+              >
                 <button>Contactez-nous</button>
             </div>
         </div>
@@ -21,7 +43,7 @@ section {
    > .intro {
     display: flex;
     gap: var(--space-md);
-    padding: var(--space-rg) var(--space-rg) var(--space-xl) var(--space-rg);
+    padding: 0 var(--space-xl) var(--space-xl) var(--space-xl);
     > .is-content {
         display: flex;
         flex-direction: column;
@@ -39,7 +61,7 @@ section {
         flex: 1;
         width: 100%;
         overflow: hidden;
-        background: red;
+        background: var(--purple);
         > img {
             width: 100%;
             height: 100%;

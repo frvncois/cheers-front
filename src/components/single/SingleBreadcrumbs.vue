@@ -1,17 +1,17 @@
-<template>
-    <div class="breadcrumb" data-animate="fade" data-animate-duration="1000">
-        <a>Produits</a> / <p>{{ props.product.title }}</p>
-    </div>
-</template>
-
 <script setup>
 const props = defineProps({
-  product: {
+  currentProduct: {
     type: Object,
-    required: true
+    default: null
   }
 })
 </script>
+
+<template>
+  <div class="breadcrumb" data-animate="fade" data-animate-duration="1000">
+    <a>Produits</a> / <p>{{ props.currentProduct?.Title || 'Product' }}</p>
+  </div>
+</template>
 
 <style scoped>
 .breadcrumb {

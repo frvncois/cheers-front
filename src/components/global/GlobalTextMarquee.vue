@@ -1,5 +1,5 @@
 <template>
-  <section>
+  <section data-bg="purple">
     <div class="marquee">
 
       <div class="is-wrap">
@@ -24,15 +24,6 @@
           </div>
         </div>
       </div>
-
-
-
-       <div class="about">
-            <div class="is-title">
-                <h2>Cultivé avec <br>passion</h2>
-                <h2>Partagé avec <br>plaisir</h2>
-            </div>
-        </div>
     </div>
   </section>
 </template>
@@ -69,27 +60,6 @@ const props = defineProps({
     }
   }
 }
-
-.about {
-    > .is-title {
-      display: flex;
-      flex: 0 0 100%;
-      flex-direction: row;
-      justify-content: space-between;
-      position: relative;
-      padding: var(--space-rg);
-      > img {
-          position: absolute;
-          left: 50%;
-          bottom: -8em;
-          transform: translateX(-50%);
-      }
-      > h2:last-child {
-          text-align: right;
-      }
-  }
-}
-
 
 @keyframes marquee {
   0% {
