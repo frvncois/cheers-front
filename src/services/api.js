@@ -1,4 +1,4 @@
-// services/api.js - CLEAN VERSION with only your working endpoints
+// services/api.js
 class StrapiAPI {
   constructor() {
     this.baseURL = import.meta.env.VITE_STRAPI_URL || 'https://heroic-champion-86333ba9c3.strapiapp.com'
