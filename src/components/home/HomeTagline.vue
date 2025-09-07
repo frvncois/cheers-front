@@ -9,24 +9,20 @@ const intro = computed(() => {
 })
 
 const introImage = computed(() => {
-  if (!contentStore.home?.Intro_Image) return null
-  const baseURL = import.meta.env.VITE_STRAPI_URL || 'http://localhost:1337'
-  return `${baseURL}${contentStore.home.Image01_CTA.url}`
+  if (!contentStore.home?.Image01_CTA?.url) return null
+  return contentStore.home.Image01_CTA.url
 })
 
 const intro2Image = computed(() => {
-  if (!contentStore.home?.Intro_Image) return null
-  const baseURL = import.meta.env.VITE_STRAPI_URL || 'http://localhost:1337'
-  return `${baseURL}${contentStore.home.Image02_CTA.url}`
+  if (!contentStore.home?.Image02_CTA?.url) return null
+  return contentStore.home.Image02_CTA.url
 })
 
 const intro3Image = computed(() => {
-  if (!contentStore.home?.Intro_Image) return null
-  const baseURL = import.meta.env.VITE_STRAPI_URL || 'http://localhost:1337'
-  return `${baseURL}${contentStore.home.Image03_CTA.url}`
+  if (!contentStore.home?.Image03_CTA?.url) return null
+  return contentStore.home.Image03_CTA.url
 })
 </script>
-
 
 <template>
   <section data-bg="purple">

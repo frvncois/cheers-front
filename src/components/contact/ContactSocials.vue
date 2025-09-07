@@ -6,14 +6,14 @@
             <p>Suivez-nous sur les réseaux sociaux ! Restez connectés pour les dernières nouvelles, offres exclusives et mises à jour sur nos produits.</p>
         </div>
         <div class="is-content">
-        <div>
+        <a href="https://www.instagram.com/cheerscannabis" target="_blank">
             <h2>Instagram</h2>
             <p>@cheerscannabis</p>
-        </div>
-        <div>
+        </a>
+        <a href="https://www.facebook.com/Cheerscannabinc" target="_blank">
             <h2>Facebook</h2>
             <p>@cheerscannabis</p>
-        </div>
+        </a>
         </div>
     </div>
 </section>
@@ -40,7 +40,7 @@ section {
         }
         > .is-content {
             display: flex;
-            > div {
+            > a {
                 display: flex;
                 flex-direction: column;
                 flex: 1;

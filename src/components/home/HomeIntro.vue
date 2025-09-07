@@ -11,9 +11,8 @@ const intro = computed(() => {
 })
 
 const introImage = computed(() => {
-  if (!contentStore.home?.Intro_Image) return null
-  const baseURL = import.meta.env.VITE_STRAPI_URL || 'http://localhost:1337'
-  return `${baseURL}${contentStore.home.Intro_Image.url}`
+  if (!contentStore.home?.Intro_Image?.url) return null
+  return contentStore.home.Intro_Image.url
 })
 </script>
 

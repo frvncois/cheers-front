@@ -13,15 +13,13 @@ const about = computed(() => {
 })
 
 const introImage = computed(() => {
-  if (!contentStore.about?.Image_Intro) return null
-  const baseURL = import.meta.env.VITE_STRAPI_URL || 'http://localhost:1337'
-  return `${baseURL}${contentStore.about.Image_Intro.url}`
+  if (!contentStore.about?.Image_Intro?.url) return null
+  return contentStore.about.Image_Intro.url
 })
 
 const aboutImage = computed(() => {
-  if (!contentStore.about?.About_Image) return null
-  const baseURL = import.meta.env.VITE_STRAPI_URL || 'http://localhost:1337'
-  return `${baseURL}${contentStore.about.About_Image.url}`
+  if (!contentStore.about?.About_Image?.url) return null
+  return contentStore.about.About_Image.url
 })
 
 const itemsRef = ref(null)
@@ -47,7 +45,9 @@ onMounted(() => {
 onUnmounted(() => {
   window.removeEventListener('scroll', handleScroll)
 })
-</script><template>
+</script>
+
+<template>
   <section data-bg="light">
     <div class="intro">
       <div class="is-track">

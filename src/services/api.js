@@ -1,8 +1,8 @@
-// services/api.js
+// services/api.js - CLEAN VERSION with only your working endpoints
 class StrapiAPI {
   constructor() {
     this.baseURL = import.meta.env.VITE_STRAPI_URL || 'https://heroic-champion-86333ba9c3.strapiapp.com'
-    this.apiToken = import.meta.env.VITE_STRAPI_API_KEY || 'ee13ec7d3aede228c5e7b8b2c533c69d6583eea2a3622bc6651faebaed922cc21bdbfc520c1927f26e18e8de7ac7084a4f18daea203c655272cdc8f88e79577647adad915a855d7c1bc360eb3e601be1ed5712b66ec48dada67b17612a38138b93e5d833f012cfcccfdbe6ec08e5b9def2d1e16e85777d2c86705be89277b2c3'
+    this.apiToken = import.meta.env.VITE_STRAPI_API_KEY || '259420a33b8b2bbd98033ef6649bf8ec49f91fcb182edf2b93ba39d01f90c3aa969f1b3923ca19e0ea134a22be0a2a17e1a63dc0886cac6c7e10243d474657612cfa501b8f0e478c1433471ae705f07b3a2dd66a5a4c35a4967de83a682f4cd411e3129d61a84820ec726fae22641a8e8af19adf98b650aae2cd10225bc51ce3'
   }
 
   // Build URL with query parameters
@@ -15,14 +15,11 @@ class StrapiAPI {
     // Add locale for internationalization
     params.append('locale', locale)
     
-    // Add populate parameter
-    if (populate) {
-      if (typeof populate === 'string') {
-        params.append('populate', populate)
-      } else if (typeof populate === 'object') {
-        // Handle complex populate structures
-        params.append('populate', JSON.stringify(populate))
-      }
+    // Add populate parameter - keep it simple
+    if (populate && populate !== '*') {
+      params.append('populate', populate)
+    } else if (populate === '*') {
+      params.append('populate', '*')
     }
     
     // Add sorting
@@ -36,15 +33,13 @@ class StrapiAPI {
         Object.entries(filters).forEach(([key, value]) => {
           params.append(`filters[${key}]`, value)
         })
-      } else {
-        params.append('filters', filters)
       }
     }
     
     // Add pagination
     if (pagination) {
-      params.append('pagination[page]', pagination.page || 1)
-      params.append('pagination[pageSize]', pagination.pageSize || 25)
+      if (pagination.page) params.append('pagination[page]', pagination.page)
+      if (pagination.pageSize) params.append('pagination[pageSize]', pagination.pageSize)
       if (pagination.start) params.append('pagination[start]', pagination.start)
       if (pagination.limit) params.append('pagination[limit]', pagination.limit)
     }
@@ -64,7 +59,7 @@ class StrapiAPI {
     console.log(`📍 Base URL: ${this.baseURL}`)
     console.log(`🔗 Endpoint: ${endpoint}`)
     console.log(`⚙️ Options:`, options)
-    
+  
     try {
       const response = await fetch(url, {
         method: 'GET',
@@ -113,66 +108,36 @@ class StrapiAPI {
     }
   }
 
-  // Single Type Content Methods
+  // ONLY YOUR WORKING ENDPOINTS
+
+  // Home page content
   async getHome(locale = 'en') {
     return this.fetch('home', {
-      populate: {
-        hero: {
-          populate: ['image', 'cta']
-        },
-        sections: {
-          populate: ['image', 'media', 'items']
-        },
-        seo: true
-      },
+      populate: '*',
       locale
     })
   }
 
+  // About page content
   async getAbout(locale = 'en') {
     return this.fetch('about', {
-      populate: {
-        hero: {
-          populate: ['image']
-        },
-        content: {
-          populate: ['media', 'gallery']
-        },
-        team: {
-          populate: ['members.photo']
-        },
-        seo: true
-      },
+      populate: '*',
       locale
     })
   }
 
+  // Saint-Laurent page content
   async getSaintLaurent(locale = 'en') {
     return this.fetch('saint-laurent', {
-      populate: {
-        hero: {
-          populate: ['image']
-        },
-        content: {
-          populate: ['media', 'gallery']
-        },
-        location: true,
-        seo: true
-      },
+      populate: '*',
       locale
     })
   }
 
-  // Collection Type Methods
+  // Products collection
   async getProducts(options = {}) {
     const defaultOptions = {
-      populate: {
-        image: true,
-        gallery: true,
-        category: true,
-        variants: true,
-        seo: true
-      },
+      populate: '*',
       sort: 'createdAt:desc',
       pagination: { pageSize: 100 },
       locale: 'en'
@@ -181,34 +146,19 @@ class StrapiAPI {
     return this.fetch('products', { ...defaultOptions, ...options })
   }
 
+  // Single product by slug
   async getProduct(slug, locale = 'en') {
     return this.fetch('products', {
       filters: { slug },
-      populate: {
-        image: true,
-        gallery: true,
-        category: true,
-        variants: true,
-        related: {
-          populate: ['image']
-        },
-        seo: true
-      },
+      populate: '*',
       locale
     })
   }
 
+  // Blog posts collection
   async getBlogPosts(options = {}) {
     const defaultOptions = {
-      populate: {
-        featuredImage: true,
-        author: {
-          populate: ['avatar']
-        },
-        category: true,
-        tags: true,
-        seo: true
-      },
+      populate: '*',
       sort: 'publishedAt:desc',
       pagination: { pageSize: 100 },
       locale: 'en'
@@ -217,40 +167,53 @@ class StrapiAPI {
     return this.fetch('blogs', { ...defaultOptions, ...options })
   }
 
+  // Single blog post by slug
   async getBlogPost(slug, locale = 'en') {
     return this.fetch('blogs', {
       filters: { slug },
-      populate: {
-        featuredImage: true,
-        author: {
-          populate: ['avatar']
-        },
-        category: true,
-        tags: true,
-        related: {
-          populate: ['featuredImage']
-        },
-        seo: true
-      },
+      populate: '*',
       locale
     })
   }
 
-  // Categories and Tags
-  async getCategories(type = 'product', locale = 'en') {
-    return this.fetch('categories', {
-      filters: { type },
-      populate: ['image'],
-      sort: 'name:asc',
-      locale
-    })
+  // Health check
+  async healthCheck() {
+    try {
+      const response = await fetch(`${this.baseURL}/api/users-permissions/roles`)
+      return response.ok
+    } catch (error) {
+      console.error('Strapi health check failed:', error)
+      return false
+    }
   }
 
-  async getTags(locale = 'en') {
-    return this.fetch('tags', {
-      sort: 'name:asc',
-      locale
-    })
+  // Get media file URL - FIXED VERSION
+  getMediaURL(media) {
+    if (!media) return null
+    
+    // Handle both direct media objects and nested structures
+    const mediaData = media.data || media
+    
+    if (mediaData?.attributes?.url) {
+      const url = mediaData.attributes.url
+      // If URL is already absolute (starts with http), return as is
+      if (url.startsWith('http://') || url.startsWith('https://')) {
+        return url
+      }
+      // Otherwise, prepend base URL (for relative URLs that start with /)
+      return `${this.baseURL}${url}`
+    }
+    
+    return null
+  }
+
+  // Get multiple media URLs
+  getMediaURLs(mediaArray) {
+    if (!Array.isArray(mediaArray)) return []
+    
+    return mediaArray
+      .map(media => this.getMediaURL(media))
+      .filter(url => url !== null)
   }
 
   // Search functionality
@@ -267,7 +230,7 @@ class StrapiAPI {
               { content: { $containsi: query } }
             ]
           },
-          populate: contentType === 'products' ? ['image'] : ['featuredImage'],
+          populate: '*',
           locale
         })
         results[contentType] = data
@@ -278,60 +241,6 @@ class StrapiAPI {
     }
     
     return results
-  }
-
-  // Utility methods
-  async getGlobalSettings(locale = 'en') {
-    return this.fetch('global', {
-      populate: {
-        header: {
-          populate: ['logo', 'navigation.items']
-        },
-        footer: {
-          populate: ['logo', 'sections.links', 'social']
-        },
-        seo: true
-      },
-      locale
-    })
-  }
-
-  // Health check
-  async healthCheck() {
-    try {
-      const response = await fetch(`${this.baseURL}/api/users-permissions/roles`)
-      return response.ok
-    } catch (error) {
-      console.error('Strapi health check failed:', error)
-      return false
-    }
-  }
-
-  // Get media file URL
-  getMediaURL(media) {
-    if (!media) return null
-    
-    // Handle both direct media objects and nested structures
-    const mediaData = media.data || media
-    
-    if (mediaData?.attributes?.url) {
-      const url = mediaData.attributes.url
-      // If URL is already absolute, return as is
-      if (url.startsWith('http')) return url
-      // Otherwise, prepend base URL
-      return `${this.baseURL}${url}`
-    }
-    
-    return null
-  }
-
-  // Get multiple media URLs
-  getMediaURLs(mediaArray) {
-    if (!Array.isArray(mediaArray)) return []
-    
-    return mediaArray
-      .map(media => this.getMediaURL(media))
-      .filter(url => url !== null)
   }
 }
 
@@ -349,10 +258,7 @@ export const {
   getProduct,
   getBlogPosts,
   getBlogPost,
-  getCategories,
-  getTags,
   search,
-  getGlobalSettings,
   healthCheck,
   getMediaURL,
   getMediaURLs

@@ -9,9 +9,8 @@ const mission = computed(() => {
 })
 
 const missionImage = computed(() => {
-  if (!contentStore.about?.Image_Mission) return null
-  const baseURL = import.meta.env.VITE_STRAPI_URL || 'http://localhost:1337'
-  return `${baseURL}${contentStore.about.Image_Mission.url}`
+  if (!contentStore.about?.Image_Mission?.url) return null
+  return contentStore.about.Image_Mission.url
 })
 </script>
 

@@ -32,11 +32,9 @@ const endDrag = () => {
 }
 
 const galleryImages = computed(() => {
-  const baseURL = import.meta.env.VITE_STRAPI_URL || 'http://localhost:1337'
-  
   return props.images.map((image, index) => ({
     id: image.id || index,
-    url: `${baseURL}${image.url}`,
+    url: image.url || '',
     alt: image.alternativeText || image.name || `Gallery image ${index + 1}`,
     name: image.name || `Image ${index + 1}`
   }))

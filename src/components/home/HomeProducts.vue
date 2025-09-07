@@ -67,7 +67,7 @@ const rangeText = (min, max) => {
               <div><p>THC</p>{{ rangeText(product.THCmin, product.THCmax) }}</div>
               <div><p>CBD</p>{{ rangeText(product.CBDmin, product.CBDmax) }}</div>
               <div>
-                <img :src="`http://localhost:1337${product.Thumbnail.url}`" :alt="product.Title" />
+                <img :src="product.Thumbnail?.url || ''" :alt="product.Title" />
               </div>
               <div class="is-link">
                 <router-link :to="{ name: 'product', params: { id: product.id || product.Title } }">Voir le produit</router-link>
