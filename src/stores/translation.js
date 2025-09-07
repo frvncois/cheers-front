@@ -506,24 +506,24 @@ export const useTranslationStore = defineStore('translation', {
 
   actions: {
     // Set the current language and trigger content refetch
-    setLanguage(languageCode) {
-      if (this.availableLanguages.some(lang => lang.code === languageCode)) {
-        this.currentLanguage = languageCode
-        
-        // Save to localStorage
-        try {
-          localStorage.setItem('cheers_language', languageCode)
-        } catch (error) {
-          console.warn('Could not save language preference to localStorage:', error)
-        }
-        
-        // REFETCH ALL STRAPI CONTENT WITH NEW LANGUAGE
-        this.refetchContent()
-        
-        return true
-      }
-      return false
-    },
+setLanguage(languageCode) {
+  if (this.availableLanguages.some(lang => lang.code === languageCode)) {
+    this.currentLanguage = languageCode
+    
+    // Save to localStorage
+    try {
+      localStorage.setItem('cheers_language', languageCode)
+    } catch (error) {
+      console.warn('Could not save language preference to localStorage:', error)
+    }
+    
+    // Update content store language and refetch content
+    this.refetchContent()
+    
+    return true
+  }
+  return false
+},
 
     // Set language based on user location
     setLanguageByLocation(locationCode) {
@@ -547,18 +547,20 @@ export const useTranslationStore = defineStore('translation', {
     },
 
     // Refetch content from Strapi with new language
-    async refetchContent() {
-      try {
-        const { useContentStore } = await import('@/stores/content.js')
-        const contentStore = useContentStore()
-        
-        // Clear cache and refetch everything with new locale
-        contentStore.clearCache()
-        await contentStore.fetchAllContent(true)
-      } catch (error) {
-        console.error('Error refetching content with new language:', error)
-      }
-    },
+async refetchContent() {
+  try {
+    // Dynamic import to avoid circular dependency
+    const { useContentStore } = await import('@/stores/content.js')
+    const contentStore = useContentStore()
+    
+    // Update language in content store and refetch all content
+    contentStore.setLanguage(this.currentLanguage, true) // true = force refetch
+    
+    console.log(`🌍 Content refetched for language: ${this.currentLanguage}`)
+  } catch (error) {
+    console.error('Error refetching content with new language:', error)
+  }
+},
 
     // Load language preference from localStorage
     loadLanguagePreference() {

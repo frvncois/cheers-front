@@ -15,7 +15,6 @@ import { useContentStore } from '@/stores/content.js'
 import { useTranslationStore } from '@/stores/translation.js'
 import GlobalHeader from '@/components/global/GlobalHeader.vue'
 import GlobalRouter from './components/global/GlobalRouter.vue'
-import HomeHero from './components/home/HomeHero.vue'
 
 // Initialize stores
 const userStore = useUserStore()

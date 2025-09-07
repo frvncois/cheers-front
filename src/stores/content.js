@@ -1,4 +1,6 @@
+// stores/content.js
 import { defineStore } from 'pinia'
+import strapiAPI from '@/services/api.js'
 
 export const useContentStore = defineStore('content', {
   state: () => ({
@@ -6,18 +8,27 @@ export const useContentStore = defineStore('content', {
     home: null,
     about: null,
     saintLaurent: null,
+    global: null,
     
     // Collections
     products: [],
     blog: [],
+    categories: [],
+    tags: [],
+    
+    // Current language for API calls
+    currentLanguage: 'en',
     
     // Loading states
     loading: {
       home: false,
       about: false,
       saintLaurent: false,
+      global: false,
       products: false,
       blog: false,
+      categories: false,
+      tags: false,
       all: false
     },
     
@@ -26,8 +37,11 @@ export const useContentStore = defineStore('content', {
       home: null,
       about: null,
       saintLaurent: null,
+      global: null,
       products: null,
       blog: null,
+      categories: null,
+      tags: null,
       general: null
     },
     
@@ -36,8 +50,11 @@ export const useContentStore = defineStore('content', {
       home: null,
       about: null,
       saintLaurent: null,
+      global: null,
       products: null,
-      blog: null
+      blog: null,
+      categories: null,
+      tags: null
     },
     
     // Cache duration in milliseconds (5 minutes)
@@ -80,12 +97,28 @@ export const useContentStore = defineStore('content', {
         .slice(0, 5)
     },
     
+    // Get products by category
+    productsByCategory: (state) => (categorySlug) => {
+      return state.products.filter(product => {
+        const category = product.attributes?.category?.data?.attributes || product.category
+        return category?.slug === categorySlug
+      })
+    },
+    
+    // Get blog posts by category
+    blogPostsByCategory: (state) => (categorySlug) => {
+      return state.blog.filter(post => {
+        const category = post.attributes?.category?.data?.attributes || post.category
+        return category?.slug === categorySlug
+      })
+    },
+    
     // Check if any content is loading
     isAnyLoading: (state) => {
       return Object.values(state.loading).some(loading => loading)
     },
     
-    // Check if all content is loaded
+    // Check if all essential content is loaded
     isAllContentLoaded: (state) => {
       return state.home && state.about && state.saintLaurent && 
              state.products.length > 0
@@ -93,72 +126,14 @@ export const useContentStore = defineStore('content', {
   },
 
   actions: {
-    // Generic fetch function
-    async fetchFromStrapi(endpoint, options = {}) {
-      // Import translation store to get current language
-      const { useTranslationStore } = await import('@/stores/translation.js')
-      const translationStore = useTranslationStore()
+    // Set current language and refetch content if needed
+    setLanguage(language, refetch = false) {
+      const oldLanguage = this.currentLanguage
+      this.currentLanguage = language
       
-      const baseURL = import.meta.env.VITE_STRAPI_URL || 'http://localhost:1337'
-      const { populate = '*', sort, filters, pagination } = options
-      
-      let url = `${baseURL}/api/${endpoint}`
-      const params = new URLSearchParams()
-      
-      // ADD LOCALE PARAMETER FOR STRAPI I18N
-      params.append('locale', translationStore.currentLanguage)
-      
-      if (populate) params.append('populate', populate)
-      if (sort) params.append('sort', sort)
-      if (filters) params.append('filters', JSON.stringify(filters))
-      if (pagination) {
-        params.append('pagination[page]', pagination.page || 1)
-        params.append('pagination[pageSize]', pagination.pageSize || 25)
-      }
-      
-      if (params.toString()) {
-        url += `?${params.toString()}`
-      }
-      
-      console.log(`🌐 Fetching from Strapi: ${url}`)
-      console.log(`📍 Base URL: ${baseURL}`)
-      console.log(`🔗 Endpoint: ${endpoint}`)
-      console.log(`⚙️ Options:`, options)
-      
-      try {
-        const apiKey = import.meta.env.VITE_STRAPI_API_KEY || '5955b69bb6ac05398461d84b6e6bbdacf55148dde8c13dc0d356d79a5cbcc46f5ec9542e7bc9bdaadda20df6e88a42ac151001d28421b884b6c86ccf3a0814d5b791d4c22a81377ac03efe0f6184574166b35640a274bc3c5e1bb8e1e2491337fc159581f6c9b918c98589fe543ac28d40fc2a2374fd478be488b4d789417add'
-        
-        const response = await fetch(url, {
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${apiKey}`
-          }
-        })
-        
-        console.log(`📡 Response status for ${endpoint}:`, response.status)
-        
-        if (!response.ok) {
-          const errorText = await response.text()
-          console.error(`❌ HTTP error for ${endpoint}:`, {
-            status: response.status,
-            statusText: response.statusText,
-            url: url,
-            errorText: errorText
-          })
-          throw new Error(`HTTP error! status: ${response.status} - ${response.statusText}`)
-        }
-        
-        const data = await response.json()
-        console.log(`✅ Data received for ${endpoint}:`, data)
-        return data
-      } catch (error) {
-        console.error(`💥 Error fetching from ${endpoint}:`, {
-          message: error.message,
-          url: url,
-          baseURL: baseURL,
-          endpoint: endpoint
-        })
-        throw error
+      if (refetch && oldLanguage !== language) {
+        console.log(`🌐 Language changed from ${oldLanguage} to ${language}, refetching content...`)
+        this.fetchAllContent(true)
       }
     },
 
@@ -169,14 +144,12 @@ export const useContentStore = defineStore('content', {
         return this.home
       }
       
-      console.log('🏠 Fetching home content from Strapi...')
+      console.log('🏠 Fetching home content from Strapi Cloud...')
       this.loading.home = true
       this.errors.home = null
       
       try {
-        const response = await this.fetchFromStrapi('home', {
-          populate: '*'
-        })
+        const response = await strapiAPI.getHome(this.currentLanguage)
         
         console.log('🏠 Home response:', response)
         this.home = response.data
@@ -199,14 +172,12 @@ export const useContentStore = defineStore('content', {
         return this.about
       }
       
-      console.log('ℹ️ Fetching about content from Strapi...')
+      console.log('ℹ️ Fetching about content from Strapi Cloud...')
       this.loading.about = true
       this.errors.about = null
       
       try {
-        const response = await this.fetchFromStrapi('about', {
-          populate: '*'
-        })
+        const response = await strapiAPI.getAbout(this.currentLanguage)
         
         console.log('ℹ️ About response:', response)
         this.about = response.data
@@ -229,14 +200,12 @@ export const useContentStore = defineStore('content', {
         return this.saintLaurent
       }
       
-      console.log('🍷 Fetching Saint-Laurent content from Strapi...')
+      console.log('🍷 Fetching Saint-Laurent content from Strapi Cloud...')
       this.loading.saintLaurent = true
       this.errors.saintLaurent = null
       
       try {
-        const response = await this.fetchFromStrapi('saint-laurent', {
-          populate: '*'
-        })
+        const response = await strapiAPI.getSaintLaurent(this.currentLanguage)
         
         console.log('🍷 Saint-Laurent response:', response)
         this.saintLaurent = response.data
@@ -252,6 +221,34 @@ export const useContentStore = defineStore('content', {
       }
     },
 
+    // Fetch Global settings
+    async fetchGlobal(force = false) {
+      if (!force && this.isDataFresh('global') && this.global) {
+        console.log('🌐 Using cached global settings')
+        return this.global
+      }
+      
+      console.log('🌐 Fetching global settings from Strapi Cloud...')
+      this.loading.global = true
+      this.errors.global = null
+      
+      try {
+        const response = await strapiAPI.getGlobalSettings(this.currentLanguage)
+        
+        console.log('🌐 Global response:', response)
+        this.global = response.data
+        this.lastFetched.global = Date.now()
+        console.log('✅ Global settings loaded successfully')
+        return this.global
+      } catch (error) {
+        console.error('❌ Global settings error:', error.message)
+        this.errors.global = error.message
+        throw error
+      } finally {
+        this.loading.global = false
+      }
+    },
+
     // Fetch Products collection
     async fetchProducts(options = {}, force = false) {
       if (!force && this.isDataFresh('products') && this.products.length > 0) {
@@ -259,18 +256,16 @@ export const useContentStore = defineStore('content', {
         return this.products
       }
       
-      console.log('🛍️ Fetching products from Strapi...')
+      console.log('🛍️ Fetching products from Strapi Cloud...')
       this.loading.products = true
       this.errors.products = null
       
       try {
         const defaultOptions = {
-          populate: '*',
-          sort: 'createdAt:desc',
-          pagination: { pageSize: 100 }
+          locale: this.currentLanguage
         }
         
-        const response = await this.fetchFromStrapi('products', {
+        const response = await strapiAPI.getProducts({
           ...defaultOptions,
           ...options
         })
@@ -289,24 +284,23 @@ export const useContentStore = defineStore('content', {
       }
     },
 
+    // Fetch Blog collection
     async fetchBlog(options = {}, force = false) {
       if (!force && this.isDataFresh('blog') && this.blog.length > 0) {
         console.log('📝 Using cached blog posts')
         return this.blog
       }
       
-      console.log('📝 Fetching blog posts from Strapi...')
+      console.log('📝 Fetching blog posts from Strapi Cloud...')
       this.loading.blog = true
       this.errors.blog = null
       
       try {
         const defaultOptions = {
-          populate: '*',
-          sort: 'createdAt:desc',
-          pagination: { pageSize: 100 }
+          locale: this.currentLanguage
         }
         
-        const response = await this.fetchFromStrapi('blogs', { // Changed to 'blogs'
+        const response = await strapiAPI.getBlogPosts({
           ...defaultOptions,
           ...options
         })
@@ -325,9 +319,65 @@ export const useContentStore = defineStore('content', {
       }
     },
 
+    // Fetch Categories
+    async fetchCategories(type = 'product', force = false) {
+      if (!force && this.isDataFresh('categories') && this.categories.length > 0) {
+        console.log('📂 Using cached categories')
+        return this.categories
+      }
+      
+      console.log('📂 Fetching categories from Strapi Cloud...')
+      this.loading.categories = true
+      this.errors.categories = null
+      
+      try {
+        const response = await strapiAPI.getCategories(type, this.currentLanguage)
+        
+        console.log('📂 Categories response:', response)
+        this.categories = response.data || []
+        this.lastFetched.categories = Date.now()
+        console.log(`✅ Categories loaded successfully: ${this.categories.length} categories`)
+        return this.categories
+      } catch (error) {
+        console.error('❌ Categories error:', error.message)
+        this.errors.categories = error.message
+        throw error
+      } finally {
+        this.loading.categories = false
+      }
+    },
+
+    // Fetch Tags
+    async fetchTags(force = false) {
+      if (!force && this.isDataFresh('tags') && this.tags.length > 0) {
+        console.log('🏷️ Using cached tags')
+        return this.tags
+      }
+      
+      console.log('🏷️ Fetching tags from Strapi Cloud...')
+      this.loading.tags = true
+      this.errors.tags = null
+      
+      try {
+        const response = await strapiAPI.getTags(this.currentLanguage)
+        
+        console.log('🏷️ Tags response:', response)
+        this.tags = response.data || []
+        this.lastFetched.tags = Date.now()
+        console.log(`✅ Tags loaded successfully: ${this.tags.length} tags`)
+        return this.tags
+      } catch (error) {
+        console.error('❌ Tags error:', error.message)
+        this.errors.tags = error.message
+        throw error
+      } finally {
+        this.loading.tags = false
+      }
+    },
+
     // Fetch all content at once
     async fetchAllContent(force = false) {
-      console.log('🚀 Starting to fetch all content from Strapi...')
+      console.log('🚀 Starting to fetch all content from Strapi Cloud...')
       this.loading.all = true
       this.errors.general = null
       
@@ -336,14 +386,17 @@ export const useContentStore = defineStore('content', {
           this.fetchHome(force),
           this.fetchAbout(force),
           this.fetchSaintLaurent(force),
+          this.fetchGlobal(force),
           this.fetchProducts({}, force),
-          this.fetchBlog({}, force)
+          this.fetchBlog({}, force),
+          this.fetchCategories('product', force),
+          this.fetchTags(force)
         ])
         
         console.log('📊 All content fetch results:', results)
         
         // Log any failures
-        const contentTypes = ['home', 'about', 'saintLaurent', 'products', 'blog']
+        const contentTypes = ['home', 'about', 'saintLaurent', 'global', 'products', 'blog', 'categories', 'tags']
         results.forEach((result, index) => {
           if (result.status === 'rejected') {
             console.error(`❌ Failed to load ${contentTypes[index]}:`, result.reason)
@@ -351,6 +404,10 @@ export const useContentStore = defineStore('content', {
             console.log(`✅ Successfully loaded ${contentTypes[index]}`)
           }
         })
+        
+        // Return success count
+        const successCount = results.filter(r => r.status === 'fulfilled').length
+        console.log(`📈 Successfully loaded ${successCount}/${results.length} content types`)
         
       } catch (error) {
         console.error('💥 Error in fetchAllContent:', error)
@@ -361,6 +418,20 @@ export const useContentStore = defineStore('content', {
       }
     },
 
+    // Search content
+    async searchContent(query, contentTypes = ['products', 'blogs']) {
+      console.log(`🔍 Searching for: "${query}"`)
+      
+      try {
+        const results = await strapiAPI.search(query, contentTypes, this.currentLanguage)
+        console.log('🔍 Search results:', results)
+        return results
+      } catch (error) {
+        console.error('❌ Search error:', error.message)
+        throw error
+      }
+    },
+
     // Find product by slug
     findProductBySlug(slug) {
       return this.products.find(product => 
@@ -368,11 +439,42 @@ export const useContentStore = defineStore('content', {
       )
     },
 
+    // Fetch single product by slug
+    async fetchProductBySlug(slug) {
+      try {
+        const response = await strapiAPI.getProduct(slug, this.currentLanguage)
+        return response.data?.[0] || null
+      } catch (error) {
+        console.error('❌ Error fetching product:', error)
+        return null
+      }
+    },
+
     // Find blog post by slug
     findBlogPostBySlug(slug) {
       return this.blog.find(post => 
         post.attributes?.slug === slug || post.slug === slug
       )
+    },
+
+    // Fetch single blog post by slug
+    async fetchBlogPostBySlug(slug) {
+      try {
+        const response = await strapiAPI.getBlogPost(slug, this.currentLanguage)
+        return response.data?.[0] || null
+      } catch (error) {
+        console.error('❌ Error fetching blog post:', error)
+        return null
+      }
+    },
+
+    // Utility methods for media URLs
+    getMediaURL(media) {
+      return strapiAPI.getMediaURL(media)
+    },
+
+    getMediaURLs(mediaArray) {
+      return strapiAPI.getMediaURLs(mediaArray)
     },
 
     // Clear cache for specific content type
@@ -392,8 +494,12 @@ export const useContentStore = defineStore('content', {
       this.home = null
       this.about = null
       this.saintLaurent = null
+      this.global = null
       this.products = []
       this.blog = []
+      this.categories = []
+      this.tags = []
+      this.currentLanguage = 'en'
       
       Object.keys(this.loading).forEach(key => {
         this.loading[key] = false
@@ -408,16 +514,17 @@ export const useContentStore = defineStore('content', {
       })
     },
 
-    // Additional utility methods
-    
     // Get all content as a single object
     getAllContent() {
       return {
         home: this.home,
         about: this.about,
         saintLaurent: this.saintLaurent,
+        global: this.global,
         products: this.products,
-        blog: this.blog
+        blog: this.blog,
+        categories: this.categories,
+        tags: this.tags
       }
     },
 
@@ -431,10 +538,16 @@ export const useContentStore = defineStore('content', {
         case 'saint-laurent':
         case 'saintLaurent':
           return this.saintLaurent
+        case 'global':
+          return this.global
         case 'products':
           return this.products
         case 'blog':
           return this.blog
+        case 'categories':
+          return this.categories
+        case 'tags':
+          return this.tags
         default:
           return null
       }
@@ -473,10 +586,26 @@ export const useContentStore = defineStore('content', {
           return await this.fetchProducts({}, force)
         case 'blog':
           return await this.fetchBlog({}, force)
+        case 'categories':
+          return await this.fetchCategories('product', force)
+        case 'tags':
+          return await this.fetchTags(force)
         case 'all':
           return await this.fetchAllContent(force)
         default:
           throw new Error(`Unknown content type: ${type}`)
+      }
+    },
+
+    // Health check for Strapi connection
+    async checkConnection() {
+      try {
+        const isHealthy = await strapiAPI.healthCheck()
+        console.log(isHealthy ? '✅ Strapi connection is healthy' : '❌ Strapi connection failed')
+        return isHealthy
+      } catch (error) {
+        console.error('❌ Strapi health check error:', error)
+        return false
       }
     }
   }
