@@ -1,51 +1,55 @@
 <script setup>
 import ButtonMailing from '@/assets/ButtonMailing.vue';
 import ButtonBorder from '@/assets/ButtonBorder.vue';
+
+const props = defineProps({
+  translationStore: {
+    type: Object,
+    required: true
+  }
+})
 </script>
 
 <template>
-    <section data-bg="yellow">
-        <div class="contact">
-            <div class="is-content">
-                <h1 data-animate="fade" data-animate-duration="1000">Contactez<br>nous</h1>
-                <p data-animate="fade" data-animate-delay="150">Que vous ayez des suggestions, des questions ou simplement envie de partager votre expérience, nous sommes impatients de vous lire et de continuer à vous offrir le meilleur du cannabis de qualité supérieure.</p>
-                <a data-animate="fade" data-animate-delay="200">contact@cheerscannabis.com</a>
-                <p data-animate="fade" data-animate-delay="250">560-50, rue de La Gabelle<br>Varennes, QC , J3X 2J4</p>
-            </div>
-            <form class="is-form" data-animate="reveal" data-animate-delay="250">
-                <div>
-                    <label>Nom</label>
-                    <input placeholder="Votre nom"/>
-                </div>
-                <div>
-                    <label>Prénom</label>
-                    <input placeholder="Prénom"/>
-                </div>
-                <div>
-                    <label>Courriel</label>
-                    <input placeholder="Courriel"/>
-                </div>
-                <div>
-                    <label>Objet du message</label>
-                    <input placeholder="Sujet"/>
-                </div>
-                <div>
-                    <label>Message</label>
-                    <textarea placeholder="Message"></textarea>
-                </div>
-                <button>Envoyer<ButtonMailing/><ButtonBorder /></button>
-            </form>
+  <section data-bg="yellow">
+    <div class="contact">
+      <div class="is-content">
+        <h1 data-animate="fade" data-animate-duration="1000" v-html="props.translationStore.translations.contact[props.translationStore.currentLanguage].contactUs"></h1>
+        <p data-animate="fade" data-animate-delay="150">{{ props.translationStore.translations.contact[props.translationStore.currentLanguage].description }}</p>
+        <a data-animate="fade" data-animate-delay="200">{{ props.translationStore.translations.contact[props.translationStore.currentLanguage].email }}</a>
+        <p data-animate="fade" data-animate-delay="250" v-html="props.translationStore.translations.contact[props.translationStore.currentLanguage].address"></p>
+      </div>
+      <form class="is-form" data-animate="reveal" data-animate-delay="250">
+        <div>
+          <label>{{ props.translationStore.translations.contact[props.translationStore.currentLanguage].lastName }}</label>
+          <input :placeholder="props.translationStore.translations.contact[props.translationStore.currentLanguage].lastNamePlaceholder"/>
         </div>
-        <div class="overlay">
-            <div class="is-image">
-                <img speed="-0.5" src="@/assets/hero.png" alt="Contact Cover"/>
-            </div>
+        <div>
+          <label>{{ props.translationStore.translations.contact[props.translationStore.currentLanguage].firstName }}</label>
+          <input :placeholder="props.translationStore.translations.contact[props.translationStore.currentLanguage].firstNamePlaceholder"/>
         </div>
-    </section>
+        <div>
+          <label>{{ props.translationStore.translations.contact[props.translationStore.currentLanguage].emailLabel }}</label>
+          <input :placeholder="props.translationStore.translations.contact[props.translationStore.currentLanguage].emailPlaceholder"/>
+        </div>
+        <div>
+          <label>{{ props.translationStore.translations.contact[props.translationStore.currentLanguage].subject }}</label>
+          <input :placeholder="props.translationStore.translations.contact[props.translationStore.currentLanguage].subjectPlaceholder"/>
+        </div>
+        <div>
+          <label>{{ props.translationStore.translations.contact[props.translationStore.currentLanguage].message }}</label>
+          <textarea :placeholder="props.translationStore.translations.contact[props.translationStore.currentLanguage].messagePlaceholder"></textarea>
+        </div>
+        <button>{{ props.translationStore.translations.contact[props.translationStore.currentLanguage].send }}<ButtonMailing/><ButtonBorder /></button>
+      </form>
+    </div>
+    <div class="overlay">
+      <div class="is-image">
+        <img speed="-0.5" src="@/assets/hero.png" alt="Contact Cover"/>
+      </div>
+    </div>
+  </section>
 </template>
-
-
-
 
 <style scoped>
 section {

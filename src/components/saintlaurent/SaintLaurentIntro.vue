@@ -1,13 +1,37 @@
 <script setup>
-import SaintLaurentLogo from '@/assets/SaintLaurentLogo.vue';
+import { computed } from 'vue'
+import SaintLaurentLogo from '@/assets/SaintLaurentLogo.vue'
+
+const props = defineProps({
+  content: {
+    type: Object,
+    default: () => ({})
+  },
+  translationStore: {
+    type: Object,
+    required: true
+  }
+})
+
+// Get translations for Saint-Laurent section
+const t = computed(() => props.translationStore.t)
+
+// Get title from Strapi content or fallback to translations
+const introTitle1 = computed(() => {
+  return props.content?.IntroTitle1 || props.translationStore.translations.saintLaurent[props.translationStore.currentLanguage].introTitle1
+})
+
+const introTitle2 = computed(() => {
+  return props.content?.IntroTitle2 || props.translationStore.translations.saintLaurent[props.translationStore.currentLanguage].introTitle2
+})
 </script>
 
 <template>
   <section data-bg="green">
     <div class="intro">
       <div class="is-title">
-        <h2 data-animate="reveal">Saint Laurent partage <br>une vision commune</h2>
-        <h2 data-animate="reveal">avec Cheers <br>Cannabis</h2>
+        <h2 data-animate="reveal">{{ introTitle1 }}</h2>
+        <h2 data-animate="reveal">{{ introTitle2 }}</h2>
       </div>
       <div class="is-logo" data-animate="reveal" data-animate-delay="0" data-animate-duration="1000">
         <SaintLaurentLogo/>

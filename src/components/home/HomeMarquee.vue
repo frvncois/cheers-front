@@ -16,39 +16,39 @@
     <div class="marquee" ref="sectionRef">
       <div class="is-wrap">
         <div class="is-track" ref="marqueeRef">
-          <a href="https://www.instagram.com/cheerscannabis" target="_blank"class="is-items">
+          <a href="https://www.instagram.com/cheerscannabis" target="_blank" class="is-items">
             <div class="txt">
-              <h1>Suivez-nous</h1>
+              <h1>{{ translationStore.translations.home[translationStore.currentLanguage].followUs }}</h1>
             </div>
             <div class="img">
               <Element01 />
             </div>
             <div class="txt">
-              <h1>Sur instagram</h1>
+              <h1>{{ translationStore.translations.home[translationStore.currentLanguage].onInstagram }}</h1>
             </div>
             <div class="img">
               <Element02 />
             </div>
             <div class="txt">
-              <h1>Suivez-nous</h1>
+              <h1>{{ translationStore.translations.home[translationStore.currentLanguage].followUs }}</h1>
             </div>
             <div class="img">
               <Element03 />
             </div>
             <div class="txt">
-              <h1>Sur instagram</h1>
+              <h1>{{ translationStore.translations.home[translationStore.currentLanguage].onInstagram }}</h1>
             </div>
             <div class="img">
               <Element01 />
             </div>
             <div class="txt">
-              <h1>Suivez-nous</h1>
+              <h1>{{ translationStore.translations.home[translationStore.currentLanguage].followUs }}</h1>
             </div>
             <div class="img">
               <Element02 />
             </div>
             <div class="txt">
-              <h1>Sur instagram</h1>
+              <h1>{{ translationStore.translations.home[translationStore.currentLanguage].onInstagram }}</h1>
             </div>
             <div class="img">
               <Element03 />
@@ -59,8 +59,8 @@
     </div>
     <div class="about">
       <div class="is-title">
-        <h2 data-animate="reveal" data-animate-delay="500">Cultivé avec <br>passion</h2>
-        <h2 data-animate="reveal" data-animate-delay="500">Partagé avec <br>plaisir</h2>
+        <h2 data-animate="reveal" data-animate-delay="500" v-html="translationStore.translations.home[translationStore.currentLanguage].cultivatedWith"></h2>
+        <h2 data-animate="reveal" data-animate-delay="500" v-html="translationStore.translations.home[translationStore.currentLanguage].sharedWith"></h2>
       </div>
     </div>
   </section>
@@ -73,6 +73,14 @@ import Element02 from '@/assets/Element02.vue'
 import Element03 from '@/assets/Element03.vue'
 import { useContentStore } from '@/stores/content.js'
 
+const props = defineProps({
+  translationStore: {
+    type: Object,
+    required: true
+  }
+})
+
+const translationStore = props.translationStore
 const sectionRef = ref(null)
 const marqueeRef = ref(null)
 const contentStore = useContentStore()
@@ -90,13 +98,11 @@ const handleScroll = () => {
   const windowHeight = window.innerHeight
   
   const scrollProgress = Math.max(0, Math.min(1, (windowHeight - sectionTop) / (windowHeight + sectionHeight)))
-  
   const translateX = -scrollProgress * 50
   
   // Apply transform
   marquee.style.transform = `translateX(${translateX}%)`
 }
-
 
 const intro = computed(() => {
   return contentStore.home?.Intro || ''

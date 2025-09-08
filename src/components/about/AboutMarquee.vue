@@ -2,6 +2,13 @@
 import { ref, onMounted, onUnmounted, computed } from 'vue'
 import { useContentStore } from '@/stores/content.js'
 
+const props = defineProps({
+  translationStore: {
+    type: Object,
+    required: true
+  }
+})
+
 const contentStore = useContentStore()
 
 const intro = computed(() => {
@@ -54,14 +61,14 @@ onUnmounted(() => {
         <div class="is-items" ref="itemsRef">
           <div class="is-item">
             <div class="is-title">
-              <h1 data-animate="fade" data-animate-duration="1000">Une histoire<br>de famille</h1>
+              <h1 data-animate="fade" data-animate-duration="1000" v-html="props.translationStore.translations.about[props.translationStore.currentLanguage].familyStory"></h1>
             </div>
             <div class="is-content">
               <p data-animate="reveal" data-animate-duration="750">{{ intro }}</p>
             </div>
           </div>
           <div class="is-item">
-            <div class="is-image"data-animate="fade" data-animate-duration="1000">
+            <div class="is-image" data-animate="fade" data-animate-duration="1000">
               <img
                 v-if="introImage"
                 :src="introImage"
@@ -69,14 +76,14 @@ onUnmounted(() => {
                 data-animate="reveal"
                 data-animate-duration="2000"
               >
-              </div>
-              <h1 data-animate="reveal" data-animate-duration="1000">Depuis 2018</h1>
+            </div>
+            <h1 data-animate="reveal" data-animate-duration="1000">{{ props.translationStore.translations.about[props.translationStore.currentLanguage].since2018 }}</h1>
           </div>
           <div class="is-item">
-              <h1 data-animate="fade" data-animate-duration="750">À Propos</h1>
-              <p data-animate="reveal" data-animate-duration="750">{{ about }}</p>
+            <h1 data-animate="fade" data-animate-duration="750">{{ props.translationStore.translations.about[props.translationStore.currentLanguage].aboutTitle }}</h1>
+            <p data-animate="reveal" data-animate-duration="750">{{ about }}</p>
           </div>
-          <div class="is-item" >
+          <div class="is-item">
             <div class="is-image">
               <img
                 v-if="aboutImage"
@@ -85,14 +92,13 @@ onUnmounted(() => {
                 data-animate="reveal"
                 data-animate-duration="2000"
               >
-              </div>
+            </div>
           </div>
         </div>
       </div>
     </div>
   </section>
 </template>
-
 <style scoped>
 section {
   background: var(--light);

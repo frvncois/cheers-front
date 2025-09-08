@@ -1,18 +1,27 @@
+<script setup>
+const props = defineProps({
+  translationStore: {
+    type: Object,
+    required: true
+  }
+})
+</script>
+
 <template>
   <section data-bg="purple">
-        <div class="title">
-            <div class="is-content">
-                <div speed="0.5">
-                    <img src="@/assets/cup.png"/>
-                </div>
-                <p data-animate="fade" data-animate-duration="2500">Notre équipe travaille sans relâche pour perfectionner nos techniques de culture. Nous investissons continuellement dans la recherche et le développement pour rester à la pointe de l'industrie et répondre aux besoins de nos clients.</p>
-            </div>
-            <div class="is-bottom">
-                <h2 data-animate="reveal" data-animate-duration="1000">Cultivé avec<br>passion</h2>
-                <h2 data-animate="reveal" data-animate-duration="1000">Partagé<br>avec plaisir</h2>
-            </div>
+    <div class="title">
+      <div class="is-content">
+        <div speed="0.5">
+          <img src="@/assets/cup.png"/>
         </div>
-    </section>
+        <p data-animate="fade" data-animate-duration="2500">{{ props.translationStore.translations.products[props.translationStore.currentLanguage].teamDescription }}</p>
+      </div>
+      <div class="is-bottom">
+        <h2 data-animate="reveal" data-animate-duration="1000" v-html="props.translationStore.translations.products[props.translationStore.currentLanguage].cultivatedWithPassion"></h2>
+        <h2 data-animate="reveal" data-animate-duration="1000" v-html="props.translationStore.translations.products[props.translationStore.currentLanguage].sharedWithPleasure"></h2>
+      </div>
+    </div>
+  </section>
 </template>
 
 <style scoped>

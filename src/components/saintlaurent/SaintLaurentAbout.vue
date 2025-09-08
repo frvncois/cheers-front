@@ -1,26 +1,66 @@
 <script setup>
+import { computed } from 'vue'
 import ButtonBorder from '@/assets/ButtonBorder.vue'
+
+const props = defineProps({
+  content: {
+    type: Object,
+    default: () => ({})
+  },
+  translationStore: {
+    type: Object,
+    required: true
+  }
+})
+
+// Get translations
+const t = computed(() => props.translationStore.t)
+
+// Get content from Strapi or fallback to translations
+const aboutTitle = computed(() => {
+  return props.content?.AboutTitle || props.translationStore.translations.saintLaurent[props.translationStore.currentLanguage].aboutTitle
+})
+
+const aboutDescription1 = computed(() => {
+  return props.content?.AboutDescription1 || props.translationStore.translations.saintLaurent[props.translationStore.currentLanguage].aboutDescription1
+})
+
+const aboutTitle2 = computed(() => {
+  return props.content?.AboutTitle2 || props.translationStore.translations.saintLaurent[props.translationStore.currentLanguage].aboutTitle2
+})
+
+const aboutDescription2 = computed(() => {
+  return props.content?.AboutDescription2 || props.translationStore.translations.saintLaurent[props.translationStore.currentLanguage].aboutDescription2
+})
+
+const aboutDescription3 = computed(() => {
+  return props.content?.AboutDescription3 || props.translationStore.translations.saintLaurent[props.translationStore.currentLanguage].aboutDescription3
+})
+
+const whereToBuy = computed(() => {
+  return props.content?.WhereToBuy || props.translationStore.translations.saintLaurent[props.translationStore.currentLanguage].whereToBuy
+})
 </script>
 
 <template>
   <section data-bg="green">
     <div class="about">
       <div class="is-content">
-        <h2 data-animate="reveal" data-animate-delay="500">En savoir plus sur Saint-Laurent</h2>
+        <h2 data-animate="reveal" data-animate-delay="500">{{ aboutTitle }}</h2>
         <p data-animate="fade" data-animate-delay="350" data-animate-duration="500">
-          Nous nous engageons à offrir des produits de cannabis répondant aux plus hauts standards de qualité, en sélectionnant rigoureusement nos variétés et en contrôlant chaque étape de la production.
+          {{ aboutDescription1 }}
         </p>
-        <h2 data-animate="reveal" data-animate-delay="500">Découvrez nos produits disponible dans votre région</h2>
+        <h2 data-animate="reveal" data-animate-delay="500">{{ aboutTitle2 }}</h2>
         <p data-animate="fade" data-animate-delay="350" data-animate-duration="500">
-          Chaque plante est cultivée avec soin, récoltée à la main, lentement séchée et minutieusement manucurée. Ce processus rigoureux nous permet d’offrir un cannabis aux profils terpéniques riches. Nous croyons qu’un produit d’exception commence par une attention méticuleuse à chaque détail.
+          {{ aboutDescription2 }}
         </p>
       </div>
       <div class="is-content" data-animate="fade" data-animate-delay="250" data-animate-duration="200">
         <p data-animate="fade" data-animate-delay="350" data-animate-duration="500">
-            Saint-Laurent Cannabis partage une vision commune avec Cheers Cannabis : celle de fournir des produits de cannabis de qualité, tout en mettant l'accent sur la durabilité. Cette synergie se traduit par des collaborations sur des projets innovants et le partage de bonnes pratiques, renforçant ainsi notre engagement envers l'excellence et la satisfaction de notre clientèle.
+          {{ aboutDescription3 }}
         </p>
         <router-link to="/products">
-          <span>Où acheter</span>
+          <span>{{ whereToBuy }}</span>
           <ButtonBorder />
         </router-link>
       </div>

@@ -6,6 +6,13 @@ import Element01 from '@/assets/Element01.vue';
 import Element02 from '@/assets/Element02.vue';
 import Element03 from '@/assets/Element03.vue';
 
+const props = defineProps({
+  translationStore: {
+    type: Object,
+    required: true
+  }
+})
+
 const sectionRef = ref(null)
 const marqueeRef = ref(null)
 
@@ -41,42 +48,42 @@ onUnmounted(() => {
 
 <template>
   <section data-bg="purple">
-  <div class="marquee" ref="sectionRef">
+    <div class="marquee" ref="sectionRef">
       <div class="is-wrap">
         <div class="is-track" ref="marqueeRef">
           <div class="is-items">
             <div class="txt">
-              <h1>Cultivons</h1>
+              <h1>{{ props.translationStore.translations.footer[props.translationStore.currentLanguage].cultivons }}</h1>
             </div>
             <div class="img">
               <Element01 />
             </div>
             <div class="txt">
-              <h1>Ensemble, partageons</h1>
+              <h1>{{ props.translationStore.translations.footer[props.translationStore.currentLanguage].ensemblePartageons }}</h1>
             </div>
             <div class="img">
               <Element02 />
             </div>
             <div class="txt">
-              <h1>De la hauteur</h1>
+              <h1>{{ props.translationStore.translations.footer[props.translationStore.currentLanguage].delaHauteur }}</h1>
             </div>
             <div class="img">
               <Element03 />
             </div>
             <div class="txt">
-              <h1>Cultivons</h1>
+              <h1>{{ props.translationStore.translations.footer[props.translationStore.currentLanguage].cultivons }}</h1>
             </div>
             <div class="img">
               <Element01 />
             </div>
             <div class="txt">
-              <h1>Ensemble, partageons</h1>
+              <h1>{{ props.translationStore.translations.footer[props.translationStore.currentLanguage].ensemblePartageons }}</h1>
             </div>
             <div class="img">
               <Element02 />
             </div>
             <div class="txt">
-              <h1>De la hauteur</h1>
+              <h1>{{ props.translationStore.translations.footer[props.translationStore.currentLanguage].delaHauteur }}</h1>
             </div>
             <div class="img">
               <Element03 />
@@ -86,36 +93,36 @@ onUnmounted(() => {
       </div>
     </div>
     <footer>
-        <div class="is-logo" data-animate="reveal" data-animate-duration="1500">
+      <div class="is-logo" data-animate="reveal" data-animate-duration="1500">
         <CheersLogo/>
-        </div>
-        <ul>
-            <li data-animate="fade" data-animate-delay="500" data-animate-duration="1000">
-                <RouterLink to="/">Accueil</RouterLink>
-            </li>
-            <li data-animate="fade" data-animate-delay="600" data-animate-duration="1000">
-                <RouterLink to="/products">Produits</RouterLink>
-                <RouterLink to="/saint-laurent">Saint-Laurent</RouterLink>
-            </li>
-            <li data-animate="fade" data-animate-delay="700" data-animate-duration="1000">
-                <RouterLink to="/about">À Propos</RouterLink>
-                <RouterLink to="/blog">Blog</RouterLink>
-                <RouterLink to="/contact">Contact</RouterLink>
-            </li>
-            <li data-animate="fade" data-animate-delay="800" data-animate-duration="1000">
-              <a href="https://www.instagram.com/cheerscannabis" target="_blank">Instagram</a>
-              <a href="https://www.facebook.com/Cheerscannabinc" target="_blank">Facebook</a>
-              <a href="https://www.cheerscannabis.com/newsletter" target="_blank">Infolettre</a>
-            </li>
-            <li class="imprint" data-animate="fade" data-animate-delay="800" data-animate-duration="1000">
-              <CheersIcon/>
-            </li>
-        </ul>
-        <div class="imprint" data-animate="fade" data-animate-delay="400" data-animate-duration="1000">
-          <p>© 2025 cheerscannabis.com. Tous droits réservés</p>
-        </div>
+      </div>
+      <ul>
+        <li data-animate="fade" data-animate-delay="500" data-animate-duration="1000">
+          <RouterLink to="/">{{ props.translationStore.translations.navigation[props.translationStore.currentLanguage].home }}</RouterLink>
+        </li>
+        <li data-animate="fade" data-animate-delay="600" data-animate-duration="1000">
+          <RouterLink to="/products">{{ props.translationStore.translations.navigation[props.translationStore.currentLanguage].products }}</RouterLink>
+          <RouterLink to="/saint-laurent">{{ props.translationStore.translations.navigation[props.translationStore.currentLanguage].saintLaurent }}</RouterLink>
+        </li>
+        <li data-animate="fade" data-animate-delay="700" data-animate-duration="1000">
+          <RouterLink to="/about">{{ props.translationStore.translations.navigation[props.translationStore.currentLanguage].about }}</RouterLink>
+          <RouterLink to="/blog">{{ props.translationStore.translations.navigation[props.translationStore.currentLanguage].blog }}</RouterLink>
+          <RouterLink to="/contact">{{ props.translationStore.translations.navigation[props.translationStore.currentLanguage].contact }}</RouterLink>
+        </li>
+        <li data-animate="fade" data-animate-delay="800" data-animate-duration="1000">
+          <a href="https://www.instagram.com/cheerscannabis" target="_blank">{{ props.translationStore.translations.navigation[props.translationStore.currentLanguage].instagram }}</a>
+          <a href="https://www.facebook.com/Cheerscannabinc" target="_blank">{{ props.translationStore.translations.navigation[props.translationStore.currentLanguage].facebook }}</a>
+          <RouterLink to="/newsletter">{{ props.translationStore.translations.navigation[props.translationStore.currentLanguage].newsletter }}</RouterLink>
+        </li>
+        <li class="imprint" data-animate="fade" data-animate-delay="800" data-animate-duration="1000">
+          <CheersIcon/>
+        </li>
+      </ul>
+      <div class="imprint" data-animate="fade" data-animate-delay="400" data-animate-duration="1000">
+        <p>{{ props.translationStore.translations.footer[props.translationStore.currentLanguage].copyright }}</p>
+      </div>
     </footer>
-    </section>
+  </section>
 </template>
 
 <style scoped>

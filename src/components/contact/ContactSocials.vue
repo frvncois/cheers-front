@@ -1,22 +1,31 @@
+<script setup>
+const props = defineProps({
+  translationStore: {
+    type: Object,
+    required: true
+  }
+})
+</script>
+
 <template>
-<section data-bg="yellow">
+  <section data-bg="yellow">
     <div class="socials">
-        <div class="is-title">
-            <h1>Retrouvez Cheers sur les réseau sociaux</h1>
-            <p>Suivez-nous sur les réseaux sociaux ! Restez connectés pour les dernières nouvelles, offres exclusives et mises à jour sur nos produits.</p>
-        </div>
-        <div class="is-content">
+      <div class="is-title">
+        <h1>{{ props.translationStore.translations.contact[props.translationStore.currentLanguage].findUsOnSocial }}</h1>
+        <p>{{ props.translationStore.translations.contact[props.translationStore.currentLanguage].followUsDescription }}</p>
+      </div>
+      <div class="is-content">
         <a href="https://www.instagram.com/cheerscannabis" target="_blank">
-            <h2>Instagram</h2>
-            <p>@cheerscannabis</p>
+          <h2>{{ props.translationStore.translations.contact[props.translationStore.currentLanguage].instagram }}</h2>
+          <p>@cheerscannabis</p>
         </a>
         <a href="https://www.facebook.com/Cheerscannabinc" target="_blank">
-            <h2>Facebook</h2>
-            <p>@cheerscannabis</p>
+          <h2>{{ props.translationStore.translations.contact[props.translationStore.currentLanguage].facebook }}</h2>
+          <p>@cheerscannabis</p>
         </a>
-        </div>
+      </div>
     </div>
-</section>
+  </section>
 </template>
 
 <style scoped>

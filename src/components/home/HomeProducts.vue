@@ -1,3 +1,42 @@
+<template>
+  <section data-bg="purple">
+    <div class="slider">
+      <div class="is-header" data-animate="fade-up">
+        <div><h1 v-html="translationStore.translations.home[translationStore.currentLanguage].discoverOurProducts"></h1></div>
+        <div><router-link to="/products">{{ translationStore.translations.home[translationStore.currentLanguage].viewAllProducts }}<ButtonArrow /></router-link></div>
+      </div>
+      <div class="is-container">
+        <ul class="is-items"
+          ref="sliderRef"
+          @mousedown="startDrag"
+          @mousemove="drag"
+          @mouseup="endDrag"
+          @mouseleave="endDrag">
+          <li class="is-item" v-for="product in props.products" :key="product.id || product.Title">
+            <div class="is-header" data-animate="reveal">
+              <h1>{{ product.Title }}</h1>
+              <h2>{{ aromaText(product) }}</h2>
+            </div>
+            <div class="is-details" data-animate="fade">
+              <div><p>{{ translationStore.translations.home[translationStore.currentLanguage].thc }}</p>{{ rangeText(product.THCmin, product.THCmax) }}</div>
+              <div><p>{{ translationStore.translations.home[translationStore.currentLanguage].cbd }}</p>{{ rangeText(product.CBDmin, product.CBDmax) }}</div>
+              <div>
+                <img :src="product.Thumbnail?.url || ''" :alt="product.Title" />
+              </div>
+              <div class="is-link">
+                <router-link :to="{ name: 'product', params: { id: product.id || product.Title } }">{{ translationStore.translations.home[translationStore.currentLanguage].viewProduct }}</router-link>
+              </div>
+            </div>
+          </li>
+          <li v-if="!props.products?.length" class="is-item">
+            {{ translationStore.translations.home[translationStore.currentLanguage].noProductsAvailable }}
+          </li>
+        </ul>
+      </div>
+    </div>
+  </section>
+</template>
+
 <script setup>
 import { ref } from 'vue'
 import ButtonArrow from '@/assets/ButtonArrow.vue'
@@ -6,9 +45,14 @@ const props = defineProps({
   products: {
     type: Array,
     default: () => []
+  },
+  translationStore: {
+    type: Object,
+    required: true
   }
 })
 
+const translationStore = props.translationStore
 const sliderRef = ref(null)
 const isDragging = ref(false)
 const startX = ref(0)
@@ -31,7 +75,9 @@ const drag = (e) => {
   el.scrollLeft = scrollLeft.value - walk
 }
 
-const endDrag = () => { isDragging.value = false }
+const endDrag = () => { 
+  isDragging.value = false 
+}
 
 const aromaText = (product) => {
   if (!product.Aroma?.notes) return ''
@@ -44,44 +90,8 @@ const rangeText = (min, max) => {
   return `${min || '0'} - ${max || '0'}`
 }
 </script>
-<template>
-  <section data-bg="purple">
-    <div class="slider">
-      <div class="is-header" data-animate="fade-up">
-        <div><h1>Découvrez<br>nos produits</h1></div>
-        <div><router-link to="/products">Voir tous nos produits<ButtonArrow /></router-link></div>
-      </div>
-      <div class="is-container">
-        <ul class="is-items"
-          ref="sliderRef"
-          @mousedown="startDrag"
-          @mousemove="drag"
-          @mouseup="endDrag"
-          @mouseleave="endDrag">
-          <li class="is-item" v-for="product in props.products" :key="product.id || product.Title">
-            <div class="is-header" data-animate="reveal">
-              <h1>{{ product.Title }}</h1>
-              <h2>{{ aromaText(product) }}</h2>
-            </div>
-            <div class="is-details" data-animate="fade">
-              <div><p>THC</p>{{ rangeText(product.THCmin, product.THCmax) }}</div>
-              <div><p>CBD</p>{{ rangeText(product.CBDmin, product.CBDmax) }}</div>
-              <div>
-                <img :src="product.Thumbnail?.url || ''" :alt="product.Title" />
-              </div>
-              <div class="is-link">
-                <router-link :to="{ name: 'product', params: { id: product.id || product.Title } }">Voir le produit</router-link>
-              </div>
-            </div>
-          </li>
-          <li v-if="!props.products?.length" class="is-item">
-            Aucun produit disponible.
-          </li>
-        </ul>
-      </div>
-    </div>
-  </section>
-</template>
+
+
 <style scoped>
 .slider {
   display: flex;

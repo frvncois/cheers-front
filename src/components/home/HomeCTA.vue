@@ -1,21 +1,69 @@
 <template>
   <section data-bg="purple">
-  <div class="cta">
-    <div class="is-content">
-      <h2 data-animate="fade" data-animate-delay="500">Producteur passioné</h2>
-      <div class="is-title">
-        <div><h1 data-animate="fade-up" data-animate-delay="150" data-animate-duration="1000">Produire un <span>cannabis</span></h1></div>
-        <div><h1 data-animate="fade-up" data-animate-delay="350" data-animate-duration="1000">qui fait <span>honneur</span> à</h1></div>
-        <div><h1 data-animate="fade-up" data-animate-delay="500" data-animate-duration="1000">la <span>culture</span></h1></div>
+    <div class="cta">
+      <div class="is-content">
+        <h2 data-animate="fade" data-animate-delay="500">
+          {{ translationStore.translations.home[translationStore.currentLanguage].passionateProducer }}
+        </h2>
+        <div class="is-title">
+          <div>
+            <h1 
+              data-animate="fade-up" 
+              data-animate-delay="150" 
+              data-animate-duration="1000"
+            >
+              {{ translationStore.translations.home[translationStore.currentLanguage].produceA }} 
+              <span>{{ translationStore.translations.home[translationStore.currentLanguage].cannabis }}</span>
+            </h1>
+          </div>
+          <div>
+            <h1 
+              data-animate="fade-up" 
+              data-animate-delay="350" 
+              data-animate-duration="1000"
+            >
+              {{ translationStore.translations.home[translationStore.currentLanguage].thatHonors }} 
+              <span>{{ translationStore.translations.home[translationStore.currentLanguage].honor }}</span> 
+              <template v-if="translationStore.translations.home[translationStore.currentLanguage].toThe">
+                {{ translationStore.translations.home[translationStore.currentLanguage].toThe }}
+              </template>
+            </h1>
+          </div>
+          <div>
+            <h1 
+              data-animate="fade-up" 
+              data-animate-delay="500" 
+              data-animate-duration="1000"
+            >
+              <template v-if="translationStore.translations.home[translationStore.currentLanguage].toThe">
+                {{ translationStore.translations.home[translationStore.currentLanguage].toThe }} 
+              </template>
+              <span>{{ translationStore.translations.home[translationStore.currentLanguage].culture }}</span>
+            </h1>
+          </div>
+        </div>
+        <h2 data-animate="fade" data-animate-delay="500">
+          {{ translationStore.translations.home[translationStore.currentLanguage].qualityCannabis }}
+        </h2>
       </div>
-      <h2 data-animate="fade" data-animate-delay="500">Cannabis de qualité</h2>
+      <div speed="-0.5" class="is-image">
+        <img src="@/assets/cup.png"/>
       </div>
-    <div speed="-0.5" class="is-image">
-      <img src="@/assets/cup.png"/>
     </div>
-  </div>
-</section>
+  </section>
 </template>
+
+<script setup>
+const props = defineProps({
+  translationStore: {
+    type: Object,
+    required: true
+  }
+})
+
+const translationStore = props.translationStore
+</script>
+
 
 <style scoped>
 .cta {

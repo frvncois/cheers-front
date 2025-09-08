@@ -1,12 +1,28 @@
 <script setup>
-import SaintLaurentLogo from '@/assets/SaintLaurentLogo.vue';
+import { computed } from 'vue'
+import SaintLaurentLogo from '@/assets/SaintLaurentLogo.vue'
+
+const props = defineProps({
+  content: {
+    type: Object,
+    default: () => ({})
+  },
+  translationStore: {
+    type: Object,
+    required: true
+  }
+})
+
 </script>
 
 <template>
   <section data-bg="green">
     <div class="footer">
-        <img src="@/assets/flower.png" speed="-0.75"/>
-      <div class="is-logo "data-animate="reveal" data-animate-delay="0" data-animate-duration="1000">
+      <img src="@/assets/flower.png"
+        speed="-0.75"
+        alt="Saint-Laurent Cannabis"
+      />
+      <div class="is-logo" data-animate="reveal" data-animate-delay="0" data-animate-duration="1000">
         <SaintLaurentLogo/>
       </div>
     </div>

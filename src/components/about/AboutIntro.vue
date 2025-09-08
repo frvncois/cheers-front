@@ -2,6 +2,13 @@
 import { computed } from 'vue'
 import { useContentStore } from '@/stores/content.js'
 
+const props = defineProps({
+  translationStore: {
+    type: Object,
+    required: true
+  }
+})
+
 const contentStore = useContentStore()
 
 const mission = computed(() => {
@@ -15,24 +22,24 @@ const missionImage = computed(() => {
 </script>
 
 <template>
-    <section data-bg="light">
-        <div class="intro">
-            <div class="is-content">
-                <h2 data-animate="fade" data-animate-duration="1000"> Chaque gramme<br>est le fruit de<br>notre savoir-faire</h2>
-                <p data-animate="fade" data-animate-duration="1000">{{ mission }}</p>
-            </div>
-            <div class="is-action">
-              <img
-                v-if="missionImage"
-                :src="missionImage"
-                alt="Mission image"
-                data-animate="reveal"
-                data-animate-duration="2000"
-              >
-                <button>Contactez-nous</button>
-            </div>
-        </div>
-    </section>
+  <section data-bg="light">
+    <div class="intro">
+      <div class="is-content">
+        <h2 data-animate="fade" data-animate-duration="1000" v-html="props.translationStore.translations.about[props.translationStore.currentLanguage].craftsmanshipTagline"></h2>
+        <p data-animate="fade" data-animate-duration="1000">{{ mission }}</p>
+      </div>
+      <div class="is-action">
+        <img
+          v-if="missionImage"
+          :src="missionImage"
+          alt="Mission image"
+          data-animate="reveal"
+          data-animate-duration="2000"
+        >
+        <button>{{ props.translationStore.translations.about[props.translationStore.currentLanguage].contactUs }}</button>
+      </div>
+    </div>
+  </section>
 </template>
 
 <style scoped>

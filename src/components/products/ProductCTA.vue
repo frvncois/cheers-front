@@ -1,12 +1,22 @@
+<script setup>
+const props = defineProps({
+  translationStore: {
+    type: Object,
+    required: true
+  }
+})
+</script>
+
 <template>
-    <div class="cta">
-        <div class="is-content">
-            <h2 data-animate="fade-up" data-animate-delay="500">Cultivé avec <br>passion</h2>
-            <h1 data-animate="reveal" data-animate-duration="2000">Chaque gramme<br>est le fruit de<br>notre savoir-faire</h1>
-            <h2 data-animate="fade-up" data-animate-delay="500">Partagé<br>avec plaisir</h2>
-        </div>
+  <div class="cta">
+    <div class="is-content">
+      <h2 data-animate="fade-up" data-animate-delay="500" v-html="props.translationStore.translations.products[props.translationStore.currentLanguage].cultivatedWithPassion"></h2>
+      <h1 data-animate="reveal" data-animate-duration="2000" v-html="props.translationStore.translations.products[props.translationStore.currentLanguage].craftsmanshipTitle"></h1>
+      <h2 data-animate="fade-up" data-animate-delay="500" v-html="props.translationStore.translations.products[props.translationStore.currentLanguage].sharedWithPleasure"></h2>
     </div>
+  </div>
 </template>
+
 
 <style scoped>
 .cta {

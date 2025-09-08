@@ -1,9 +1,8 @@
 <script setup>
-import AboutMarquee from '@/components/about/AboutMarquee.vue';
-import AboutIntro from '@/components/about/AboutIntro.vue';
 import GlobalFooter from '@/components/global/GlobalFooter.vue';
 import GlobalTestimonials from '@/components/global/GlobalTestimonials.vue';
 import GlobalTextMarquee from '@/components/global/GlobalTextMarquee.vue';
+import GlobalMailinglist from '@/components/global/GlobalMailinglist.vue';
 
 const props = defineProps({
   translationStore: {
@@ -14,9 +13,6 @@ const props = defineProps({
 </script>
 
 <template>
-  <AboutMarquee :translation-store="props.translationStore" />
-  <AboutIntro :translation-store="props.translationStore" />
-  <GlobalTestimonials :translation-store="props.translationStore" />
-  <GlobalTextMarquee :translation-store="props.translationStore" />
+  <GlobalMailinglist :translation-store="props.translationStore" />
   <GlobalFooter :translation-store="props.translationStore" />
 </template>

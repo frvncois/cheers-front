@@ -1,13 +1,57 @@
 <script setup>
-import { ref, onMounted, onUnmounted } from 'vue'
-import CheersLogo from '@/assets/CheersLogo.vue';
-import CheersIcon from '@/assets/CheersIcon.vue';
-import Element01 from '@/assets/Element01.vue';
-import Element02 from '@/assets/Element02.vue';
-import Element03 from '@/assets/Element03.vue';
+import { ref, onMounted, onUnmounted, computed } from 'vue'
+import { useContentStore } from '@/stores/content.js'
+import CheersLogo from '@/assets/CheersLogo.vue'
+import CheersIcon from '@/assets/CheersIcon.vue'
+import Element01 from '@/assets/Element01.vue'
+import Element02 from '@/assets/Element02.vue'
+import Element03 from '@/assets/Element03.vue'
 
+const props = defineProps({
+  content: {
+    type: Object,
+    default: () => ({})
+  },
+  translationStore: {
+    type: Object,
+    required: true
+  }
+})
+
+const contentStore = useContentStore()
 const sectionRef = ref(null)
 const marqueeRef = ref(null)
+
+// Get marquee text from Strapi or use translations
+const marqueeText1 = computed(() => {
+  return props.content?.MarqueeText1 || 'Cultivons'
+})
+
+const marqueeText2 = computed(() => {
+  return props.content?.MarqueeText2 || 'Ensemble, partageons'
+})
+
+const marqueeText3 = computed(() => {
+  return props.content?.MarqueeText3 || 'De la hauteur'
+})
+
+// Navigation links using direct translation access
+const navLinks = computed(() => ({
+  home: props.translationStore.translations.navigation[props.translationStore.currentLanguage].home,
+  products: props.translationStore.translations.navigation[props.translationStore.currentLanguage].products,
+  saintLaurent: props.translationStore.translations.navigation[props.translationStore.currentLanguage].saintLaurent,
+  about: props.translationStore.translations.navigation[props.translationStore.currentLanguage].about,
+  blog: props.translationStore.translations.navigation[props.translationStore.currentLanguage].blog,
+  contact: props.translationStore.translations.navigation[props.translationStore.currentLanguage].contact,
+  instagram: props.translationStore.translations.navigation[props.translationStore.currentLanguage].instagram,
+  facebook: props.translationStore.translations.navigation[props.translationStore.currentLanguage].facebook,
+  newsletter: props.translationStore.translations.navigation[props.translationStore.currentLanguage].newsletter
+}))
+
+// Copyright text using direct translation access
+const copyrightText = computed(() => {
+  return props.translationStore.translations.footer[props.translationStore.currentLanguage].copyright
+})
 
 const handleScroll = () => {
   if (!sectionRef.value || !marqueeRef.value) return
@@ -41,42 +85,42 @@ onUnmounted(() => {
 
 <template>
   <section data-bg="green">
-  <div class="marquee" ref="sectionRef">
+    <div class="marquee" ref="sectionRef">
       <div class="is-wrap">
         <div class="is-track" ref="marqueeRef">
           <div class="is-items">
             <div class="txt">
-              <h1>Cultivons</h1>
+              <h1>{{ marqueeText1 }}</h1>
             </div>
             <div class="img">
               <Element01 />
             </div>
             <div class="txt">
-              <h1>Ensemble, partageons</h1>
+              <h1>{{ marqueeText2 }}</h1>
             </div>
             <div class="img">
               <Element02 />
             </div>
             <div class="txt">
-              <h1>De la hauteur</h1>
+              <h1>{{ marqueeText3 }}</h1>
             </div>
             <div class="img">
               <Element03 />
             </div>
             <div class="txt">
-              <h1>Cultivons</h1>
+              <h1>{{ marqueeText1 }}</h1>
             </div>
             <div class="img">
               <Element01 />
             </div>
             <div class="txt">
-              <h1>Ensemble, partageons</h1>
+              <h1>{{ marqueeText2 }}</h1>
             </div>
             <div class="img">
               <Element02 />
             </div>
             <div class="txt">
-              <h1>De la hauteur</h1>
+              <h1>{{ marqueeText3 }}</h1>
             </div>
             <div class="img">
               <Element03 />
@@ -85,38 +129,40 @@ onUnmounted(() => {
         </div>
       </div>
     </div>
+    
     <footer>
-        <div class="is-logo" data-animate="reveal" data-animate-duration="1500">
+      <div class="is-logo" data-animate="reveal" data-animate-duration="1500">
         <CheersLogo/>
-        </div>
-        <ul>
-            <li data-animate="fade" data-animate-delay="500" data-animate-duration="1000">
-                <RouterLink to="/">Accueil</RouterLink>
-            </li>
-            <li data-animate="fade" data-animate-delay="600" data-animate-duration="1000">
-                <RouterLink to="/products">Produits</RouterLink>
-                <RouterLink to="/saint-laurent">Saint-Laurent</RouterLink>
-            </li>
-            <li data-animate="fade" data-animate-delay="700" data-animate-duration="1000">
-                <RouterLink to="/about">À Propos</RouterLink>
-                <RouterLink to="/blog">Blog</RouterLink>
-                <RouterLink to="/contact">Contact</RouterLink>
-            </li>
-            <li data-animate="fade" data-animate-delay="800" data-animate-duration="1000">
-              <a href="https://www.instagram.com/cheerscannabis" target="_blank">Instagram</a>
-              <a href="https://www.facebook.com/Cheerscannabinc" target="_blank">Facebook</a>
-              <a href="https://www.cheerscannabis.com/newsletter" target="_blank">Infolettre</a>
-            </li>
-            <li class="imprint" data-animate="fade" data-animate-delay="800" data-animate-duration="1000">
-              <CheersIcon/>
-            </li>
-        </ul>
-        <div class="imprint" data-animate="fade" data-animate-delay="800" data-animate-duration="1000">
-          <p>© 2025 cheerscannabis.com. Tous droits réservés</p>
-        </div>
+      </div>
+      <ul>
+        <li data-animate="fade" data-animate-delay="500" data-animate-duration="1000">
+          <RouterLink to="/">{{ navLinks.home }}</RouterLink>
+        </li>
+        <li data-animate="fade" data-animate-delay="600" data-animate-duration="1000">
+          <RouterLink to="/products">{{ navLinks.products }}</RouterLink>
+          <RouterLink to="/saint-laurent">{{ navLinks.saintLaurent }}</RouterLink>
+        </li>
+        <li data-animate="fade" data-animate-delay="700" data-animate-duration="1000">
+          <RouterLink to="/about">{{ navLinks.about }}</RouterLink>
+          <RouterLink to="/blog">{{ navLinks.blog }}</RouterLink>
+          <RouterLink to="/contact">{{ navLinks.contact }}</RouterLink>
+        </li>
+        <li data-animate="fade" data-animate-delay="800" data-animate-duration="1000">
+          <a href="https://www.instagram.com/cheerscannabis" target="_blank">{{ navLinks.instagram }}</a>
+          <a href="https://www.facebook.com/Cheerscannabinc" target="_blank">{{ navLinks.facebook }}</a>
+          <a href="https://www.cheerscannabis.com/newsletter" target="_blank">{{ navLinks.newsletter }}</a>
+        </li>
+        <li class="imprint" data-animate="fade" data-animate-delay="800" data-animate-duration="1000">
+          <CheersIcon/>
+        </li>
+      </ul>
+      <div class="imprint" data-animate="fade" data-animate-delay="800" data-animate-duration="1000">
+        <p>{{ copyrightText }}</p>
+      </div>
     </footer>
-    </section>
+  </section>
 </template>
+
 
 <style scoped>
 .marquee {

@@ -1,28 +1,10 @@
-<script setup>
-import { computed } from 'vue'
-import { useContentStore } from '@/stores/content.js'
-import Element01 from '@/assets/Element01.vue'
-import ButtonBorder from '@/assets/ButtonBorder.vue'
-
-const contentStore = useContentStore()
-
-const intro = computed(() => {
-  return contentStore.home?.Intro || ''
-})
-
-const introImage = computed(() => {
-  if (!contentStore.home?.Intro_Image?.url) return null
-  return contentStore.home.Intro_Image.url
-})
-</script>
-
 <template>
   <section>
     <div class="intro">
       <div class="is-title">
-        <h2 data-animate="reveal">Cultivé avec <br>passion</h2>
+        <h2 data-animate="reveal" v-html="translationStore.translations.home[translationStore.currentLanguage].cultivatedWith"></h2>
         <img src="@/assets/hero.png" speed="-0.5"/>
-        <h2 data-animate="reveal">Partagé avec <br>plaisir</h2>
+        <h2 data-animate="reveal" v-html="translationStore.translations.home[translationStore.currentLanguage].sharedWith"></h2>
       </div>
     </div>
     <div class="about">
@@ -31,12 +13,12 @@ const introImage = computed(() => {
           {{ intro }}
         </p>
         <button data-animate="fade" data-animate-delay="550" data-animate-duration="1000">
-          <router-link to="/about">En savoir plus</router-link>
+          <router-link to="/about">{{ translationStore.translations.home[translationStore.currentLanguage].learnMore }}</router-link>
         </button>
       </div>
       <div class="is-actions" data-animate="fade" data-animate-delay="250" data-animate-duration="200">
         <router-link to="/products">
-          <span>Où acheter</span>
+          <span>{{ translationStore.translations.home[translationStore.currentLanguage].whereToBuy }}</span>
           <ButtonBorder />
         </router-link>
       </div>
@@ -52,13 +34,39 @@ const introImage = computed(() => {
         >
       </div>
       <div class="is-title">
-        <h2 data-animate="reveal" data-animate-delay="500">Cultivé avec <br>passion</h2>
+        <h2 data-animate="reveal" data-animate-delay="500" v-html="translationStore.translations.home[translationStore.currentLanguage].cultivatedWith"></h2>
         <Element01/>
-        <h2 data-animate="reveal" data-animate-delay="500">Partagé avec <br>plaisir</h2>
+        <h2 data-animate="reveal" data-animate-delay="500" v-html="translationStore.translations.home[translationStore.currentLanguage].sharedWith"></h2>
       </div>
     </div>
   </section>
 </template>
+
+<script setup>
+import { computed } from 'vue'
+import { useContentStore } from '@/stores/content.js'
+import Element01 from '@/assets/Element01.vue'
+import ButtonBorder from '@/assets/ButtonBorder.vue'
+
+const props = defineProps({
+  translationStore: {
+    type: Object,
+    required: true
+  }
+})
+
+const translationStore = props.translationStore
+const contentStore = useContentStore()
+
+const intro = computed(() => {
+  return contentStore.home?.Intro || ''
+})
+
+const introImage = computed(() => {
+  if (!contentStore.home?.Intro_Image?.url) return null
+  return contentStore.home.Intro_Image.url
+})
+</script>
 
 <style scoped>
 .intro {

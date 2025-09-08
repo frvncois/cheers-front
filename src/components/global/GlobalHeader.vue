@@ -44,10 +44,10 @@
 				<li>
 					<a href="https://www.instagram.com/cheerscannabis" target="_blank">{{ translationStore.translations.navigation[translationStore.currentLanguage].instagram }}</a>
 					<a href="https://www.facebook.com/Cheerscannabinc" target="_blank">{{ translationStore.translations.navigation[translationStore.currentLanguage].facebook }}</a>
-					<a href="https://www.cheerscannabis.com/newsletter" target="_blank">{{ translationStore.translations.navigation[translationStore.currentLanguage].newsletter }}</a>
+					<router-link to="/newsletter">{{ translationStore.translations.navigation[translationStore.currentLanguage].newsletter }}</router-link>
 				</li>
 				<li>
-					<button @click="handleLanguageSwitch" class="language-btn">
+					<button @click="handleLanguageSwitch">
 						{{ languageButtonText }}
 					</button>
 					<Element01/>
@@ -68,6 +68,8 @@ import CheersLogo from '@/assets/CheersLogo.vue';
 import Element01 from '@/assets/Element01.vue';
 import { useTranslationStore } from '@/stores/translation.js';
 import ButtonClose from '@/assets/ButtonClose.vue';
+import { useContentStore } from '@/stores/content.js';
+const contentStore = useContentStore(); 
 
 const router = useRouter();
 const translationStore = useTranslationStore();
@@ -79,15 +81,25 @@ const currentHeaderColor = ref('var(--yellow)');
 const currentNavBg = ref('var(--yellow)');
 const currentNavText = ref('var(--purple)');
 
-// Language switcher logic
+// Language switcher logic - FIXED: Use 'fr-CA' instead of 'fr'
 const languageButtonText = computed(() => {
-	return translationStore.currentLanguage === 'fr' ? 'English' : 'Français'
+	return translationStore.currentLanguage === 'fr-CA' ? 'English' : 'Français'
 });
 
-const handleLanguageSwitch = () => {
-	translationStore.toggleLanguage();
-	console.log(`🌐 Language switched to: ${translationStore.currentLanguage}`);
-};
+// FIXED: Close menu when language is switched
+const handleLanguageSwitch = async () => {
+  const newLanguage = translationStore.currentLanguage === 'fr-CA' ? 'en' : 'fr-CA'
+  
+  // Update both stores
+  translationStore.setLanguage(newLanguage)
+  contentStore.setLanguage(newLanguage)
+  
+  // Fetch content for new language
+  await contentStore.fetchAllContent(true)
+  
+  // Close the nav menu
+  closeNav()
+}
 
 const toggleNav = () => {
 	if (isNavVisible.value) {
@@ -173,6 +185,7 @@ onUnmounted(() => {
 	window.removeEventListener('scroll', updateColors);
 });
 
+// FIXED: Close menu when navigating to different routes
 watch(() => router.currentRoute.value.path, () => {
 	if (isNavVisible.value) {
 		closeNav();
@@ -332,7 +345,7 @@ nav .is-logo svg {
 	height: 100%;
 }
 
-.language-btn {
+button {
 	background: transparent;
 	border: 1px solid currentColor;
 	color: inherit;
@@ -343,11 +356,6 @@ nav .is-logo svg {
 	font-size: var(--font-sm);
 	transition: all 0.3s ease;
 	margin-bottom: var(--space-sm);
-}
-
-.language-btn:hover {
-	background: currentColor;
-	color: var(--yellow);
 }
 
 @media screen and (max-width: 768px) {
@@ -391,6 +399,21 @@ nav .is-logo svg {
 	nav .is-logo {
 		top: 2.5em;
 	}
+
+	nav ul li:last-child {
+		position: fixed;
+		top: var(--space-rg);
+		right: 0;
+		left: 0;
+		bottom: auto;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		> svg {
+			display: none;
+		}
+	}
+
 
 	.language-btn {
 		font-size: var(--font-sm);

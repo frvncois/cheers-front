@@ -1,7 +1,60 @@
+<template>
+  <section data-bg="purple">
+    <div class="tagline">
+      <div class="is-content">
+        <div class="is-image">
+          <img
+            v-if="introImage"
+            :src="introImage"
+            alt="Intro image"
+            data-animate="reveal"
+            data-animate-duration="2000"
+            data-animate-delay="0"
+            speed="-0.75"
+          >
+        </div>
+        <div class="is-title" animte="fade-up">
+          <h1 v-html="translationStore.translations.home[translationStore.currentLanguage].taglineText"></h1>
+        </div>
+        <div class="is-image">
+          <img
+            v-if="intro2Image"
+            :src="intro2Image"
+            alt="Intro image"
+            data-animate="reveal"
+            data-animate-duration="2000"
+            data-animate-delay="0"
+            speed="0.75"
+          >
+        </div>
+      </div>
+      <div class="is-cover">
+        <img
+          v-if="intro3Image"
+          :src="intro3Image"
+          alt="Intro image"
+          data-animate="reveal"
+          data-animate-duration="2000"
+          data-animate-delay="0"
+          speed="0.75"
+        >
+      </div>
+    </div>
+  </section>
+</template>
+
 <script setup>
 import { computed } from 'vue'
 import { useContentStore } from '@/stores/content.js'
 
+const props = defineProps({
+  translationStore: {
+    type: Object,
+    required: true
+  }
+})
+
+const translationStore = props.translationStore
 const contentStore = useContentStore()
 
 const intro = computed(() => {
@@ -23,51 +76,6 @@ const intro3Image = computed(() => {
   return contentStore.home.Image03_CTA.url
 })
 </script>
-
-<template>
-  <section data-bg="purple">
-    <div class="tagline">
-      <div class="is-content">
-        <div class="is-image">
-        <img
-          v-if="introImage"
-          :src="introImage"
-          alt="Intro image"
-          data-animate="reveal"
-          data-animate-duration="2000"
-          data-animate-delay="0"
-          speed="-0.75"
-        >
-        </div>
-        <div class="is-title" animte="fade-up">
-          <h1>Du premier plan<br>au dernier puff,<br>on cultive l'excellence</h1>
-        </div>
-        <div class="is-image">
-        <img
-          v-if="intro2Image"
-          :src="intro2Image"
-          alt="Intro image"
-          data-animate="reveal"
-          data-animate-duration="2000"
-          data-animate-delay="0"
-          speed="0.75"
-        >
-        </div>
-      </div>
-      <div class="is-cover">
-        <img
-          v-if="intro3Image"
-          :src="intro3Image"
-          alt="Intro image"
-          data-animate="reveal"
-          data-animate-duration="2000"
-          data-animate-delay="0"
-          speed="0.75"
-        >
-      </div>
-    </div>
-  </section>
-</template>
 
 <style scoped>
 .tagline {

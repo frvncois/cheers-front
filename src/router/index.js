@@ -7,6 +7,7 @@ import SaintLaurentView from '@/views/SaintLaurentView.vue'
 import BlogView from '@/views/BlogView.vue'
 import ArticleView from '@/views/ArticleView.vue'
 import ContactView from '@/views/ContactView.vue'
+import NewsletterView from '@/views/NewsletterView.vue'
 
 const routes = [
   { path: '/', name: 'home', component: HomeView },
@@ -16,6 +17,7 @@ const routes = [
   { path: '/products/:id', name: 'product', component: SingleView },
   { path: '/blog', name: 'blog', component: BlogView },
   { path: '/blog/:id', name: 'article', component: ArticleView },
+  { path: '/newsletter', name: 'newsletter', component: NewsletterView },
   { path: '/contact', name: 'contact', component: ContactView },
 ]
 

@@ -26,10 +26,10 @@ const contentLoaded = ref(false)
 
 // Location mapping for availability
 const locationAvailabilityMap = {
-  'QC': 'SQDC',        
-  'ON': 'OCS',         
-  'DE': 'International', 
-  'UK': 'International'  
+  'QC': 'SQDC',
+  'ON': 'OCS',
+  'DE': 'International',
+  'UK': 'International'
 }
 
 // Computed property to filter products based on user location
@@ -52,24 +52,24 @@ const filteredProducts = computed(() => {
   )
 })
 
-// Handle user verification - this now controls when to show main content
+// Handle user verification
 const handleUserVerified = async (verificationData) => {
-  // Set language based on user location
-  translationStore.setLanguageByLocation(verificationData.user.location?.code)
+  const userLocation = verificationData.user.location?.code
+  const language = userLocation === 'QC' ? 'fr-CA' : 'en'
   
-  // Load content after user verification
-  await loadAllContent()
+  translationStore.setLanguage(language)
+  contentStore.setLanguage(language)
   
-  // Show main app content (this hides the modal)
+  await contentStore.fetchAllContent(true)
   contentLoaded.value = true
 }
 
-// Load all content from Strapi
+// Load ALL content for BOTH languages
 const loadAllContent = async () => {
   try {
-    await contentStore.fetchAllContent()
+    await contentStore.loadAllLanguages()
   } catch (error) {
-    console.error('Error loading content:', error)
+    // silently fail
   }
 }
 

@@ -1,38 +1,92 @@
+<script setup>
+import { computed } from 'vue'
+
+const props = defineProps({
+  content: {
+    type: Object,
+    default: () => ({})
+  },
+  translationStore: {
+    type: Object,
+    required: true
+  }
+})
+
+// Get featured products directly from Saint-Laurent content
+const featuredProducts = computed(() => {
+  return props.content?.Product || []
+})
+
+// Get product image URL
+const getProductImage = (product) => {
+  const image = product.Image?.[0]
+  if (image && image.url) {
+    return image.url
+  }
+  return null
+}
+
+// Get product title
+const getProductTitle = (product) => {
+  return product.Title
+}
+
+// Get product type
+const getProductType = (product) => {
+  return product.Type
+}
+
+// Get product THC content
+const getProductTHC = (product) => {
+  return product.THC
+}
+
+// Get product size
+const getProductSize = (product) => {
+  return product.Size
+}
+
+// Section title from content
+const sectionTitle = computed(() => {
+  return props.content?.ProductsTitle || 'Notre produit phare'
+})
+</script>
+
 <template>
   <section data-bg="green">
     <div class="products">
-            <div><h2 data-animate="reveal" data-animate-delay="500">Notre produit phare</h2></div>
+      <div>
+        <h2 data-animate="reveal" data-animate-delay="500">{{ sectionTitle }}</h2>
+      </div>
       <div class="is-items">
-        <div class="is-item" data-animate="reveal" data-animate-delay="500">
-            <div>
-                <h3>Fleur séchée</h3>
-                <h3>THC 24%</h3>
-            </div>
-            <div>
-                <img src="@/assets/flower.png" alt="Fleur séchée" />
-            </div>
-            <div>
-                <h3>Holy Kush</h3>
-                <h3>Format<br>35g</h3>
-            </div>
-        </div>
-        <div class="is-item"data-animate="reveal" data-animate-delay="500">
-            <div>
-                <h3>Fleur séchée</h3>
-                <h3>THC 24%</h3>
-            </div>
-            <div>
-                <img src="@/assets/flower.png" alt="Fleur séchée" />
-            </div>
-            <div>
-                <h3>Holy Kush</h3>
-                <h3>Format<br>35g</h3>
-            </div>
+        <div
+          v-for="product in featuredProducts"
+          :key="product.id"
+          class="is-item"
+          data-animate="reveal"
+          data-animate-delay="500"
+        >
+          <div>
+            <h3>{{ getProductType(product) }}</h3>
+            <h3>THC {{ getProductTHC(product) }}</h3>
+          </div>
+          <div>
+            <img
+              v-if="getProductImage(product)"
+              :src="getProductImage(product)"
+              :alt="getProductTitle(product)"
+            />
+          </div>
+          <div>
+            <h3>{{ getProductTitle(product) }}</h3>
+            <h3>Format<br>{{ getProductSize(product) }}</h3>
+          </div>
         </div>
       </div>
     </div>
   </section>
 </template>
+
 
 <style scoped>
 .products {

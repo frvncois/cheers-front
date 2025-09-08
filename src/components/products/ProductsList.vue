@@ -1,39 +1,43 @@
 <script setup>
 import { useRouter } from 'vue-router'
+import { useContentStore } from '@/stores/content.js'
 
-// Props
 const props = defineProps({
   products: {
     type: Array,
     default: () => []
+  },
+  translationStore: {
+    type: Object,
+    required: true
   }
 })
 
 const router = useRouter()
+const contentStore = useContentStore()
 
 function handleClick(event, product) {
   event.preventDefault()
   const link = event.currentTarget
   const item = link.closest('li.is-item')
   const overlay = item?.querySelector('.is-transition')
-  
+
   // 1) fade only the clicked link
   link.style.transition = 'opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1)'
   link.style.opacity = '0'
   link.style.pointerEvents = 'none'
-  
+
   // 2) play overlay
   if (overlay) {
     overlay.style.display = 'block'
     overlay.style.height = '0vh'
     overlay.style.transition = 'height 0.6s cubic-bezier(0.4, 0, 0.2, 1)'
-    
     // force reflow
     // eslint-disable-next-line no-unused-expressions
     overlay.offsetHeight
     overlay.style.height = '100vh'
   }
-  
+
   // 3) navigate after animation
   setTimeout(() => {
     router.push({ name: 'product', params: { id: product.id } })
@@ -50,6 +54,16 @@ const rangeText = (min, max) => {
   if (!min && !max) return 'N/A'
   if (min === max) return min
   return `${min || '0'} - ${max || '0'}`
+}
+
+const getProductImage = (product) => {
+  console.log('Product Thumbnail:', product.Thumbnail)
+  
+  if (product.Thumbnail?.url) {
+    return product.Thumbnail.url  
+  }
+  
+  return '/assets/flower.png'
 }
 </script>
 
@@ -76,7 +90,7 @@ const rangeText = (min, max) => {
                 </h2>
               </div>
               <div class="is-thumbnail">
-                <img :src="`http://localhost:1337${product.Thumbnail.url}`" :alt="product.Title" />
+                <img :src="getProductImage(product)" :alt="product.Title" />
               </div>
               <div class="is-type">
                 <h2 data-animate="fade" data-animate-delay="300" data-animate-duration="1000">

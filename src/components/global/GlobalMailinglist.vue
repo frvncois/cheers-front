@@ -1,28 +1,31 @@
 <script setup>
 import ButtonMailing from '@/assets/ButtonMailing.vue';
 import Element03 from '@/assets/Element03.vue';
+
+const props = defineProps({
+  translationStore: {
+    type: Object,
+    required: true
+  }
+})
 </script>
 
 <template>
   <section data-bg="purple">
-        <div class="mailinglist" data-animate="fade" data-animate-duration="2000">
-            <div>
-                <h1>
-                    Une infolettre pour <br>rester à la page
-                </h1>
-                <Element03/>
-            </div>
-            <div>
-                <p>
-                    Inscrivez-vous à notre infolettre pour recevoir les dernières nouvelles, offres exclusive et conseils.
-                </p>
-                <form>
-                    <input placeholder="Adresse courriel"/>
-                    <button>S'inscrire<ButtonMailing/></button>
-                </form>
-            </div>
-        </div>
-    </section>
+    <div class="mailinglist" data-animate="fade" data-animate-duration="2000">
+      <div>
+        <h1 v-html="props.translationStore.translations.newsletter[props.translationStore.currentLanguage].title"></h1>
+        <Element03/>
+      </div>
+      <div>
+        <p>{{ props.translationStore.translations.newsletter[props.translationStore.currentLanguage].description }}</p>
+        <form>
+          <input :placeholder="props.translationStore.translations.newsletter[props.translationStore.currentLanguage].emailPlaceholder"/>
+          <button>{{ props.translationStore.translations.newsletter[props.translationStore.currentLanguage].subscribe }}<ButtonMailing/></button>
+        </form>
+      </div>
+    </div>
+  </section>
 </template>
 
 <style scoped>

@@ -1,40 +1,13 @@
-<template>
-  <section data-bg="light">
-    <div class="articles">
-      <div 
-        v-for="article in articles" 
-        :key="article.id"
-        class="is-item"
-      >
-        <div class="is-cover">
-          <img 
-            v-if="article.Cover?.url"
-            :src="getStrapiImageUrl(article.Cover.url)"
-            :alt="article.Cover.alternativeText || article.Title"
-            loading="lazy"
-          />
-          <div v-else class="placeholder-image">
-            <span>No Image</span>
-          </div>
-        </div>
-        <div class="is-content">
-          <h1>{{ article.Title }}</h1>
-          <p>{{ article.Intro }}</p>
-          <router-link 
-            :to="`/blog/${article.documentId}`"
-            class="read-more"
-          >
-            Lire la suite
-          </router-link>
-        </div>
-      </div>
-    </div>
-  </section>
-</template>
-
 <script setup>
 import { computed } from 'vue'
 import { useContentStore } from '@/stores/content.js'
+
+const props = defineProps({
+  translationStore: {
+    type: Object,
+    required: true
+  }
+})
 
 const contentStore = useContentStore()
 
@@ -43,26 +16,50 @@ const articles = computed(() => {
   return contentStore.publishedBlogPosts
 })
 
-// Helper function to get full Strapi image URL
-const getStrapiImageUrl = (url) => {
-  if (!url) return ''
-  const baseURL = import.meta.env.VITE_STRAPI_URL || 'http://localhost:1337'
-  
-  // If URL is already absolute, return as is
-  if (url.startsWith('http')) {
-    return url
+// Use content store's getMediaURL method for proper image handling
+const getArticleImage = (article) => {
+  if (article.Cover?.data) {
+    return contentStore.getMediaURL(article.Cover.data)
+  } else if (article.Cover?.url) {
+    return contentStore.getMediaURL(article.Cover)
   }
-  
-  // If URL starts with /, prepend base URL
-  if (url.startsWith('/')) {
-    return `${baseURL}${url}`
-  }
-  
-  // Otherwise, construct full URL
-  return `${baseURL}/${url}`
+  return null
 }
 </script>
 
+<template>
+  <section data-bg="light">
+    <div class="articles">
+      <div
+        v-for="article in articles"
+        :key="article.id"
+        class="is-item"
+      >
+        <div class="is-cover">
+          <img
+            v-if="getArticleImage(article)"
+            :src="getArticleImage(article)"
+            :alt="article.Cover?.alternativeText || article.Title"
+            loading="lazy"
+          />
+          <div v-else class="placeholder-image">
+            <span>{{ props.translationStore.translations.blog[props.translationStore.currentLanguage].noImage }}</span>
+          </div>
+        </div>
+        <div class="is-content">
+          <h1>{{ article.Title }}</h1>
+          <p>{{ article.Intro }}</p>
+          <router-link
+            :to="`/blog/${article.documentId}`"
+            class="read-more"
+          >
+            {{ props.translationStore.translations.blog[props.translationStore.currentLanguage].readMore }}
+          </router-link>
+        </div>
+      </div>
+    </div>
+  </section>
+</template>
 
 <style scoped>
 .articles {

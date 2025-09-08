@@ -54,11 +54,6 @@ class StrapiAPI {
   // Generic fetch method
   async fetch(endpoint, options = {}) {
     const url = this.buildURL(endpoint, options)
-    
-    console.log(`🌐 Fetching from Strapi Cloud: ${url}`)
-    console.log(`📍 Base URL: ${this.baseURL}`)
-    console.log(`🔗 Endpoint: ${endpoint}`)
-    console.log(`⚙️ Options:`, options)
   
     try {
       const response = await fetch(url, {
@@ -69,16 +64,8 @@ class StrapiAPI {
         }
       })
       
-      console.log(`📡 Response status for ${endpoint}:`, response.status)
-      
       if (!response.ok) {
         const errorText = await response.text()
-        console.error(`❌ HTTP error for ${endpoint}:`, {
-          status: response.status,
-          statusText: response.statusText,
-          url: url,
-          errorText: errorText
-        })
         
         // Provide more specific error messages
         if (response.status === 401) {
@@ -95,15 +82,8 @@ class StrapiAPI {
       }
       
       const data = await response.json()
-      console.log(`✅ Data received for ${endpoint}:`, data)
       return data
     } catch (error) {
-      console.error(`💥 Error fetching from ${endpoint}:`, {
-        message: error.message,
-        url: url,
-        baseURL: this.baseURL,
-        endpoint: endpoint
-      })
       throw error
     }
   }
@@ -129,7 +109,7 @@ class StrapiAPI {
   // Saint-Laurent page content
   async getSaintLaurent(locale = 'en') {
     return this.fetch('saint-laurent', {
-      populate: '*',
+      populate: 'Product.Image',
       locale
     })
   }
@@ -182,7 +162,6 @@ class StrapiAPI {
       const response = await fetch(`${this.baseURL}/api/users-permissions/roles`)
       return response.ok
     } catch (error) {
-      console.error('Strapi health check failed:', error)
       return false
     }
   }
@@ -235,7 +214,6 @@ class StrapiAPI {
         })
         results[contentType] = data
       } catch (error) {
-        console.error(`Error searching ${contentType}:`, error)
         results[contentType] = { data: [] }
       }
     }

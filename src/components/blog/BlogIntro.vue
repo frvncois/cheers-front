@@ -1,22 +1,28 @@
 <script setup>
 import Element04 from '@/assets/Element04.vue';
 
+const props = defineProps({
+  translationStore: {
+    type: Object,
+    required: true
+  }
+})
 </script>
 
 <template>
   <section data-bg="light">
-        <div class="intro">
-            <div class="is-title">
-                <h1 data-animate="reveal" data-animate-duration="1000">Découvrez</h1>
-                <Element04/>
-                <h1 data-animate="reveal" data-animate-duration="1000">Notre blog</h1>
-            </div>
-            <div class="is-content">
-                <h2>Il se passe quoi chez Cheers ?</h2>
-                <p>Apprenez en plus sur le cannabis et sur notre compagnie de production. Il nous arrive de participer a des événements pour aller a la rencontre de notre communauté.</p>
-            </div>
-        </div>
-    </section>
+    <div class="intro">
+      <div class="is-title">
+        <h1 data-animate="reveal" data-animate-duration="1000">{{ props.translationStore.translations.blog[props.translationStore.currentLanguage].discover }}</h1>
+        <Element04/>
+        <h1 data-animate="reveal" data-animate-duration="1000">{{ props.translationStore.translations.blog[props.translationStore.currentLanguage].ourBlog }}</h1>
+      </div>
+      <div class="is-content">
+        <h2>{{ props.translationStore.translations.blog[props.translationStore.currentLanguage].whatsHappening }}</h2>
+        <p>{{ props.translationStore.translations.blog[props.translationStore.currentLanguage].blogDescription }}</p>
+      </div>
+    </div>
+  </section>
 </template>
 
 <style scoped>

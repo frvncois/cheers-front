@@ -73,33 +73,62 @@ export const useTranslationStore = defineStore('translation', {
         }
       },
 
-      // Home Page Content
+      // All Home Content
       home: {
         'fr-CA': {
+          // HomeHero
           heroTitle1: 'Chaque <span>gramme</span> est',
           heroTitle2: 'le <span>fruit</span> de',
           heroTitle3: 'notre savoir-faire',
+          // HomeIntro
+          cultivatedWith: 'Cultivé avec<br>passion',
+          sharedWith: 'Partagé avec<br>plaisir',
+          learnMore: 'En savoir plus',
+          whereToBuy: 'Où acheter',
+          // HomeCTA
           passionateProducer: 'Producteur passionné',
-          produce: 'Produire un',
+          produceA: 'Produire un',
           cannabis: 'cannabis',
           thatHonors: 'qui fait',
           honor: 'honneur',
           toThe: 'à la',
           culture: 'culture',
-          qualityCannabis: 'Cannabis de qualité'
+          qualityCannabis: 'Cannabis de qualité',
+          followUs: 'Suivez-nous',
+          tagram: 'Sur instagram',
+          discoverOurProducts: 'Découvrez<br>nos produits',
+          viewAllProducts: 'Voir tous nos produits',
+          viewProduct: 'Voir le produit',
+          noProductsAvailable: 'Aucun produit disponible.',
+          thc: 'THC',
+          cbd: 'CBD',
+          taglineText: 'Du premier plan<br>au dernier puff,<br>on cultive l\'excellence',
         },
         en: {
           heroTitle1: 'Every <span>gram</span> is',
           heroTitle2: 'the <span>result</span> of',
           heroTitle3: 'our expertise',
+          cultivatedWith: 'Cultivated with<br>passion',
+          sharedWith: 'Shared with<br>pleasure',
+          learnMore: 'Learn more',
+          whereToBuy: 'Where to buy',
           passionateProducer: 'Passionate Producer',
-          produce: 'Producing',
+          produceA: 'Producing',
           cannabis: 'cannabis',
           thatHonors: 'that honors',
           honor: 'the',
           toThe: '',
           culture: 'culture',
-          qualityCannabis: 'Quality Cannabis'
+          qualityCannabis: 'Quality Cannabis',
+          followUs: 'Follow us',
+          onInstagram: 'On Instagram',
+          discoverOurProducts: 'Discover<br>our products',
+          viewAllProducts: 'View all products',
+          viewProduct: 'View product',
+          noProductsAvailable: 'No products available.',
+          thc: 'THC',
+          cbd: 'CBD',
+          taglineText: 'From the first plant<br>to the last puff,<br>we cultivate excellence'
         }
       },
 
@@ -123,7 +152,12 @@ export const useTranslationStore = defineStore('translation', {
           send: 'Envoyer',
           sending: 'Envoi en cours...',
           successMessage: 'Votre message a été envoyé avec succès!',
-          errorMessage: 'Erreur lors de l\'envoi du message. Veuillez réessayer.'
+          errorMessage: 'Erreur lors de l\'envoi du message. Veuillez réessayer.',
+          contactUs: 'Contactez<br>nous',
+          findUsOnSocial: 'Retrouvez Cheers sur les réseau sociaux',
+          followUsDescription: 'Suivez-nous sur les réseaux sociaux ! Restez connectés pour les dernières nouvelles, offres exclusives et mises à jour sur nos produits.',
+          instagram: 'Instagram',
+          facebook: 'Facebook'
         },
         en: {
           title: 'Contact Us',
@@ -143,7 +177,26 @@ export const useTranslationStore = defineStore('translation', {
           send: 'Send',
           sending: 'Sending...',
           successMessage: 'Your message was sent successfully!',
-          errorMessage: 'Error sending message. Please try again.'
+          errorMessage: 'Error sending message. Please try again.',
+          contactUs: 'Contact<br>us',
+          findUsOnSocial: 'Find Cheers on social media',
+          followUsDescription: 'Follow us on social media! Stay connected for the latest news, exclusive offers and updates on our products.',
+          instagram: 'Instagram', 
+          facebook: 'Facebook'
+        }
+      },
+
+      // Testimonials Section
+      testimonials: {
+        'fr-CA': {
+          title: 'Votre avis<br>nous intéresse',
+          description: 'Si vous avez essayé nos produits, nous serions ravis de connaître votre avis. Vos commentaires nous aident à améliorer constamment notre qualité et à mieux répondre à vos attentes.',
+          leaveReview: 'Laisser un avis'
+        },
+        en: {
+          title: 'Your opinion<br>matters to us',
+          description: 'If you have tried our products, we would love to hear your opinion. Your feedback helps us constantly improve our quality and better meet your expectations.',
+          leaveReview: 'Leave a review'
         }
       },
 
@@ -191,7 +244,12 @@ export const useTranslationStore = defineStore('translation', {
           outOfStock: 'Rupture de stock',
           backInStock: 'Bientôt de retour',
           breadcrumb: 'Produits',
-          productNotFound: 'Produit non trouvé'
+          productNotFound: 'Produit non trouvé',
+          teamDescription: 'Notre équipe travaille sans relâche pour perfectionner nos techniques de culture. Nous investissons continuellement dans la recherche et le développement pour rester à la pointe de l\'industrie et répondre aux besoins de nos clients.',
+          cultivatedWithPassion: 'Cultivé avec<br>passion',
+          sharedWithPleasure: 'Partagé<br>avec plaisir',
+          aboutDescription: 'Ici, on ne fait pas que cultiver du cannabis. On élève une plante avec passion, on affine chaque détail, on soigne chaque récolte comme un grand cru. Cheers Cannabis, c\'est l\'amour du produit bien fait, la culture indoor maîtrisée, et une vibe qui sent bon l\'authenticité. Que tu sois connaisseur ou juste curieux, ici, t\'es au bon endroit.'
+
         },
         en: {
           sectionTitle: 'Discover our other ranges and products from the Cheers family',
@@ -211,7 +269,12 @@ export const useTranslationStore = defineStore('translation', {
           outOfStock: 'Out of stock',
           backInStock: 'Coming back soon',
           breadcrumb: 'Products',
-          productNotFound: 'Product not found'
+          productNotFound: 'Product not found',
+          teamDescription: 'Our team works tirelessly to perfect our cultivation techniques. We continuously invest in research and development to stay at the forefront of the industry and meet our customers\' needs.',
+          cultivatedWithPassion: 'Cultivated with<br>passion',
+          sharedWithPleasure: 'Shared with<br>pleasure',
+          aboutDescription: 'Here, we don\'t just grow cannabis. We nurture a plant with passion, refine every detail, care for each harvest like a fine vintage. Cheers Cannabis is about love for well-made products, mastered indoor cultivation, and a vibe that smells like authenticity. Whether you\'re a connoisseur or just curious, you\'re in the right place.'
+
         }
       },
 
@@ -221,14 +284,49 @@ export const useTranslationStore = defineStore('translation', {
           tagline: 'Chaque gramme est le fruit de notre savoir-faire',
           cultivatedWith: 'Cultivé avec passion',
           sharedWith: 'Partagé avec plaisir',
-          contactUs: 'Contactez-nous'
+          contactUs: 'Contactez-nous',
+          // AboutMarquee
+          familyStory: 'Une histoire<br>de famille',
+          since2018: 'Depuis 2018',
+          aboutTitle: 'À Propos',
+          // AboutIntro
+          craftsmanshipTagline: 'Chaque gramme<br>est le fruit de<br>notre savoir-faire'
         },
         en: {
           tagline: 'Every gram is the result of our expertise',
           cultivatedWith: 'Cultivated with passion',
           sharedWith: 'Shared with pleasure',
-          contactUs: 'Contact us'
+          contactUs: 'Contact us',
+          // AboutMarquee
+          familyStory: 'A family<br>story',
+          since2018: 'Since 2018',
+          aboutTitle: 'About Us',
+          // AboutIntro
+          craftsmanshipTagline: 'Every gram<br>is the result of<br>our expertise'
         }
+      },
+
+      blog: {
+      'fr-CA': {
+        // BlogIntro
+        discover: 'Découvrez',
+        ourBlog: 'Notre blog',
+        whatsHappening: 'Il se passe quoi chez Cheers ?',
+        blogDescription: 'Apprenez en plus sur le cannabis et sur notre compagnie de production. Il nous arrive de participer a des événements pour aller a la rencontre de notre communauté.',
+        // BlogArticles
+        readMore: 'Lire la suite',
+        noImage: 'Aucune image'
+      },
+      en: {
+        // BlogIntro
+        discover: 'Discover',
+        ourBlog: 'Our blog',
+        whatsHappening: 'What\'s happening at Cheers?',
+        blogDescription: 'Learn more about cannabis and our production company. We sometimes participate in events to meet our community.',
+        // BlogArticles
+        readMore: 'Read more',
+        noImage: 'No image'
+      }
       },
 
       // Saint-Laurent Section
@@ -273,11 +371,17 @@ export const useTranslationStore = defineStore('translation', {
       footer: {
         'fr-CA': {
           copyright: '© 2025 cheerscannabis.com. Tous droits réservés',
-          allRightsReserved: 'Tous droits réservés'
+          allRightsReserved: 'Tous droits réservés',
+          cultivons: 'Cultivons',
+          ensemblePartageons: 'Ensemble, partageons', 
+          delaHauteur: 'De la hauteur'
         },
         en: {
           copyright: '© 2025 cheerscannabis.com. All rights reserved',
-          allRightsReserved: 'All rights reserved'
+          allRightsReserved: 'All rights reserved',
+          cultivons: 'Let\'s grow',
+          ensemblePartageons: 'Together, let\'s share',
+          delaHauteur: 'Excellence'
         }
       },
 
@@ -517,9 +621,6 @@ setLanguage(languageCode) {
       console.warn('Could not save language preference to localStorage:', error)
     }
     
-    // Update content store language and refetch content
-    this.refetchContent()
-    
     return true
   }
   return false
@@ -546,17 +647,15 @@ setLanguage(languageCode) {
       this.setLanguage(nextLanguage.code)
     },
 
-    // Refetch content from Strapi with new language
 async refetchContent() {
   try {
-    // Dynamic import to avoid circular dependency
     const { useContentStore } = await import('@/stores/content.js')
     const contentStore = useContentStore()
     
-    // Update language in content store and refetch all content
-    contentStore.setLanguage(this.currentLanguage, true) // true = force refetch
+    // Wait for the content to actually load
+    await contentStore.setLanguage(this.currentLanguage, true)
     
-    console.log(`🌍 Content refetched for language: ${this.currentLanguage}`)
+    console.log(`Content refetched for language: ${this.currentLanguage}`)
   } catch (error) {
     console.error('Error refetching content with new language:', error)
   }

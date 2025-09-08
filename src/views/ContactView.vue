@@ -6,13 +6,19 @@ import GlobalTestimonials from '@/components/global/GlobalTestimonials.vue';
 import GlobalTextMarquee from '@/components/global/GlobalTextMarquee.vue';
 import GlobalMailinglist from '@/components/global/GlobalMailinglist.vue';
 
+const props = defineProps({
+  translationStore: {
+    type: Object,
+    required: true
+  }
+})
 </script>
 
 <template>
-    <ContactForm/>
-    <GlobalTestimonials/>
-    <ContactSocials/>
-    <GlobalTextMarquee/>
-    <GlobalMailinglist />
-    <GlobalFooter/>
+  <ContactForm :translation-store="props.translationStore" />
+  <GlobalTestimonials :translation-store="props.translationStore" />
+  <ContactSocials :translation-store="props.translationStore" />
+  <GlobalTextMarquee :translation-store="props.translationStore" />
+  <GlobalMailinglist :translation-store="props.translationStore" />
+  <GlobalFooter :translation-store="props.translationStore" />
 </template>
