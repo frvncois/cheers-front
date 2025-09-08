@@ -9,7 +9,7 @@ const props = defineProps({
 
 <template>
   <div class="breadcrumb" data-animate="fade" data-animate-duration="1000">
-    <a>Produits</a> / <p>{{ props.currentProduct?.Title || 'Product' }}</p>
+    <router-link to="/products">Produits</router-link> / <p>{{ props.currentProduct?.Title || 'Product' }}</p>
   </div>
 </template>
 

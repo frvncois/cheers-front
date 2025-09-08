@@ -56,13 +56,13 @@ const images = computed(() => props.product?.Images || [])
             />
           </div>
           <div class="is-dots" v-if="images.length > 1">
-            <button 
+            <div
               v-for="(image, index) in images"
               :key="`dot-${image.id}`"
               @click="goToSlide(index)"
               :class="{ 'is-active': index === currentSlide }"
               class="is-dot"
-            ></button>
+            ></div>
           </div>
         </div>
       </div>
@@ -79,14 +79,10 @@ const images = computed(() => props.product?.Images || [])
           <div><span>THC {{ thcText }}</span><span>CBD {{ cbdText }}</span></div>
         </div>
         <div class="is-description" data-animate="fade" data-animate-delay="750">
-          <p>
-            Cette variété de {{ product.Category || 'cannabis' }}, sous forme de fleurs séchées,
-            possède une intensité de THC et contient du CBD.
-            Elle pourrait laisser une impression d'être plus relaxé.
-            Ses terpènes génèrent naturellement des arômes
-            {{ aromaText ? aromaText.toLowerCase() : 'variés' }}.
-          </p>
-          <a>Acheter<ButtonBorder /></a>
+<p v-for="block in product.Description" :key="block.id">
+    <span v-for="child in block.children" :key="child.id">{{ child.text }}</span>
+  </p>
+          <a :href="product.Link?.startsWith('http') ? product.Link : `https://${product.Link}`" target="_blank">Acheter<ButtonBorder /></a>
         </div>
       </div>
     </div>
@@ -117,6 +113,7 @@ const images = computed(() => props.product?.Images || [])
         position: relative;
         width: 100%;
         overflow: hidden;
+        aspect-ratio: 1;
         
         > img {
           position: absolute;
@@ -192,10 +189,7 @@ const images = computed(() => props.product?.Images || [])
         flex-direction: column;
         align-items: flex-end;
       }
-      
-      > div:last-child {
-        grid-column: span 2;
-      }
+    
     }
     
     > .is-description {

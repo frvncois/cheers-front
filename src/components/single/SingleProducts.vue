@@ -1,9 +1,12 @@
 <script setup>
-// Props
 const props = defineProps({
   products: {
     type: Array,
     default: () => []
+  },
+  translationStore: {
+    type: Object,
+    required: true
   }
 })
 
@@ -19,12 +22,12 @@ const rangeText = (min, max) => {
   return `${min || '0'} - ${max || '0'}`
 }
 </script>
+
 <template>
   <section>
     <div class="products">
       <div class="is-title">
-        <h2 data-animate="reveal" data-animate-duration="750">
-          Découvrez nos autres gammes et<br>produits de la famille Cheers
+        <h2 data-animate="reveal" data-animate-duration="750" v-html="props.translationStore.translations.products[props.translationStore.currentLanguage].sectionTitle">
         </h2>
       </div>
       <ul class="is-items">
@@ -43,8 +46,8 @@ const rangeText = (min, max) => {
               <h2>{{ p.Terpenes }}</h2>
             </div>
             <div class="is-type" data-animate="fade" data-animate-delay="350" data-animate-duration="1000">
-              <div>THC {{ rangeText(p.THCmin, p.THCmax) }}</div>
-              <div>CBD {{ rangeText(p.CBDmin, p.CBDmax) }}</div>
+              <div>{{ props.translationStore.translations.products[props.translationStore.currentLanguage].thcRange }} {{ rangeText(p.THCmin, p.THCmax) }}</div>
+              <div>{{ props.translationStore.translations.products[props.translationStore.currentLanguage].cbdRange }} {{ rangeText(p.CBDmin, p.CBDmax) }}</div>
             </div>
             <div class="is-thumbnail"></div>
           </router-link>

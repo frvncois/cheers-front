@@ -95,7 +95,7 @@ export const useTranslationStore = defineStore('translation', {
           culture: 'culture',
           qualityCannabis: 'Cannabis de qualité',
           followUs: 'Suivez-nous',
-          tagram: 'Sur instagram',
+          onInstagram: 'Sur instagram',
           discoverOurProducts: 'Découvrez<br>nos produits',
           viewAllProducts: 'Voir tous nos produits',
           viewProduct: 'Voir le produit',

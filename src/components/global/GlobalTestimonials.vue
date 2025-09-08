@@ -47,7 +47,7 @@ const props = defineProps({
         position: absolute;
         top: -1.5em;
         right: 0;
-        left: 18ch;
+        left: 25ch;
     }
     & a {
       position: relative;

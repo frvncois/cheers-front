@@ -8,11 +8,14 @@ import SingleProducts from '@/components/single/SingleProducts.vue'
 import GlobalMailinglist from '@/components/global/GlobalMailinglist.vue'
 import GlobalFooter from '@/components/global/GlobalFooter.vue'
 
-// Props from App.vue (filtered products)
 const props = defineProps({
   filteredProducts: {
     type: Array,
     default: () => []
+  },
+  translationStore: {
+    type: Object,
+    required: true
   }
 })
 
@@ -27,19 +30,21 @@ const currentProduct = computed(() => {
 // Other products (excluding current one)
 const otherProducts = computed(() => {
   if (!currentProduct.value) return props.filteredProducts
-  return props.filteredProducts.filter(p => 
+  return props.filteredProducts.filter(p =>
     p.id !== currentProduct.value.id && p.documentId !== currentProduct.value.documentId
   )
 })
 </script>
+
 <template>
-  <SingleBreadcrumbs :current-product="currentProduct" />
-  <SingleProduct :product="currentProduct" />
-  <SingleTagline />
-  <SingleProducts :products="otherProducts" />
-  <GlobalMailinglist />
-  <GlobalFooter />
+  <SingleBreadcrumbs :current-product="currentProduct" :translation-store="props.translationStore" />
+  <SingleProduct :product="currentProduct" :translation-store="props.translationStore" />
+  <SingleTagline :translation-store="props.translationStore" />
+  <SingleProducts :products="otherProducts" :translation-store="props.translationStore" />
+  <GlobalMailinglist :translation-store="props.translationStore" />
+  <GlobalFooter :translation-store="props.translationStore" />
 </template>
+
 <style scoped>
 .page-enter {
   position: fixed;

@@ -1,24 +1,34 @@
+<script setup>
+const props = defineProps({
+  translationStore: {
+    type: Object,
+    required: true
+  }
+})
+</script>
+
 <template>
-    <section>
-        <div class="tagline">
-            <div class="is-content">
-                <h1>Chaque gramme est<br>le fruit de<br>notre savoir-faire</h1>
-            </div>
-            <div class="is-bottom">
-                <div>
-                    <p>Cultivé<br>avec passion</p>
-                </div>
-                <div>
-                    <p>Partagé<br>avec plaisir</p>
-                </div>
-            </div>
-            <div class="is-images">
-                <img speed="0.25" src="@/assets/productTag-01.jpg"/>
-                <img speed="0.5" src="@/assets/productTag-02.jpg"/>
-            </div>
+  <section>
+    <div class="tagline">
+      <div class="is-content">
+        <h1 v-html="props.translationStore.translations.about[props.translationStore.currentLanguage].tagline"></h1>
+      </div>
+      <div class="is-bottom">
+        <div>
+          <p v-html="props.translationStore.translations.about[props.translationStore.currentLanguage].cultivatedWith"></p>
         </div>
-    </section>
+        <div>
+          <p v-html="props.translationStore.translations.about[props.translationStore.currentLanguage].sharedWith"></p>
+        </div>
+      </div>
+      <div class="is-images">
+        <img speed="0.25" src="@/assets/productTag-01.jpg"/>
+        <img speed="0.5" src="@/assets/productTag-02.jpg"/>
+      </div>
+    </div>
+  </section>
 </template>
+
 
 <style scoped>
 .tagline {
@@ -30,6 +40,7 @@
         display: flex;
         > h1 {
             font-size: var(--font-xl);
+            max-width: 10ch;
         }
     }
     > .is-bottom {

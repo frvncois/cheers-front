@@ -40,6 +40,7 @@ const props = defineProps({
         flex: 1;
         > h2 {
             font-size: var(--font-lg);
+            max-width: 10ch;
         }
         > p {
             max-width: 50ch;
