@@ -292,6 +292,10 @@ defineExpose({
       display: flex;
       gap: var(--space-xs);
       margin: auto;
+      padding: 0 var(--space-md);
+      align-items: center;
+      justify-content: center;
+      flex-wrap: wrap;
       & input {
         display: none;
       }

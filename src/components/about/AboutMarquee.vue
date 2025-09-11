@@ -64,7 +64,8 @@ onUnmounted(() => {
               <h1 data-animate="fade" data-animate-duration="1000" v-html="props.translationStore.translations.about[props.translationStore.currentLanguage].familyStory"></h1>
             </div>
             <div class="is-content">
-              <p data-animate="reveal" data-animate-duration="750">{{ intro }}</p>
+              <p v-html="intro.replace(/\n/g, '<br>')" data-animate="reveal" data-animate-duration="750"></p>
+
             </div>
           </div>
           <div class="is-item">
@@ -81,7 +82,7 @@ onUnmounted(() => {
           </div>
           <div class="is-item">
             <h1 data-animate="fade" data-animate-duration="750">{{ props.translationStore.translations.about[props.translationStore.currentLanguage].aboutTitle }}</h1>
-            <p data-animate="reveal" data-animate-duration="750">{{ about }}</p>
+            <p v-html="about.replace(/\n/g, '<br>')" data-animate="reveal" data-animate-duration="750"></p>
           </div>
           <div class="is-item">
             <div class="is-image">
@@ -160,6 +161,7 @@ section {
         }
         > .is-image {
           background: var(--purple);
+          max-width: 30em;
           > img {
             height: 100%;
             width: 100%;

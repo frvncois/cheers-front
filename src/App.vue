@@ -29,7 +29,8 @@ const locationAvailabilityMap = {
   'QC': 'SQDC',
   'ON': 'OCS',
   'DE': 'International',
-  'UK': 'International'
+  'UK': 'International',
+  'AB': 'Alberta'
 }
 
 // Computed property to filter products based on user location

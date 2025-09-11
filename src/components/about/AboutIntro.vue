@@ -26,7 +26,7 @@ const missionImage = computed(() => {
     <div class="intro">
       <div class="is-content">
         <h2 data-animate="fade" data-animate-duration="1000" v-html="props.translationStore.translations.about[props.translationStore.currentLanguage].craftsmanshipTagline"></h2>
-        <p data-animate="fade" data-animate-duration="1000">{{ mission }}</p>
+         <p v-html="mission.replace(/\n/g, '<br>')" data-animate="reveal" data-animate-duration="750"></p>
       </div>
       <div class="is-action">
         <img
@@ -67,6 +67,7 @@ const missionImage = computed(() => {
         width: 100%;
         overflow: hidden;
         background: var(--purple);
+        max-height: 50vh;
         > img {
             width: 100%;
             height: 100%;

@@ -102,7 +102,7 @@ export const useTranslationStore = defineStore('translation', {
           noProductsAvailable: 'Aucun produit disponible.',
           thc: 'THC',
           cbd: 'CBD',
-          taglineText: 'Du premier plan<br>au dernier puff,<br>on cultive l\'excellence',
+          taglineText: 'Célébrer les petits<br>moments qui<br>nous rassemblent',
         },
         en: {
           heroTitle1: 'Every <span>gram</span> is',
