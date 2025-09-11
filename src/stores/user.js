@@ -21,9 +21,9 @@ export const useUserStore = defineStore('user', {
     availableLocations: [
       { code: 'QC', name: 'Québec', legalAge: 18 },
       { code: 'ON', name: 'Ontario', legalAge: 19 },
+      { code: 'AB', name: 'Alberta', legalAge: 18 },
       { code: 'DE', name: 'Germany', legalAge: 16 },
       { code: 'UK', name: 'UK', legalAge: 18 },
-      { code: 'AB', name: 'Alberta', legalAge: 18 },
     ],
     sessionConfig: {
       rememberDuration: 30 * 24 * 60 * 60 * 1000,
