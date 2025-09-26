@@ -39,7 +39,7 @@ const otherProducts = computed(() => {
 <template>
   <SingleBreadcrumbs :current-product="currentProduct" :translation-store="props.translationStore" />
   <SingleProduct :product="currentProduct" :translation-store="props.translationStore" />
-  <SingleTagline :translation-store="props.translationStore" />
+  <SingleTagline :product="currentProduct" :translation-store="props.translationStore" />
   <SingleProducts :products="otherProducts" :translation-store="props.translationStore" />
   <GlobalMailinglist :translation-store="props.translationStore" />
   <GlobalFooter :translation-store="props.translationStore" />

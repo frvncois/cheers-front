@@ -1,5 +1,5 @@
 <script setup>
-import { computed } from 'vue'
+import { computed, onMounted } from 'vue'
 import { useContentStore } from '@/stores/content.js'
 
 const props = defineProps({
@@ -11,19 +11,27 @@ const props = defineProps({
 
 const contentStore = useContentStore()
 
-// Get published blog articles sorted by publication date
-const articles = computed(() => {
-  return contentStore.publishedBlogPosts
+// Debug: show raw store and articles
+onMounted(() => {
+  console.log('🚀 [onMounted] contentStore:', contentStore)
+  console.log('🚀 [onMounted] publishedBlogPosts:', contentStore.publishedBlogPosts)
 })
 
-// Use content store's getMediaURL method for proper image handling
+const articles = computed(() => contentStore.publishedBlogPosts || [])
+
+// ✅ We know Cover.url exists and is absolute
 const getArticleImage = (article) => {
-  if (article.Cover?.data) {
-    return contentStore.getMediaURL(article.Cover.data)
-  } else if (article.Cover?.url) {
-    return contentStore.getMediaURL(article.Cover)
-  }
-  return null
+  if (!article) return null
+
+  // Log everything for each article (once)
+  console.group(`🖼️ Article: ${article.Title}`)
+  console.log('Full article:', article)
+  console.log('Cover:', article.Cover)
+  console.log('Cover.url:', article?.Cover?.url)
+  console.groupEnd()
+
+  // Return direct URL
+  return article?.Cover?.url || null
 }
 </script>
 
@@ -43,9 +51,16 @@ const getArticleImage = (article) => {
             loading="lazy"
           />
           <div v-else class="placeholder-image">
-            <span>{{ props.translationStore.translations.blog[props.translationStore.currentLanguage].noImage }}</span>
+            <span>
+              {{
+                props.translationStore.translations.blog[
+                  props.translationStore.currentLanguage
+                ].noImage
+              }}
+            </span>
           </div>
         </div>
+
         <div class="is-content">
           <h1>{{ article.Title }}</h1>
           <p>{{ article.Intro }}</p>
@@ -53,7 +68,11 @@ const getArticleImage = (article) => {
             :to="`/blog/${article.documentId}`"
             class="read-more"
           >
-            {{ props.translationStore.translations.blog[props.translationStore.currentLanguage].readMore }}
+            {{
+              props.translationStore.translations.blog[
+                props.translationStore.currentLanguage
+              ].readMore
+            }}
           </router-link>
         </div>
       </div>
@@ -63,42 +82,62 @@ const getArticleImage = (article) => {
 
 <style scoped>
 .articles {
-    padding: 0 var(--space-2xl);
-    background: var(--light);
-    color: var(--purple);
-    > .is-item {
-        display: grid;
-        grid-template-columns: 0.33fr 0.66fr;
-        padding: var(--space-md);
-        gap: var(--space-md);
-        > .is-cover {
-            aspect-ratio: 1;
-            > img {
-                width: 100%;
-                height: 100%;
-                object-fit: cover;
-            }
-        }
-        > .is-content {
-            display: flex;
-            flex-direction: column;
-            gap: var(--space-rg);
-        }
-        > h1 {
-            font-size: var(--font-xl);
-        }
-    }
-}
+  padding: 0 var(--space-2xl);
+  background: var(--light);
+  color: var(--purple);
 
-@media screen and (max-width: 768px) {
-  .articles {
-    padding: 0 0;
-    > .is-item {
+  > .is-item {
+    display: grid;
+    grid-template-columns: 0.33fr 0.66fr;
+    padding: var(--space-md);
+    gap: var(--space-md);
+
+    > .is-cover {
+      aspect-ratio: 1;
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      background: #f5f5f5;
+      position: relative;
+
+      > img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+      }
+
+      > .placeholder-image {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100%;
+        width: 100%;
+        background: #ddd;
+        color: #666;
+        font-size: var(--font-sm);
+      }
+    }
+
+    > .is-content {
       display: flex;
-      padding: var(--space-sm);
       flex-direction: column;
+      gap: var(--space-rg);
+    }
+
+    > h1 {
+      font-size: var(--font-xl);
     }
   }
 }
 
+@media screen and (max-width: 768px) {
+  .articles {
+    padding: 0;
+    > .is-item {
+      display: flex;
+      flex-direction: column;
+      padding: var(--space-sm);
+    }
+  }
+}
 </style>

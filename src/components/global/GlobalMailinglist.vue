@@ -1,4 +1,5 @@
 <script setup>
+import { onMounted } from 'vue';
 import ButtonMailing from '@/assets/ButtonMailing.vue';
 import Element03 from '@/assets/Element03.vue';
 
@@ -8,6 +9,37 @@ const props = defineProps({
     required: true
   }
 })
+
+onMounted(() => {
+  // Load Flodesk script
+  (function(w, d, t, h, s, n) {
+    w.FlodeskObject = n;
+    var fn = function() {
+      (w[n].q = w[n].q || []).push(arguments);
+    };
+    w[n] = w[n] || fn;
+    var f = d.getElementsByTagName(t)[0];
+    var v = '?v=' + Math.floor(new Date().getTime() / (120 * 1000)) * 60;
+    var sm = d.createElement(t);
+    sm.async = true;
+    sm.type = 'module';
+    sm.src = h + s + '.mjs' + v;
+    f.parentNode.insertBefore(sm, f);
+    var sn = d.createElement(t);
+    sn.async = true;
+    sn.noModule = true;
+    sn.src = h + s + '.js' + v;
+    f.parentNode.insertBefore(sn, f);
+  })(window, document, 'script', 'https://assets.flodesk.com', '/universal', 'fd');
+
+  // Initialize Flodesk form
+  setTimeout(() => {
+    window.fd('form', {
+      formId: '68c8583edfa76f53c6189fae',
+      containerEl: '#fd-form-68c8583edfa76f53c6189fae'
+    });
+  }, 500);
+});
 </script>
 
 <template>
@@ -19,10 +51,7 @@ const props = defineProps({
       </div>
       <div>
         <p>{{ props.translationStore.translations.newsletter[props.translationStore.currentLanguage].description }}</p>
-        <form>
-          <input :placeholder="props.translationStore.translations.newsletter[props.translationStore.currentLanguage].emailPlaceholder"/>
-          <button>{{ props.translationStore.translations.newsletter[props.translationStore.currentLanguage].subscribe }}<ButtonMailing/></button>
-        </form>
+        <div id="fd-form-68c8583edfa76f53c6189fae"></div>
       </div>
     </div>
   </section>
@@ -47,41 +76,112 @@ const props = defineProps({
             right: 0;
         }
     }
-    & input {
-        background-color: transparent;
-        border: unset;
-        border-bottom: 1px solid var(--accent);
-        padding: var(--space-sm) 0;
-        flex: 1;
-        color: var(--yellow);
-        &::placeholder {
-            color: var(--yellow);
-        }
-        &:focus {
-            outline: unset;
-            border-bottom: 1px solid var(--yellow);
-        }
-    }
-    & button {
-        background: var(--accent);
-        display: flex;
-        gap: var(--space-xs);
-        align-items: center;
-        border-radius: 10em;
-        justify-content: center;
-        padding: var(--space-sm) var(--space-md);
-        transition: all 0.3s ease;
-        &:hover {
-            background: var(--yellow);
-            color: var(--purple);
-        }
-    }
     & h1 {
         font-size: var(--font-lg);
     }
-    & form {    
-        display: flex;
-        flex: 1;
+}
+
+/* Style the Flodesk form to match your design */
+:deep(#fd-form-68c8583edfa76f53c6189fae) {
+    /* Reset Flodesk's styles */
+    * {
+      
+        margin: 0 !important;
+        padding: 0 !important;
+        box-sizing: border-box !important;
+    }
+    
+    /* Style the form container */
+    form {
+        display: flex !important;
+        flex: 1 !important;
+        flex-direction: column;
+        gap: 0 !important;
+        background: transparent !important;
+        border: none !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        > .ff-68c8583edfa76f53c6189fae__title {
+            display: none !important;
+        }
+        > .ff-68c8583edfa76f53c6189fae__subtitle {
+            display: none !important;
+        }
+        > .ff-68c8583edfa76f53c6189fae__field fd-form-group {
+            &.ff-68c8583edfa76f53c6189fae__control fd-form-control {
+              display: none !important;
+            }
+        }
+    }
+    
+    /* Style the email input */
+    input[type="email"] {
+        background-color: transparent !important;
+        border: unset !important;
+        border-bottom: 1px solid var(--accent) !important;
+        padding: var(--space-sm) 0 !important;
+        flex: 1 !important;
+        color: var(--yellow) !important;
+        font-family: inherit !important;
+        font-size: inherit !important;
+        outline: none !important;
+        box-shadow: none !important;
+        border-radius: 0 !important;
+        
+        &::placeholder {
+            color: var(--yellow) !important;
+        }
+        
+        &:focus {
+            outline: unset !important;
+            border-bottom: 1px solid var(--yellow) !important;
+            box-shadow: none !important;
+        }
+    }
+    
+    /* Style the submit button */
+    button[type="submit"], input[type="submit"] {
+        background: var(--accent) !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        border-radius: 10em !important;
+        padding: var(--space-sm) var(--space-md) !important;
+        transition: all 0.3s ease !important;
+        border: none !important;
+        cursor: pointer !important;
+        color: var(--yellow) !important;
+        font-family: inherit !important;
+        font-size: inherit !important;
+        gap: var(--space-xs) !important;
+        
+        &:hover {
+            background: var(--yellow) !important;
+            color: var(--purple) !important;
+        }
+        
+        &:after {
+            content: '';
+            width: 1em;
+            height: 1em;
+            background: currentColor;
+            mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24'%3E%3Cpath stroke='currentColor' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M12 19l9 2-9-18-9 18 9-2zm0 0v-8'/%3E%3C/svg%3E") no-repeat center;
+            mask-size: contain;
+        }
+    }
+    
+    /* Hide any Flodesk branding */
+    .fd-form-footer, 
+    .flodesk-embed,
+    .fd-form-heading,
+    .fd-form-description {
+        display: none !important;
+    }
+    
+    /* Remove any unwanted spacing */
+    div, p {
+        margin: 0 !important;
+        padding: 0 !important;
     }
 }
 
@@ -90,10 +190,14 @@ const props = defineProps({
         flex-direction: column;
         gap: var(--space-md);
         padding: var(--space-xl) var(--space-rg);
-        & form {
-            flex-direction: column;
-            gap: var(--space-sm);
-        }
+    }
+    
+    :deep(#fd-form-68c8583edfa76f53c6189fae form) {
+        flex-direction: column !important;
+        gap: var(--space-sm) !important;
     }
 }
+
+
+
 </style>
