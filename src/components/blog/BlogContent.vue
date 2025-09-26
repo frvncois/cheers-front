@@ -1,5 +1,5 @@
 <script setup>
-import { computed, onMounted, watch } from 'vue'
+import { computed, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
 import { useContentStore } from '@/stores/content.js'
 
@@ -54,7 +54,7 @@ onMounted(() => {
 <template>
   <section data-bg="light">
     <div class="article" v-if="article">
-      <!-- Cover image -->
+      <!-- 🖼️ Cover image -->
       <div class="is-cover" v-if="article.Cover?.url">
         <img
           :src="getStrapiImageUrl(article.Cover.url)"
@@ -62,12 +62,12 @@ onMounted(() => {
         />
       </div>
 
-      <!-- Title -->
+      <!-- 🧠 Title -->
       <div class="is-title">
         <h1>{{ article.Title }}</h1>
       </div>
 
-      <!-- Content -->
+      <!-- 🧱 Content -->
       <div class="is-content">
         <div
           v-for="block in article.Content"
@@ -102,7 +102,7 @@ onMounted(() => {
         </div>
       </div>
 
-      <!-- YouTube Video -->
+      <!-- 🎥 YouTube Video -->
       <div class="is-video" v-if="videoEmbedUrl">
         <iframe
           :src="videoEmbedUrl"
@@ -113,8 +113,23 @@ onMounted(() => {
         ></iframe>
       </div>
 
+      <!-- 🖼️ Gallery -->
+      <div class="is-gallery" v-if="article.Gallerie?.length">
+        <div
+          class="gallery-item"
+          v-for="(img, index) in article.Gallerie"
+          :key="img.id || index"
+        >
+          <img
+            :src="getStrapiImageUrl(img.url)"
+            :alt="img.alternativeText || img.name"
+            loading="lazy"
+          />
+        </div>
+      </div>
     </div>
 
+    <!-- 🌀 Loading -->
     <div v-else class="loading">
       <p>Loading article...</p>
     </div>
@@ -176,5 +191,31 @@ onMounted(() => {
 
 .is-content a:hover {
   color: var(--yellow);
+}
+
+/* 🖼️ Gallery */
+.is-gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: var(--space-md);
+  margin-top: var(--space-lg);
+}
+
+.is-gallery .gallery-item {
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--radius-md);
+}
+
+.is-gallery img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+  display: block;
+}
+
+.is-gallery img:hover {
+  transform: scale(1.05);
 }
 </style>
