@@ -8,25 +8,30 @@ class StrapiAPI {
   // Build URL with query parameters
   buildURL(endpoint, options = {}) {
     const { populate = '*', sort, filters, pagination, locale = 'en' } = options
-    
+
     let url = `${this.baseURL}/api/${endpoint}`
     const params = new URLSearchParams()
-    
+
     // Add locale for internationalization
     params.append('locale', locale)
-    
-    // Add populate parameter - keep it simple
-    if (populate && populate !== '*') {
-      params.append('populate', populate)
-    } else if (populate === '*') {
+
+    // Add populate parameter - handle nested population
+    if (populate === '*') {
       params.append('populate', '*')
+    } else if (Array.isArray(populate)) {
+      // Handle array of populate paths
+      populate.forEach(path => {
+        params.append('populate', path)
+      })
+    } else if (typeof populate === 'string') {
+      params.append('populate', populate)
     }
-    
+
     // Add sorting
     if (sort) {
       params.append('sort', sort)
     }
-    
+
     // Add filters
     if (filters) {
       if (typeof filters === 'object') {
@@ -35,7 +40,7 @@ class StrapiAPI {
         })
       }
     }
-    
+
     // Add pagination
     if (pagination) {
       if (pagination.page) params.append('pagination[page]', pagination.page)
@@ -43,11 +48,11 @@ class StrapiAPI {
       if (pagination.start) params.append('pagination[start]', pagination.start)
       if (pagination.limit) params.append('pagination[limit]', pagination.limit)
     }
-    
+
     if (params.toString()) {
       url += `?${params.toString()}`
     }
-    
+
     return url
   }
 
@@ -109,7 +114,15 @@ class StrapiAPI {
   // Saint-Laurent page content
   async getSaintLaurent(locale = 'en') {
     return this.fetch('saint-laurent', {
-      populate: 'Product.Image',
+      populate: ['Cover', 'Product', 'Product.Image'],
+      locale
+    })
+  }
+
+  // Products page
+  async getProductList(locale = 'en') {
+    return this.fetch('product-list', {
+      populate: '*',
       locale
     })
   }
@@ -233,6 +246,7 @@ export const {
   getAbout,
   getSaintLaurent,
   getProducts,
+  getProductList,
   getProduct,
   getBlogPosts,
   getBlogPost,

@@ -24,6 +24,11 @@ const introTitle1 = computed(() => {
 const introTitle2 = computed(() => {
   return props.content?.IntroTitle2 || props.translationStore.translations.saintLaurent[props.translationStore.currentLanguage].introTitle2
 })
+
+// Get Cover image URL from Strapi
+const coverImageUrl = computed(() => {
+  return props.content?.Cover?.url || null
+})
 </script>
 
 <template>
@@ -36,6 +41,10 @@ const introTitle2 = computed(() => {
       <div class="is-logo" data-animate="reveal" data-animate-delay="0" data-animate-duration="1000">
         <SaintLaurentLogo/>
       </div>
+
+      <div class="cover" data-animate="reveal" v-if="coverImageUrl">
+        <img :src="coverImageUrl" alt="Saint-Laurent Cover" />
+      </div>
     </div>
   </section>
 </template>
@@ -44,7 +53,7 @@ const introTitle2 = computed(() => {
 .intro {
   display: flex;
   flex-direction: column;
-  padding: var(--space-2xl) var(--space-rg);
+  padding: var(--space-2xl)  var(--space-rg) var(--space-xl) var(--space-rg);
   position: relative;
   background: var(--green);
   gap: var(--space-lg);
@@ -72,6 +81,19 @@ const introTitle2 = computed(() => {
   > .is-title h2:last-child {
     text-align: right;
   }
+  > .cover {
+    width: 100%;
+    overflow: hidden;
+  }
+  > .cover img {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+  }
+}
+.cover {
+  aspect-ratio: 16/9;
+  overflow: hidden;
 }
 @media screen and (max-width: 768px) {
   .intro {

@@ -74,7 +74,8 @@ section {
     flex-direction: column;
     > li.is-item {
       > .is-link {
-        display: flex;
+        display: grid;
+        grid-template-columns: 1fr 0.25fr 0.25fr 0.25fr;
         gap: var(--space-md);
         padding: var(--space-rg);
         text-decoration: none;

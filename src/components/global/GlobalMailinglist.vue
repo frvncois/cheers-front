@@ -78,6 +78,7 @@ onMounted(() => {
     }
     & h1 {
         font-size: var(--font-lg);
+        max-width:15ch;
     }
 }
 
@@ -142,6 +143,7 @@ onMounted(() => {
     /* Style the submit button */
     button[type="submit"], input[type="submit"] {
         background: var(--accent) !important;
+        margin-top: 1em!important;
         display: flex !important;
         align-items: center !important;
         justify-content: center !important;

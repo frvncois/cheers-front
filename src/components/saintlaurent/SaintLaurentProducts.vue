@@ -105,6 +105,7 @@ const sectionTitle = computed(() => {
     gap: var(--space-xl);
     & img {
         margin: auto;
+        width:100%;
     }
     > .is-item {
         flex: 1;

@@ -34,7 +34,6 @@ const galleryImages = computed(() => {
   <HomeHero :translation-store="props.translationStore" />
   <HomeIntro :translation-store="props.translationStore" />
   <HomeProducts :products="props.filteredProducts" :translation-store="props.translationStore" />
-  <HomeMarquee :translation-store="props.translationStore" />
   <GlobalImageMarquee :images="galleryImages" />
   <HomeCTA :translation-store="props.translationStore" />
   <GlobalTestimonials :translation-store="props.translationStore" />

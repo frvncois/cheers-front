@@ -21,8 +21,9 @@ const aboutTitle = computed(() => {
   return props.content?.AboutTitle || props.translationStore.translations.saintLaurent[props.translationStore.currentLanguage].aboutTitle
 })
 
+// Get Intro, About, Mission from Strapi content
 const aboutDescription1 = computed(() => {
-  return props.content?.AboutDescription1 || props.translationStore.translations.saintLaurent[props.translationStore.currentLanguage].aboutDescription1
+  return props.content?.Intro || props.translationStore.translations.saintLaurent[props.translationStore.currentLanguage].aboutDescription1
 })
 
 const aboutTitle2 = computed(() => {
@@ -30,11 +31,11 @@ const aboutTitle2 = computed(() => {
 })
 
 const aboutDescription2 = computed(() => {
-  return props.content?.AboutDescription2 || props.translationStore.translations.saintLaurent[props.translationStore.currentLanguage].aboutDescription2
+  return props.content?.About || props.translationStore.translations.saintLaurent[props.translationStore.currentLanguage].aboutDescription2
 })
 
 const aboutDescription3 = computed(() => {
-  return props.content?.AboutDescription3 || props.translationStore.translations.saintLaurent[props.translationStore.currentLanguage].aboutDescription3
+  return props.content?.Mission || props.translationStore.translations.saintLaurent[props.translationStore.currentLanguage].aboutDescription3
 })
 
 const whereToBuy = computed(() => {
