@@ -1,5 +1,5 @@
 <script setup>
-import { computed, watchEffect } from 'vue'
+import { computed } from 'vue'
 
 const props = defineProps({
   products: {
@@ -21,10 +21,6 @@ const orderValue = (product) => {
 const sortedProducts = computed(() => {
   if (!Array.isArray(props.products)) return []
   return [...props.products].sort((a, b) => orderValue(a) - orderValue(b))
-})
-
-watchEffect(() => {
-  console.log('[SingleProducts] Sorted products', sortedProducts.value)
 })
 
 

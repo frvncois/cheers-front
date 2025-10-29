@@ -152,16 +152,6 @@ onMounted(() => {
     color: var(--purple) !important;
 }
 
-:deep(#fd-form-68c8583edfa76f53c6189fae) button[type="submit"]::after,
-:deep(#fd-form-68c8583edfa76f53c6189fae) input[type="submit"]::after {
-    content: '';
-    width: 1em;
-    height: 1em;
-    background: currentColor;
-    mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24'%3E%3Cpath stroke='currentColor' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M12 19l9 2-9-18-9 18 9-2zm0 0v-8'/%3E%3C/svg%3E") no-repeat center;
-    mask-size: contain;
-}
-
 :deep(#fd-form-68c8583edfa76f53c6189fae) .fd-form-footer,
 :deep(#fd-form-68c8583edfa76f53c6189fae) .flodesk-embed,
 :deep(#fd-form-68c8583edfa76f53c6189fae) .fd-form-heading,

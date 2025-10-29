@@ -38,7 +38,7 @@
 </template>
 
 <script setup>
-import { ref, computed, watchEffect } from 'vue'
+import { ref, computed } from 'vue'
 import ButtonArrow from '@/assets/ButtonArrow.vue'
 
 const props = defineProps({
@@ -67,10 +67,6 @@ const orderValue = (product) => {
 const sortedProducts = computed(() => {
   if (!Array.isArray(props.products)) return []
   return [...props.products].sort((a, b) => orderValue(a) - orderValue(b))
-})
-
-watchEffect(() => {
-  console.log('[HomeProducts] Sorted products', sortedProducts.value)
 })
 
 const startDrag = (e) => {
@@ -178,6 +174,8 @@ const rangeText = (min, max) => {
           bottom: -2.5em;
           right: -2.5em;
           width: 10em;
+          height: 10em;
+          object-fit: contain;
           transform: rotate(2deg);
           pointer-events: none;
         }

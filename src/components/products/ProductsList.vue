@@ -1,5 +1,5 @@
 <script setup>
-import { computed, watchEffect } from 'vue'
+import { computed } from 'vue'
 import { useRouter } from 'vue-router'
 import { useContentStore } from '@/stores/content.js'
 
@@ -26,10 +26,6 @@ const orderValue = (product) => {
 const sortedProducts = computed(() => {
   if (!Array.isArray(props.products)) return []
   return [...props.products].sort((a, b) => orderValue(a) - orderValue(b))
-})
-
-watchEffect(() => {
-  console.log('[ProductsList] Sorted products', sortedProducts.value)
 })
 
 function handleClick(event, product) {
