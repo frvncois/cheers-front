@@ -12,12 +12,12 @@ const props = defineProps({
   }
 })
 
-// Get featured products directly from Saint-Laurent content
+
 const featuredProducts = computed(() => {
   return props.content?.Product || []
 })
 
-// Get product image URL
+
 const getProductImage = (product) => {
   const image = product.Image?.[0]
   if (image && image.url) {
@@ -26,27 +26,27 @@ const getProductImage = (product) => {
   return null
 }
 
-// Get product title
+
 const getProductTitle = (product) => {
   return product.Title
 }
 
-// Get product type
+
 const getProductType = (product) => {
   return product.Type
 }
 
-// Get product THC content
+
 const getProductTHC = (product) => {
   return product.THC
 }
 
-// Get product size
+
 const getProductSize = (product) => {
   return product.Size
 }
 
-// Section title from content
+
 const sectionTitle = computed(() => {
   return props.content?.ProductsTitle || 'Notre produit phare'
 })

@@ -92,7 +92,6 @@ const handleScroll = () => {
   const section = sectionRef.value
   const marquee = marqueeRef.value
   
-  // Get section bounds
   const sectionRect = section.getBoundingClientRect()
   const sectionTop = sectionRect.top
   const sectionHeight = sectionRect.height
@@ -101,7 +100,6 @@ const handleScroll = () => {
   const scrollProgress = Math.max(0, Math.min(1, (windowHeight - sectionTop) / (windowHeight + sectionHeight)))
   const translateX = -scrollProgress * 50
   
-  // Apply transform
   marquee.style.transform = `translateX(${translateX}%)`
 }
 

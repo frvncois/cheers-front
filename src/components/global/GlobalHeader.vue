@@ -34,7 +34,10 @@
 				</li>
 				<li>
 					<router-link to="/products">{{ translationStore.translations.navigation[translationStore.currentLanguage].products }}</router-link>
-					<router-link to="/saint-laurent">{{ translationStore.translations.navigation[translationStore.currentLanguage].saintLaurent }}</router-link>
+					<router-link
+						v-if="shouldShowSaintLaurent"
+						to="/saint-laurent"
+					>{{ translationStore.translations.navigation[translationStore.currentLanguage].saintLaurent }}</router-link>
 				</li>
 				<li>
 					<router-link to="/about">{{ translationStore.translations.navigation[translationStore.currentLanguage].about }}</router-link>
@@ -69,35 +72,33 @@ import Element01 from '@/assets/Element01.vue';
 import { useTranslationStore } from '@/stores/translation.js';
 import ButtonClose from '@/assets/ButtonClose.vue';
 import { useContentStore } from '@/stores/content.js';
+import { useUserStore } from '@/stores/user.js';
 const contentStore = useContentStore(); 
+const userStore = useUserStore();
 
 const router = useRouter();
 const translationStore = useTranslationStore();
 const isNavVisible = ref(false);
 const isClosing = ref(false);
 
-// Header and nav colors
 const currentHeaderColor = ref('var(--yellow)');
 const currentNavBg = ref('var(--yellow)');
 const currentNavText = ref('var(--purple)');
 
-// Language switcher logic - FIXED: Use 'fr-CA' instead of 'fr'
 const languageButtonText = computed(() => {
 	return translationStore.currentLanguage === 'fr-CA' ? 'English' : 'Français'
 });
 
-// FIXED: Close menu when language is switched
+const shouldShowSaintLaurent = computed(() => userStore.user.location?.code === 'QC');
+
 const handleLanguageSwitch = async () => {
   const newLanguage = translationStore.currentLanguage === 'fr-CA' ? 'en' : 'fr-CA'
   
-  // Update both stores
   translationStore.setLanguage(newLanguage)
   contentStore.setLanguage(newLanguage)
   
-  // Fetch content for new language
   await contentStore.fetchAllContent(true)
   
-  // Close the nav menu
   closeNav()
 }
 
@@ -117,13 +118,11 @@ const closeNav = () => {
 	}, 600);
 };
 
-// Update all colors based on current section
 const updateColors = () => {
 	const sections = document.querySelectorAll('section');
 	
 	if (!sections.length) return;
 	
-	// Find the section at the top of viewport
 	for (const section of sections) {
 		const rect = section.getBoundingClientRect();
 		
@@ -131,7 +130,6 @@ const updateColors = () => {
 			const bgColor = section.getAttribute('data-bg');
 			
 			if (bgColor) {
-				// Set header color based on section background
 				let headerColor, navBg, navText;
 				
 				switch(bgColor) {
@@ -172,12 +170,10 @@ const updateColors = () => {
 };
 
 onMounted(() => {
-	// Initial color check
 	nextTick(() => {
 		updateColors();
 	});
 	
-	// Listen to scroll
 	window.addEventListener('scroll', updateColors, { passive: true });
 });
 
@@ -185,7 +181,6 @@ onUnmounted(() => {
 	window.removeEventListener('scroll', updateColors);
 });
 
-// FIXED: Close menu when navigating to different routes
 watch(() => router.currentRoute.value.path, () => {
 	if (isNavVisible.value) {
 		closeNav();

@@ -1,4 +1,4 @@
-// stores/content.js
+
 import { defineStore } from 'pinia'
 import strapiAPI from '@/services/api.js'
 

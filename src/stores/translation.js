@@ -1,4 +1,5 @@
 import { defineStore } from 'pinia'
+import { useContentStore } from '@/stores/content.js'
 
 export const useTranslationStore = defineStore('translation', {
   state: () => ({
@@ -73,19 +74,19 @@ export const useTranslationStore = defineStore('translation', {
         }
       },
 
-      // All Home Content
+      
       home: {
         'fr-CA': {
-          // HomeHero
+          
           heroTitle1: 'Chaque <span>gramme</span> est',
           heroTitle2: 'le <span>fruit</span> de',
           heroTitle3: 'notre savoir-faire',
-          // HomeIntro
+          
           cultivatedWith: 'Cultivé avec<br>passion',
           sharedWith: 'Partagé avec<br>plaisir',
           learnMore: 'En savoir plus',
           whereToBuy: 'Où acheter',
-          // HomeCTA
+          
           passionateProducer: 'Producteur passionné',
           produceA: 'Produire un',
           cannabis: 'cannabis',
@@ -132,7 +133,7 @@ export const useTranslationStore = defineStore('translation', {
         }
       },
 
-      // Contact Form
+      
       contact: {
         'fr-CA': {
           title: 'Contactez-nous',
@@ -186,7 +187,7 @@ export const useTranslationStore = defineStore('translation', {
         }
       },
 
-      // Testimonials Section
+      
       testimonials: {
         'fr-CA': {
           title: 'Votre avis<br>nous intéresse',
@@ -200,7 +201,7 @@ export const useTranslationStore = defineStore('translation', {
         }
       },
 
-      // Newsletter/Mailing List
+      
       newsletter: {
         'fr-CA': {
           title: 'Une infolettre pour rester à la page',
@@ -224,7 +225,7 @@ export const useTranslationStore = defineStore('translation', {
         }
       },
 
-      // Products Section
+      
       products: {
         'fr-CA': {
           sectionTitle: 'Découvrez nos autres gammes et produits de la famille Cheers',
@@ -278,18 +279,18 @@ export const useTranslationStore = defineStore('translation', {
         }
       },
 
-      // About Section
+      
       about: {
         'fr-CA': {
           tagline: 'Chaque gramme est le fruit de notre savoir-faire',
           cultivatedWith: 'Cultivé avec passion',
           sharedWith: 'Partagé avec plaisir',
           contactUs: 'Contactez-nous',
-          // AboutMarquee
+          
           familyStory: 'Une histoire<br>de famille',
           since2018: 'Depuis 2018',
           aboutTitle: 'À Propos',
-          // AboutIntro
+          
           craftsmanshipTagline: 'Chaque gramme<br>est le fruit de<br>notre savoir-faire'
         },
         en: {
@@ -297,39 +298,39 @@ export const useTranslationStore = defineStore('translation', {
           cultivatedWith: 'Cultivated with passion',
           sharedWith: 'Shared with pleasure',
           contactUs: 'Contact us',
-          // AboutMarquee
+          
           familyStory: 'A family<br>story',
           since2018: 'Since 2018',
           aboutTitle: 'About Us',
-          // AboutIntro
+          
           craftsmanshipTagline: 'Every gram<br>is the result of<br>our expertise'
         }
       },
 
       blog: {
       'fr-CA': {
-        // BlogIntro
+        
         discover: 'Découvrez',
         ourBlog: 'Notre blog',
         whatsHappening: 'Il se passe quoi chez Cheers ?',
         blogDescription: 'Apprenez en plus sur le cannabis et sur notre compagnie de production. Il nous arrive de participer a des événements pour aller a la rencontre de notre communauté.',
-        // BlogArticles
+        
         readMore: 'Lire la suite',
         noImage: 'Aucune image'
       },
       en: {
-        // BlogIntro
+        
         discover: 'Discover',
         ourBlog: 'Our blog',
         whatsHappening: 'What\'s happening at Cheers?',
         blogDescription: 'Learn more about cannabis and our production company. We sometimes participate in events to meet our community.',
-        // BlogArticles
+        
         readMore: 'Read more',
         noImage: 'No image'
       }
       },
 
-      // Saint-Laurent Section
+      
       saintLaurent: {
         'fr-CA': {
           introTitle1: 'Saint Laurent partage une vision commune',
@@ -353,7 +354,7 @@ export const useTranslationStore = defineStore('translation', {
         }
       },
 
-      // Product Descriptions
+      
       productDescriptions: {
         'fr-CA': {
           genericDescription: 'Cette variété de {{category}}, sous forme de fleurs séchées, possède une intensité de THC et contient du CBD. Elle pourrait laisser une impression d\'être plus relaxé. Ses terpènes génèrent naturellement des arômes {{aroma}}.',
@@ -367,7 +368,7 @@ export const useTranslationStore = defineStore('translation', {
         }
       },
 
-      // Footer
+      
       footer: {
         'fr-CA': {
           copyright: '© 2025 cheerscannabis.com. Tous droits réservés',
@@ -385,7 +386,7 @@ export const useTranslationStore = defineStore('translation', {
         }
       },
 
-      // Loading States
+      
       loading: {
         'fr-CA': {
           loading: 'Chargement...',
@@ -401,7 +402,7 @@ export const useTranslationStore = defineStore('translation', {
         }
       },
 
-      // Error Messages
+      
       errors: {
         'fr-CA': {
           genericError: 'Une erreur s\'est produite',
@@ -425,7 +426,7 @@ export const useTranslationStore = defineStore('translation', {
         }
       },
 
-      // Form Validation
+      
       validation: {
         'fr-CA': {
           required: 'Ce champ est requis',
@@ -447,7 +448,7 @@ export const useTranslationStore = defineStore('translation', {
         }
       },
 
-      // Common Actions
+      
       common: {
         'fr-CA': {
           yes: 'Oui',
@@ -497,7 +498,7 @@ export const useTranslationStore = defineStore('translation', {
         }
       },
 
-      // Date & Time
+      
       dateTime: {
         'fr-CA': {
           days: ['Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi'],
@@ -528,58 +529,58 @@ export const useTranslationStore = defineStore('translation', {
   }),
 
   getters: {
-    // Get current language info
+    
     currentLanguageInfo: (state) => {
       return state.availableLanguages.find(lang => lang.code === state.currentLanguage)
     },
 
-    // Check if current language is French (default)
+    
     isFrench: (state) => state.currentLanguage === 'fr-CA',
 
-    // Check if current language is English
+    
     isEnglish: (state) => state.currentLanguage === 'en',
 
-    // Get all available languages
+    
     languages: (state) => state.availableLanguages,
 
-    // Get translation function - this is the main getter you'll use
+    
     t: (state) => (key, fallback = null) => {
-      // Split the key by dots to handle nested objects
+      
       const keys = key.split('.')
       let translation = state.translations
       
-      // Navigate through the translation object
+      
       for (const k of keys) {
         if (translation && translation[k]) {
           translation = translation[k]
         } else {
-          // Key not found, return fallback or key
+          
           return fallback || key
         }
       }
       
-      // Get the translation for current language
+      
       if (translation && typeof translation === 'object' && translation[state.currentLanguage]) {
         return translation[state.currentLanguage]
       }
       
-      // Fallback to French if English translation not found
+      
       if (translation && typeof translation === 'object' && translation['fr-CA'] && state.currentLanguage !== 'fr-CA') {
         return translation['fr-CA']
       }
       
-      // Return fallback or original key if no translation found
+      
       return fallback || key
     },
 
-    // Get translation with interpolation support
-    // Usage: tl('some.key', { name: 'John', count: 5 })
+    
+    
     tl: (state) => (key, interpolations = {}, fallback = null) => {
       const translation = state.translations
       const keys = key.split('.')
       let result = translation
       
-      // Navigate through the translation object
+      
       for (const k of keys) {
         if (result && result[k]) {
           result = result[k]
@@ -588,7 +589,7 @@ export const useTranslationStore = defineStore('translation', {
         }
       }
       
-      // Get the translation for current language
+      
       let translatedText = ''
       if (result && typeof result === 'object' && result[state.currentLanguage]) {
         translatedText = result[state.currentLanguage]
@@ -598,7 +599,7 @@ export const useTranslationStore = defineStore('translation', {
         return fallback || key
       }
       
-      // Apply interpolations
+      
       Object.keys(interpolations).forEach(placeholder => {
         const value = interpolations[placeholder]
         translatedText = translatedText.replace(new RegExp(`{{\\s*${placeholder}\\s*}}`, 'g'), value)
@@ -609,89 +610,73 @@ export const useTranslationStore = defineStore('translation', {
   },
 
   actions: {
-    // Set the current language and trigger content refetch
-setLanguage(languageCode) {
-  if (this.availableLanguages.some(lang => lang.code === languageCode)) {
-    this.currentLanguage = languageCode
-    
-    // Save to localStorage
-    try {
-      localStorage.setItem('cheers_language', languageCode)
-    } catch (error) {
-      console.warn('Could not save language preference to localStorage:', error)
-    }
-    
-    return true
-  }
-  return false
-},
+    setLanguage(languageCode) {
+      if (this.availableLanguages.some(lang => lang.code === languageCode)) {
+        this.currentLanguage = languageCode
 
-    // Set language based on user location
+        try {
+          localStorage.setItem('cheers_language', languageCode)
+        } catch {
+        }
+
+        return true
+      }
+      return false
+    },
+
     setLanguageByLocation(locationCode) {
-      let language = 'en' // Default to English
-      
-      // Only Quebec gets French
+      let language = 'en'
+
       if (locationCode === 'QC') {
         language = 'fr-CA'
       }
-      
+
       this.setLanguage(language)
     },
 
-    // Toggle between available languages
     toggleLanguage() {
       const currentIndex = this.availableLanguages.findIndex(lang => lang.code === this.currentLanguage)
       const nextIndex = (currentIndex + 1) % this.availableLanguages.length
       const nextLanguage = this.availableLanguages[nextIndex]
-      
+
       this.setLanguage(nextLanguage.code)
     },
 
-async refetchContent() {
-  try {
-    const { useContentStore } = await import('@/stores/content.js')
-    const contentStore = useContentStore()
-    
-    // Wait for the content to actually load
-    await contentStore.setLanguage(this.currentLanguage, true)
-    
-    console.log(`Content refetched for language: ${this.currentLanguage}`)
-  } catch (error) {
-    console.error('Error refetching content with new language:', error)
-  }
-},
+    async refetchContent() {
+      try {
+        const contentStore = useContentStore()
 
-    // Load language preference from localStorage
+        await contentStore.setLanguage(this.currentLanguage, true)
+      } catch {
+      }
+    },
+
     loadLanguagePreference() {
       try {
         const savedLanguage = localStorage.getItem('cheers_language')
         if (savedLanguage && this.availableLanguages.some(lang => lang.code === savedLanguage)) {
           this.currentLanguage = savedLanguage
         }
-      } catch (error) {
-        console.warn('Could not load language preference from localStorage:', error)
+      } catch {
       }
     },
 
-    // Initialize the translation store
     init() {
       this.loadLanguagePreference()
     },
 
-    // Add new translations (for dynamic content)
     addTranslations(category, translations) {
       if (!this.translations[category]) {
         this.translations[category] = {}
       }
-      
+
       Object.assign(this.translations[category], translations)
     },
 
-    // Check if a translation exists
     hasTranslation(key) {
       const keys = key.split('.')
       let translation = this.translations
-      
+
       for (const k of keys) {
         if (translation && translation[k]) {
           translation = translation[k]
@@ -699,24 +684,22 @@ async refetchContent() {
           return false
         }
       }
-      
-      return translation && typeof translation === 'object' && 
+
+      return translation && typeof translation === 'object' &&
              (translation[this.currentLanguage] || translation['fr-CA'])
     },
 
-    // Get available keys for a category
     getKeysForCategory(category) {
       if (!this.translations[category]) {
         return []
       }
-      
+
       return Object.keys(this.translations[category])
     },
 
-    // Debug helper - get all translation keys
     getAllTranslationKeys() {
       const keys = []
-      
+
       const traverse = (obj, prefix = '') => {
         Object.keys(obj).forEach(key => {
           const newKey = prefix ? `${prefix}.${key}` : key
@@ -727,7 +710,7 @@ async refetchContent() {
           }
         })
       }
-      
+
       traverse(this.translations)
       return keys
     }

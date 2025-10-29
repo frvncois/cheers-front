@@ -1,10 +1,11 @@
 <script setup>
-import { ref, onMounted, onUnmounted } from 'vue'
+import { ref, onMounted, onUnmounted, computed } from 'vue'
 import CheersLogo from '@/assets/CheersLogo.vue';
 import CheersIcon from '@/assets/CheersIcon.vue';
 import Element01 from '@/assets/Element01.vue';
 import Element02 from '@/assets/Element02.vue';
 import Element03 from '@/assets/Element03.vue';
+import { useUserStore } from '@/stores/user.js';
 
 const props = defineProps({
   translationStore: {
@@ -12,6 +13,9 @@ const props = defineProps({
     required: true
   }
 })
+
+const userStore = useUserStore()
+const shouldShowSaintLaurent = computed(() => userStore.user.location?.code === 'QC')
 
 const sectionRef = ref(null)
 const marqueeRef = ref(null)
@@ -22,7 +26,6 @@ const handleScroll = () => {
   const section = sectionRef.value
   const marquee = marqueeRef.value
   
-  // Get section bounds
   const sectionRect = section.getBoundingClientRect()
   const sectionTop = sectionRect.top
   const sectionHeight = sectionRect.height
@@ -32,7 +35,6 @@ const handleScroll = () => {
   
   const translateX = -scrollProgress * 50
   
-  // Apply transform
   marquee.style.transform = `translateX(${translateX}%)`
 }
 
@@ -102,7 +104,10 @@ onUnmounted(() => {
         </li>
         <li data-animate="fade" data-animate-delay="600" data-animate-duration="1000">
           <RouterLink to="/products">{{ props.translationStore.translations.navigation[props.translationStore.currentLanguage].products }}</RouterLink>
-          <RouterLink to="/saint-laurent">{{ props.translationStore.translations.navigation[props.translationStore.currentLanguage].saintLaurent }}</RouterLink>
+          <RouterLink
+            v-if="shouldShowSaintLaurent"
+            to="/saint-laurent"
+          >{{ props.translationStore.translations.navigation[props.translationStore.currentLanguage].saintLaurent }}</RouterLink>
         </li>
         <li data-animate="fade" data-animate-delay="700" data-animate-duration="1000">
           <RouterLink to="/about">{{ props.translationStore.translations.navigation[props.translationStore.currentLanguage].about }}</RouterLink>

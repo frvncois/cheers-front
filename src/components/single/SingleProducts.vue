@@ -1,4 +1,6 @@
 <script setup>
+import { computed, watchEffect } from 'vue'
+
 const props = defineProps({
   products: {
     type: Array,
@@ -10,7 +12,22 @@ const props = defineProps({
   }
 })
 
-// Helper functions for product data
+const orderValue = (product) => {
+  const raw = product?.Order ?? product?.order ?? product?.attributes?.Order ?? product?.attributes?.order
+  const value = Number(raw)
+  return Number.isFinite(value) ? value : Number.MAX_SAFE_INTEGER
+}
+
+const sortedProducts = computed(() => {
+  if (!Array.isArray(props.products)) return []
+  return [...props.products].sort((a, b) => orderValue(a) - orderValue(b))
+})
+
+watchEffect(() => {
+  console.log('[SingleProducts] Sorted products', sortedProducts.value)
+})
+
+
 const aromaText = (product) => {
   if (!product.Aroma?.notes) return ''
   return product.Aroma.notes.join(', ')
@@ -31,7 +48,7 @@ const rangeText = (min, max) => {
         </h2>
       </div>
       <ul class="is-items">
-        <li class="is-item" v-for="p in products" :key="p.id || p.documentId">
+        <li class="is-item" v-for="p in sortedProducts" :key="p.id || p.documentId || p.Title">
           <router-link
             :to="{ name: 'product', params: { id: p.id || p.documentId } }"
             class="is-link"

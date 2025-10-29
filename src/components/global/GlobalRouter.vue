@@ -46,7 +46,7 @@
               v-model="selectedLocation"
               name="location"
             />
-            {{ location.name }}
+            <span>{{ location.name }}</span>
           </label>
       </div>
       
@@ -83,7 +83,7 @@
 import { ref, computed, onMounted } from 'vue'
 import CheersIcon from '@/assets/CheersIcon.vue'
 
-// Receive userStore as prop from App.vue
+
 const props = defineProps({
   userStore: {
     type: Object,
@@ -91,11 +91,11 @@ const props = defineProps({
   }
 })
 
-// Component state - ALWAYS START WITH MODAL VISIBLE
+
 const showModal = ref(true)
 const isSubmitting = ref(false)
 
-// Form data
+
 const birthday = ref({
   day: '',
   month: '',
@@ -104,11 +104,11 @@ const birthday = ref({
 const selectedLocation = ref('')
 const rememberMe = ref(false)
 
-// Get locations from store
+
 const locations = computed(() => props.userStore.availableLocations)
 const currentYear = computed(() => new Date().getFullYear())
 
-// Error handling
+
 const errors = ref({
   birthday: '',
   location: '',
@@ -116,34 +116,34 @@ const errors = ref({
   general: ''
 })
 
-// Clear all errors
+
 const clearErrors = () => {
   Object.keys(errors.value).forEach(key => {
     errors.value[key] = ''
   })
 }
 
-// Main form validation and submission handler
+
 const handleConfirm = async () => {
   clearErrors()
   isSubmitting.value = true
   
   try {
-    // Step 1: Validate birthday
+    
     const birthdayValidation = props.userStore.validateBirthday(birthday.value)
     if (!birthdayValidation.isValid) {
       errors.value.birthday = birthdayValidation.error
       return
     }
     
-    // Step 2: Validate location
+    
     const locationValidation = props.userStore.validateLocation(selectedLocation.value)
     if (!locationValidation.isValid) {
       errors.value.location = locationValidation.error
       return
     }
     
-    // Step 3: Calculate age and validate against legal requirements
+    
     const age = props.userStore.calculateAge(birthday.value)
     const ageValidation = props.userStore.validateAge(age, selectedLocation.value)
     if (!ageValidation.isValid) {
@@ -151,7 +151,7 @@ const handleConfirm = async () => {
       return
     }
     
-    // Step 4: Prepare user data for storage
+    
     const userData = {
       birthday: {
         day: parseInt(birthday.value.day),
@@ -167,14 +167,14 @@ const handleConfirm = async () => {
       verifiedAt: new Date().toISOString()
     }
     
-    // Step 5: Save user data to store
+    
     const result = await props.userStore.setUserData(userData)
     if (!result.success) {
       errors.value.general = result.error || 'Failed to save verification data'
       return
     }
     
-    // Step 6: Success - close modal and emit verification event
+    
     showModal.value = false
     emit('verified', {
       success: true,
@@ -182,21 +182,20 @@ const handleConfirm = async () => {
       canAccessProducts: props.userStore.canAccessProducts()
     })
     
-  } catch (error) {
-    console.error('Error during verification:', error)
+  } catch {
     errors.value.general = 'An unexpected error occurred. Please try again.'
   } finally {
     isSubmitting.value = false
   }
 }
 
-// Check for existing valid session but DON'T auto-hide modal
+
 onMounted(async () => {
   try {
     const loadResult = await props.userStore.loadFromStorage()
     
     if (loadResult.success && props.userStore.isVerified && props.userStore.isSessionValid) {
-      // User has valid session - pre-fill form but keep modal visible
+      
       if (props.userStore.user.birthday) {
         birthday.value = {
           day: props.userStore.user.birthday.day.toString(),
@@ -211,17 +210,16 @@ onMounted(async () => {
       
       rememberMe.value = props.userStore.user.rememberMe || false
       
-      // KEEP MODAL VISIBLE - user must click confirm every time
+      
     }
-  } catch (error) {
-    console.error('Error loading stored verification:', error)
+  } catch {
   }
 })
 
-// Define emits
+
 const emit = defineEmits(['verified'])
 
-// Expose methods for parent component if needed
+
 defineExpose({
   showModal: () => { 
     showModal.value = true 
@@ -301,17 +299,25 @@ defineExpose({
       }
       & label {
         width: 5em;
-        border: 1px solid var(--purple);
-        padding: var(--space-xs);
         border-radius: var(--space-sm);
         cursor: pointer;
-        transition: all 0.3s ease;
-        &:hover {
+        overflow: hidden;
+        transition: transform 0.3s ease;
+        &:hover span {
           background: var(--purple);
           color: var(--yellow);
         }
       }
-      label:has(input:checked) {
+      & label span {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: 1px solid var(--purple);
+        padding: var(--space-xs);
+        border-radius: var(--space-sm);
+        transition: all 0.3s ease;
+      }
+      & label input:checked + span {
         background: var(--purple);
         color: var(--yellow);
       }
@@ -362,9 +368,9 @@ button:disabled {
   cursor: not-allowed;
 }
 
-/* Add this to your GlobalRouter.vue <style> section */
 
-/* Custom checkbox styles */
+
+
 .is-actions label {
   display: flex;
   align-items: center;
@@ -373,12 +379,12 @@ button:disabled {
 }
 
 .is-actions input[type="checkbox"] {
-  /* Hide default checkbox */
+  
   appearance: none;
   -webkit-appearance: none;
   -moz-appearance: none;
   
-  /* Create custom circular checkbox */
+  
   width: 1.2em;
   height: 1.2em;
   border: 2px solid var(--purple);
@@ -386,16 +392,16 @@ button:disabled {
   background: transparent;
   cursor: pointer;
   
-  /* Smooth transitions */
+  
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   
-  /* Position for pseudo-element */
+  
   position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
   
-  /* Prevent shrinking in flex layout */
+  
   flex-shrink: 0;
 }
 

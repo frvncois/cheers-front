@@ -2,7 +2,6 @@
 import { computed, ref } from 'vue'
 import ButtonBorder from '@/assets/ButtonBorder.vue'
 
-// Props
 const props = defineProps({
   product: {
     type: Object,
@@ -10,10 +9,8 @@ const props = defineProps({
   }
 })
 
-// Slider state
 const currentSlide = ref(0)
 
-// Helper functions for product data
 const aromaText = computed(() => {
   if (!props.product?.Aroma?.notes) return ''
   return props.product.Aroma.notes.join(', ')
@@ -31,7 +28,6 @@ const cbdText = computed(() => {
   return `${props.product.CBDmin || '0'} - ${props.product.CBDmax || '0'}`
 })
 
-// Slider functions
 const goToSlide = (index) => {
   currentSlide.value = index
 }

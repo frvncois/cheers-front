@@ -12,7 +12,7 @@
           @mousemove="drag"
           @mouseup="endDrag"
           @mouseleave="endDrag">
-          <li class="is-item" v-for="product in props.products" :key="product.id || product.Title">
+          <li class="is-item" v-for="product in sortedProducts" :key="product.id || product.Title || product.documentId">
             <div class="is-header" data-animate="reveal">
               <h1>{{ product.Title }}</h1>
               <h2>{{ aromaText(product) }}</h2>
@@ -28,7 +28,7 @@
               </div>
             </div>
           </li>
-          <li v-if="!props.products?.length" class="is-item">
+          <li v-if="!sortedProducts.length" class="is-item">
             {{ translationStore.translations.home[translationStore.currentLanguage].noProductsAvailable }}
           </li>
         </ul>
@@ -38,7 +38,7 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, computed, watchEffect } from 'vue'
 import ButtonArrow from '@/assets/ButtonArrow.vue'
 
 const props = defineProps({
@@ -57,6 +57,21 @@ const sliderRef = ref(null)
 const isDragging = ref(false)
 const startX = ref(0)
 const scrollLeft = ref(0)
+
+const orderValue = (product) => {
+  const raw = product?.Order ?? product?.order ?? product?.attributes?.Order ?? product?.attributes?.order
+  const value = Number(raw)
+  return Number.isFinite(value) ? value : Number.MAX_SAFE_INTEGER
+}
+
+const sortedProducts = computed(() => {
+  if (!Array.isArray(props.products)) return []
+  return [...props.products].sort((a, b) => orderValue(a) - orderValue(b))
+})
+
+watchEffect(() => {
+  console.log('[HomeProducts] Sorted products', sortedProducts.value)
+})
 
 const startDrag = (e) => {
   const el = sliderRef.value
@@ -197,5 +212,3 @@ const rangeText = (min, max) => {
   }
 }
 </style>
-
-

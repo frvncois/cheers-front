@@ -13,10 +13,10 @@ const props = defineProps({
   }
 })
 
-// Get translations for Saint-Laurent section
+
 const t = computed(() => props.translationStore.t)
 
-// Get title from Strapi content or fallback to translations
+
 const introTitle1 = computed(() => {
   return props.content?.IntroTitle1 || props.translationStore.translations.saintLaurent[props.translationStore.currentLanguage].introTitle1
 })
@@ -25,7 +25,7 @@ const introTitle2 = computed(() => {
   return props.content?.IntroTitle2 || props.translationStore.translations.saintLaurent[props.translationStore.currentLanguage].introTitle2
 })
 
-// Get Cover image URL from Strapi
+
 const coverImageUrl = computed(() => {
   return props.content?.Cover?.url || null
 })

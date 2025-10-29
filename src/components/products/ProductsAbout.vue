@@ -1,11 +1,81 @@
 <script setup>
-import Element03 from '@/assets/Element03.vue';
+import { computed } from 'vue'
+import Element03 from '@/assets/Element03.vue'
+import introFallback from '@/assets/intro.png'
 
 const props = defineProps({
   translationStore: {
     type: Object,
     required: true
+  },
+  content: {
+    type: Object,
+    default: () => ({})
+  },
+  aboutImageUrl: {
+    type: String,
+    default: ''
   }
+})
+
+const cmsContent = computed(() => props.content || {})
+
+const translations = computed(() => {
+  const store = props.translationStore
+  return store?.translations?.products?.[store?.currentLanguage] || {}
+})
+
+const craftsmanshipTitle = computed(() => {
+  return (
+    cmsContent.value.About_Title ||
+    cmsContent.value.craftsmanshipTitle ||
+    cmsContent.value.title ||
+    translations.value.craftsmanshipTitle ||
+    ''
+  )
+})
+
+const aboutDescription = computed(() => {
+  return (
+    cmsContent.value.About_Content ||
+    cmsContent.value.aboutDescription ||
+    cmsContent.value.description ||
+    translations.value.aboutDescription ||
+    ''
+  )
+})
+
+const baseURL = import.meta.env.VITE_STRAPI_URL || 'https://heroic-champion-86333ba9c3.strapiapp.com'
+
+const imageSrc = computed(() => {
+  if (props.aboutImageUrl) return props.aboutImageUrl
+
+  const media =
+    cmsContent.value.About_Cover ||
+    cmsContent.value.aboutCover ||
+    cmsContent.value.aboutImage ||
+    cmsContent.value.coverImage
+
+  if (typeof media === 'string') {
+    if (media.startsWith('http://') || media.startsWith('https://')) {
+      return media
+    }
+    if (media.startsWith('/')) {
+      return `${baseURL}${media}`
+    }
+    return media
+  }
+
+  const mediaData = media?.data || media
+  const url = mediaData?.attributes?.url || mediaData?.url
+  if (url) {
+    if (url.startsWith('http://') || url.startsWith('https://')) {
+      return url
+    }
+    return `${baseURL}${url}`
+  }
+
+  return introFallback
 })
 </script>
 
@@ -14,11 +84,22 @@ const props = defineProps({
     <div class="about">
       <div class="is-content">
         <Element03/>
-        <h2 data-animate="fade" data-animate-duration="2500" v-html="props.translationStore.translations.products[props.translationStore.currentLanguage].craftsmanshipTitle"></h2>
-        <p data-animate="fade" data-animate-delay="250">{{ props.translationStore.translations.products[props.translationStore.currentLanguage].aboutDescription }}</p>
+        <h2
+          v-if="craftsmanshipTitle"
+          data-animate="fade"
+          data-animate-duration="2500"
+          v-html="craftsmanshipTitle"
+        />
+        <p
+          v-if="aboutDescription"
+          data-animate="fade"
+          data-animate-delay="250"
+        >
+          {{ aboutDescription }}
+        </p>
       </div>
       <div class="is-cover" data-animate="reveal">
-        <img src="@/assets/intro.png"/>
+        <img :src="imageSrc" alt="" />
       </div>
     </div>
   </section>
@@ -54,6 +135,7 @@ const props = defineProps({
     > .is-cover {
         flex: 1;
         width: 100%;
+        aspect-ratio: 16 / 9;
         overflow: hidden;
         background: red;
         > img {

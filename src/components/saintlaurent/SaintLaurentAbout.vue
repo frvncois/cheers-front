@@ -13,15 +13,15 @@ const props = defineProps({
   }
 })
 
-// Get translations
+
 const t = computed(() => props.translationStore.t)
 
-// Get content from Strapi or fallback to translations
+
 const aboutTitle = computed(() => {
   return props.content?.AboutTitle || props.translationStore.translations.saintLaurent[props.translationStore.currentLanguage].aboutTitle
 })
 
-// Get Intro, About, Mission from Strapi content
+
 const aboutDescription1 = computed(() => {
   return props.content?.Intro || props.translationStore.translations.saintLaurent[props.translationStore.currentLanguage].aboutDescription1
 })

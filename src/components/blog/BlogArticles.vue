@@ -1,5 +1,5 @@
 <script setup>
-import { computed, onMounted } from 'vue'
+import { computed } from 'vue'
 import { useContentStore } from '@/stores/content.js'
 
 const props = defineProps({
@@ -11,26 +11,10 @@ const props = defineProps({
 
 const contentStore = useContentStore()
 
-// Debug: show raw store and articles
-onMounted(() => {
-  console.log('🚀 [onMounted] contentStore:', contentStore)
-  console.log('🚀 [onMounted] publishedBlogPosts:', contentStore.publishedBlogPosts)
-})
-
 const articles = computed(() => contentStore.publishedBlogPosts || [])
 
-// ✅ We know Cover.url exists and is absolute
 const getArticleImage = (article) => {
   if (!article) return null
-
-  // Log everything for each article (once)
-  console.group(`🖼️ Article: ${article.Title}`)
-  console.log('Full article:', article)
-  console.log('Cover:', article.Cover)
-  console.log('Cover.url:', article?.Cover?.url)
-  console.groupEnd()
-
-  // Return direct URL
   return article?.Cover?.url || null
 }
 </script>

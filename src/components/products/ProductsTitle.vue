@@ -9,13 +9,53 @@ const props = defineProps({
   translationStore: {
     type: Object,
     required: false
+  },
+  content: {
+    type: Object,
+    default: () => ({})
   }
 })
 
-// 🧠 Use computed for reactivity
-const t = computed(() => {
+const cmsContent = computed(() => props.content || {})
+
+const translations = computed(() => {
   const store = props.translationStore
   return store?.translations?.products?.[store?.currentLanguage] || {}
+})
+
+const introText = computed(() => {
+  return (
+    props.intro ||
+    cmsContent.value.Intro ||
+    cmsContent.value.intro ||
+    cmsContent.value.introText ||
+    cmsContent.value.description ||
+    ''
+  )
+})
+
+const primaryHeading = computed(() => {
+  return (
+    cmsContent.value.headingPrimary ||
+    cmsContent.value.primaryHeading ||
+    cmsContent.value.primaryTitle ||
+    cmsContent.value.Primary_Heading ||
+    cmsContent.value.cultivatedWithPassion ||
+    translations.value.cultivatedWithPassion ||
+    null
+  )
+})
+
+const secondaryHeading = computed(() => {
+  return (
+    cmsContent.value.headingSecondary ||
+    cmsContent.value.secondaryHeading ||
+    cmsContent.value.secondaryTitle ||
+    cmsContent.value.Secondary_Heading ||
+    cmsContent.value.sharedWithPleasure ||
+    translations.value.sharedWithPleasure ||
+    null
+  )
 })
 </script>
 
@@ -27,25 +67,27 @@ const t = computed(() => {
           <img src="@/assets/cup.png" />
         </div>
 
-        <!-- ✅ Always safe, reactive -->
-        <p data-animate="fade" data-animate-duration="2500">
-          {{ props.intro }}
+        <p
+          v-if="introText"
+          data-animate="fade"
+          data-animate-duration="2500"
+        >
+          {{ introText }}
         </p>
       </div>
 
       <div class="is-bottom">
-        <!-- ✅ Guarded dynamic titles -->
         <h2
-          v-if="t.cultivatedWithPassion"
+          v-if="primaryHeading"
           data-animate="reveal"
           data-animate-duration="1000"
-          v-html="t.cultivatedWithPassion"
+          v-html="primaryHeading"
         />
         <h2
-          v-if="t.sharedWithPleasure"
+          v-if="secondaryHeading"
           data-animate="reveal"
           data-animate-duration="1000"
-          v-html="t.sharedWithPleasure"
+          v-html="secondaryHeading"
         />
       </div>
     </div>

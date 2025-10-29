@@ -6,16 +6,13 @@ import { useContentStore } from '@/stores/content.js'
 const route = useRoute()
 const contentStore = useContentStore()
 
-// Loading state
 const loading = computed(() => contentStore.loading.blog)
 
-// Get current article by route param
 const article = computed(() => {
   const documentId = route.params.id
   return contentStore.blog.find(post => post.documentId === documentId)
 })
 
-// Convert Strapi media URLs
 const getStrapiImageUrl = (url) => {
   if (!url) return ''
   const baseURL = import.meta.env.VITE_STRAPI_URL || 'http://localhost:1337'
@@ -23,7 +20,6 @@ const getStrapiImageUrl = (url) => {
   return url.startsWith('/') ? `${baseURL}${url}` : `${baseURL}/${url}`
 }
 
-// Convert YouTube URL → embed URL
 const videoEmbedUrl = computed(() => {
   if (!article.value?.Video) return null
   const url = article.value.Video.trim()
@@ -43,7 +39,6 @@ const videoEmbedUrl = computed(() => {
   return url
 })
 
-// Fetch blog posts if not loaded
 onMounted(() => {
   if (contentStore.blog.length === 0 && !contentStore.loading.blog) {
     contentStore.fetchBlog()
@@ -54,7 +49,6 @@ onMounted(() => {
 <template>
   <section data-bg="light">
     <div class="article" v-if="article">
-      <!-- 🖼️ Cover image -->
       <div class="is-cover" v-if="article.Cover?.url">
         <img
           :src="getStrapiImageUrl(article.Cover.url)"
@@ -62,12 +56,10 @@ onMounted(() => {
         />
       </div>
 
-      <!-- 🧠 Title -->
       <div class="is-title">
         <h1>{{ article.Title }}</h1>
       </div>
 
-      <!-- 🧱 Content -->
       <div class="is-content">
         <div
           v-for="block in article.Content"
@@ -78,7 +70,6 @@ onMounted(() => {
               v-for="child in block.children"
               :key="child.id || Math.random()"
             >
-              <!-- 🔗 Link node -->
               <a
                 v-if="child.type === 'link'"
                 :href="child.url"
@@ -93,7 +84,6 @@ onMounted(() => {
                 </template>
               </a>
 
-              <!-- 🧱 Text node -->
               <span v-else-if="child.type === 'text'">
                 {{ child.text }}
               </span>
@@ -102,7 +92,6 @@ onMounted(() => {
         </div>
       </div>
 
-      <!-- 🎥 YouTube Video -->
       <div class="is-video" v-if="videoEmbedUrl">
         <iframe
           :src="videoEmbedUrl"
@@ -113,7 +102,6 @@ onMounted(() => {
         ></iframe>
       </div>
 
-      <!-- 🖼️ Gallery -->
       <div class="is-gallery" v-if="article.Gallerie?.length">
         <div
           class="gallery-item"
@@ -129,7 +117,6 @@ onMounted(() => {
       </div>
     </div>
 
-    <!-- 🌀 Loading -->
     <div v-else class="loading">
       <p>Loading article...</p>
     </div>
@@ -146,7 +133,6 @@ onMounted(() => {
   gap: var(--space-md);
 }
 
-/* Cover image */
 .is-cover img {
   width: 100%;
   aspect-ratio: 1.5;
@@ -155,11 +141,10 @@ onMounted(() => {
   display: block;
 }
 
-/* YouTube video */
 .is-video {
   position: relative;
   width: 100%;
-  padding-top: 56.25%; /* 16:9 ratio */
+  padding-top: 56.25%;
   margin: var(--space-md) 0;
   border-radius: var(--radius-md);
   overflow: hidden;
@@ -174,7 +159,6 @@ onMounted(() => {
   border: none;
 }
 
-/* Content */
 .is-content {
   display: flex;
   flex-direction: column;
@@ -193,7 +177,6 @@ onMounted(() => {
   color: var(--yellow);
 }
 
-/* 🖼️ Gallery */
 .is-gallery {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));

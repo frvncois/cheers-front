@@ -22,7 +22,6 @@ const contentStore = useContentStore()
 const sectionRef = ref(null)
 const marqueeRef = ref(null)
 
-// Get marquee text from Strapi or use translations
 const marqueeText1 = computed(() => {
   return props.content?.MarqueeText1 || 'Cultivons'
 })
@@ -35,7 +34,6 @@ const marqueeText3 = computed(() => {
   return props.content?.MarqueeText3 || 'De la hauteur'
 })
 
-// Navigation links using direct translation access
 const navLinks = computed(() => ({
   home: props.translationStore.translations.navigation[props.translationStore.currentLanguage].home,
   products: props.translationStore.translations.navigation[props.translationStore.currentLanguage].products,
@@ -48,7 +46,6 @@ const navLinks = computed(() => ({
   newsletter: props.translationStore.translations.navigation[props.translationStore.currentLanguage].newsletter
 }))
 
-// Copyright text using direct translation access
 const copyrightText = computed(() => {
   return props.translationStore.translations.footer[props.translationStore.currentLanguage].copyright
 })
@@ -59,7 +56,6 @@ const handleScroll = () => {
   const section = sectionRef.value
   const marquee = marqueeRef.value
   
-  // Get section bounds
   const sectionRect = section.getBoundingClientRect()
   const sectionTop = sectionRect.top
   const sectionHeight = sectionRect.height
@@ -69,7 +65,6 @@ const handleScroll = () => {
   
   const translateX = -scrollProgress * 50
   
-  // Apply transform
   marquee.style.transform = `translateX(${translateX}%)`
 }
 

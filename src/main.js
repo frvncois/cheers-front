@@ -23,7 +23,6 @@ app.use(router)
 
 app.mount('#app')
 
-// Initialize translation store AFTER the app is mounted
 import { useTranslationStore } from '@/stores/translation.js'
 const translationStore = useTranslationStore()
 translationStore.init()

@@ -21,13 +21,13 @@ const props = defineProps({
 
 const route = useRoute()
 
-// Find current product by ID from route params
+
 const currentProduct = computed(() => {
   const productId = route.params.id
   return props.filteredProducts.find(p => p.id == productId || p.documentId === productId)
 })
 
-// Other products (excluding current one)
+
 const otherProducts = computed(() => {
   if (!currentProduct.value) return props.filteredProducts
   return props.filteredProducts.filter(p =>

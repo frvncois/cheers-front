@@ -1,4 +1,5 @@
 <script setup>
+import { computed, watchEffect } from 'vue'
 import { useRouter } from 'vue-router'
 import { useContentStore } from '@/stores/content.js'
 
@@ -16,35 +17,50 @@ const props = defineProps({
 const router = useRouter()
 const contentStore = useContentStore()
 
+const orderValue = (product) => {
+  const raw = product?.Order ?? product?.order ?? product?.attributes?.Order ?? product?.attributes?.order
+  const value = Number(raw)
+  return Number.isFinite(value) ? value : Number.MAX_SAFE_INTEGER
+}
+
+const sortedProducts = computed(() => {
+  if (!Array.isArray(props.products)) return []
+  return [...props.products].sort((a, b) => orderValue(a) - orderValue(b))
+})
+
+watchEffect(() => {
+  console.log('[ProductsList] Sorted products', sortedProducts.value)
+})
+
 function handleClick(event, product) {
   event.preventDefault()
   const link = event.currentTarget
   const item = link.closest('li.is-item')
   const overlay = item?.querySelector('.is-transition')
 
-  // 1) fade only the clicked link
+  
   link.style.transition = 'opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1)'
   link.style.opacity = '0'
   link.style.pointerEvents = 'none'
 
-  // 2) play overlay
+  
   if (overlay) {
     overlay.style.display = 'block'
     overlay.style.height = '0vh'
     overlay.style.transition = 'height 0.6s cubic-bezier(0.4, 0, 0.2, 1)'
-    // force reflow
-    // eslint-disable-next-line no-unused-expressions
+    
+    
     overlay.offsetHeight
     overlay.style.height = '100vh'
   }
 
-  // 3) navigate after animation
+  
   setTimeout(() => {
     router.push({ name: 'product', params: { id: product.id } })
   }, 600)
 }
 
-// Helper functions for product data
+
 const aromaText = (product) => {
   if (!product.Aroma?.notes) return ''
   return product.Aroma.notes.join(', ')
@@ -57,8 +73,6 @@ const rangeText = (min, max) => {
 }
 
 const getProductImage = (product) => {
-  console.log('Product Thumbnail:', product.Thumbnail)
-  
   if (product.Thumbnail?.url) {
     return product.Thumbnail.url  
   }
@@ -71,7 +85,7 @@ const getProductImage = (product) => {
   <section>
     <div class="products">
       <ul class="is-items">
-        <li class="is-item" v-for="product in props.products" :key="product.id">
+        <li class="is-item" v-for="product in sortedProducts" :key="product.id || product.documentId">
           <router-link
             :to="{ name: 'product', params: { id: product.id } }"
             class="is-link"

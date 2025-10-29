@@ -16,15 +16,12 @@ import { useTranslationStore } from '@/stores/translation.js'
 import GlobalHeader from '@/components/global/GlobalHeader.vue'
 import GlobalRouter from './components/global/GlobalRouter.vue'
 
-// Initialize stores
 const userStore = useUserStore()
 const contentStore = useContentStore()
 const translationStore = useTranslationStore()
 
-// Control when to show main app content
 const contentLoaded = ref(false)
 
-// Location mapping for availability
 const locationAvailabilityMap = {
   'QC': 'SQDC',
   'ON': 'OCS',
@@ -33,7 +30,6 @@ const locationAvailabilityMap = {
   'AB': 'Alberta'
 }
 
-// Computed property to filter products based on user location
 const filteredProducts = computed(() => {
   const allProducts = contentStore.products || []
   const userLocationCode = userStore.user.location?.code
@@ -53,7 +49,6 @@ const filteredProducts = computed(() => {
   )
 })
 
-// Handle user verification
 const handleUserVerified = async (verificationData) => {
   const userLocation = verificationData.user.location?.code
   const language = userLocation === 'QC' ? 'fr-CA' : 'en'
@@ -65,16 +60,13 @@ const handleUserVerified = async (verificationData) => {
   contentLoaded.value = true
 }
 
-// Load ALL content for BOTH languages
 const loadAllContent = async () => {
   try {
     await contentStore.loadAllLanguages()
-  } catch (error) {
-    // silently fail
+  } catch {
   }
 }
 
-// Initialize translation store on mount
 onMounted(async () => {
   translationStore.init()
 })

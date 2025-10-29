@@ -1,6 +1,4 @@
-/**
- * SIMPLE FUCKING FADE-UP ANIMATION THAT ACTUALLY WORKS
- */
+
 
 class Animate {
   static _instances = new Set();
@@ -158,14 +156,14 @@ class Animate {
         continue;
       }
 
-      // SET INITIAL STATE - SIMPLE AS FUCK
+      
       switch (type) {
         case 'fade':
           el.style.opacity = '0';
           break;
         case 'fade-up':
           el.style.opacity = '0';
-          el.style.transform = `translateY(${em}px)`;  // START 1EM DOWN
+          el.style.transform = `translateY(${em}px)`;  
           break;
         case 'reveal':
           el.style.overflow = el.style.overflow || 'hidden';
@@ -191,7 +189,7 @@ class Animate {
     for (const [el, d] of this._data) {
       if (d.done) continue;
 
-      // Compute visibility ratio
+      
       const rect = el.getBoundingClientRect();
       const w = Math.max(0, Math.min(rect.right, vw) - Math.max(rect.left, 0));
       const h = Math.max(0, Math.min(rect.bottom, vh) - Math.max(rect.top, 0));
@@ -199,7 +197,7 @@ class Animate {
       const vis = (w * h) / area;
       d._lastVis = vis;
 
-      // Trigger logic
+      
       if (!d.playing && !d.done) {
         if (vis >= d.trigger) {
           if (!d.waiting) {
@@ -221,7 +219,7 @@ class Animate {
       const t = Math.min(1, (now - d.start) / d.duration);
       const k = ease(t);
 
-      // ANIMATE - SIMPLE AS FUCK
+      
       switch (d.type) {
         case 'fade':
           el.style.opacity = String(k);
@@ -229,7 +227,7 @@ class Animate {
 
         case 'fade-up':
           el.style.opacity = String(k);
-          // FROM 1EM DOWN TO 0 - SIMPLE MATH
+          
           const yPos = d.em * (1 - k);
           el.style.transform = `translateY(${yPos}px)`;
           break;
@@ -255,7 +253,7 @@ class Animate {
         break;
       case 'fade-up':
         el.style.opacity = '1';
-        el.style.transform = 'translate3d(0, 0, 0)';  // FINAL POSITION WITH GPU
+        el.style.transform = 'translate3d(0, 0, 0)';  
         break;
       case 'reveal':
         el.style.clipPath = 'inset(0 0 0% 0)';
@@ -264,7 +262,7 @@ class Animate {
   }
 }
 
-// Expose + auto-init
+
 window.Animate = Animate;
 window.animate = window.animate || new Animate();
 
