@@ -108,15 +108,15 @@ onUnmounted(() => {
             v-if="shouldShowSaintLaurent"
             to="/saint-laurent"
           >{{ props.translationStore.translations.navigation[props.translationStore.currentLanguage].saintLaurent }}</RouterLink>
+           <RouterLink to="/about">{{ props.translationStore.translations.navigation[props.translationStore.currentLanguage].about }}</RouterLink>
         </li>
         <li data-animate="fade" data-animate-delay="700" data-animate-duration="1000">
-          <RouterLink to="/about">{{ props.translationStore.translations.navigation[props.translationStore.currentLanguage].about }}</RouterLink>
           <RouterLink to="/blog">{{ props.translationStore.translations.navigation[props.translationStore.currentLanguage].blog }}</RouterLink>
           <RouterLink to="/contact">{{ props.translationStore.translations.navigation[props.translationStore.currentLanguage].contact }}</RouterLink>
+          <RouterLink to="/politique">{{ props.translationStore.translations.navigation[props.translationStore.currentLanguage].policy }}</RouterLink>
         </li>
         <li data-animate="fade" data-animate-delay="800" data-animate-duration="1000">
           <a href="https://www.instagram.com/cheerscannabis" target="_blank">{{ props.translationStore.translations.navigation[props.translationStore.currentLanguage].instagram }}</a>
-          <a href="https://www.facebook.com/Cheerscannabinc" target="_blank">{{ props.translationStore.translations.navigation[props.translationStore.currentLanguage].facebook }}</a>
           <RouterLink to="/newsletter">{{ props.translationStore.translations.navigation[props.translationStore.currentLanguage].newsletter }}</RouterLink>
         </li>
         <li class="imprint" data-animate="fade" data-animate-delay="800" data-animate-duration="1000">

@@ -20,7 +20,8 @@ export const useTranslationStore = defineStore('translation', {
           saintLaurent: 'Saint-Laurent',
           instagram: 'Instagram',
           facebook: 'Facebook',
-          newsletter: 'Infolettre'
+          newsletter: 'Infolettre',
+          policy: 'Politique'
         },
         en: {
           home: 'Home',
@@ -31,7 +32,8 @@ export const useTranslationStore = defineStore('translation', {
           saintLaurent: 'Saint-Laurent',
           instagram: 'Instagram',
           facebook: 'Facebook',
-          newsletter: 'Newsletter'
+          newsletter: 'Newsletter',
+          policy: 'Policy'
         }
       },
 
@@ -328,6 +330,21 @@ export const useTranslationStore = defineStore('translation', {
         readMore: 'Read more',
         noImage: 'No image'
       }
+      },
+
+      policy: {
+        'fr-CA': {
+          discover: 'Découvrez',
+          policyTitle: 'Nos politiques',
+          defaultHeading: 'Transparence et conformité',
+          description: 'Nous partageons en toute clarté nos engagements, nos pratiques et nos responsabilités pour que chaque visiteur puisse naviguer en confiance.'
+        },
+        en: {
+          discover: 'Discover',
+          policyTitle: 'Our policies',
+          defaultHeading: 'Transparency and compliance',
+          description: 'We clearly outline our commitments, practices, and responsibilities so every visitor can navigate with confidence.'
+        }
       },
 
       

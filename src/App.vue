@@ -57,6 +57,7 @@ const handleUserVerified = async (verificationData) => {
   contentStore.setLanguage(language)
   
   await contentStore.fetchAllContent(true)
+  console.debug('[Politique] content', contentStore.politique)
   contentLoaded.value = true
 }
 

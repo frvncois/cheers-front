@@ -38,15 +38,15 @@
 						v-if="shouldShowSaintLaurent"
 						to="/saint-laurent"
 					>{{ translationStore.translations.navigation[translationStore.currentLanguage].saintLaurent }}</router-link>
+					<router-link to="/about">{{ translationStore.translations.navigation[translationStore.currentLanguage].about }}</router-link>
 				</li>
 				<li>
-					<router-link to="/about">{{ translationStore.translations.navigation[translationStore.currentLanguage].about }}</router-link>
 					<router-link to="/blog">{{ translationStore.translations.navigation[translationStore.currentLanguage].blog }}</router-link>
 					<router-link to="/contact">{{ translationStore.translations.navigation[translationStore.currentLanguage].contact }}</router-link>
+					<router-link to="/politique">{{ translationStore.translations.navigation[translationStore.currentLanguage].policy }}</router-link>
 				</li>
 				<li>
 					<a href="https://www.instagram.com/cheerscannabis" target="_blank">{{ translationStore.translations.navigation[translationStore.currentLanguage].instagram }}</a>
-					<a href="https://www.facebook.com/Cheerscannabinc" target="_blank">{{ translationStore.translations.navigation[translationStore.currentLanguage].facebook }}</a>
 					<router-link to="/newsletter">{{ translationStore.translations.navigation[translationStore.currentLanguage].newsletter }}</router-link>
 				</li>
 				<li>

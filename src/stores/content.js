@@ -11,7 +11,8 @@ export const useContentStore = defineStore('content', {
         saintLaurent: null,
         products: [],
         blog: [],
-        productList: null
+        productList: null,
+        politique: null
       },
       'en': {
         home: null,
@@ -19,7 +20,8 @@ export const useContentStore = defineStore('content', {
         saintLaurent: null,
         products: [],
         blog: [],
-        productList: null
+        productList: null,
+        politique: null
       }
     },
     currentLanguage: 'en',
@@ -30,6 +32,7 @@ export const useContentStore = defineStore('content', {
       products: false,
       blog: false,
       productList: false,
+      politique: false,
       all: false
     },
     errors: {
@@ -39,6 +42,7 @@ export const useContentStore = defineStore('content', {
       products: null,
       blog: null,
       productList: null,
+      politique: null,
       general: null
     },
     lastFetched: {
@@ -48,7 +52,8 @@ export const useContentStore = defineStore('content', {
         saintLaurent: null,
         products: null,
         blog: null,
-        productList: null
+        productList: null,
+        politique: null
       },
       'en': {
         home: null,
@@ -56,7 +61,8 @@ export const useContentStore = defineStore('content', {
         saintLaurent: null,
         products: null,
         blog: null,
-        productList: null
+        productList: null,
+        politique: null
       }
     },
     cacheDuration: 5 * 60 * 1000
@@ -69,6 +75,7 @@ export const useContentStore = defineStore('content', {
     products: (state) => state.contentByLanguage[state.currentLanguage]?.products || [],
     blog: (state) => state.contentByLanguage[state.currentLanguage]?.blog || [],
     productList: (state) => state.contentByLanguage[state.currentLanguage]?.productList,
+    politique: (state) => state.contentByLanguage[state.currentLanguage]?.politique,
     isDataFresh: (state) => (contentType) => {
       const lastFetch = state.lastFetched[state.currentLanguage]?.[contentType]
       if (!lastFetch) return false
@@ -163,6 +170,28 @@ export const useContentStore = defineStore('content', {
         throw error
       } finally {
         this.loading.about = false
+      }
+    },
+
+    async fetchPolitique(force = false) {
+      const lang = this.currentLanguage
+      if (!force && this.isDataFresh('politique') && this.contentByLanguage[lang]?.politique) {
+        return this.contentByLanguage[lang].politique
+      }
+      this.loading.politique = true
+      this.errors.politique = null
+      try {
+        const response = await strapiAPI.getPolitique(lang)
+        if (!this.contentByLanguage[lang]) this.contentByLanguage[lang] = {}
+        if (!this.lastFetched[lang]) this.lastFetched[lang] = {}
+        this.contentByLanguage[lang].politique = response.data
+        this.lastFetched[lang].politique = Date.now()
+        return response.data
+      } catch (error) {
+        this.errors.politique = error.message
+        throw error
+      } finally {
+        this.loading.politique = false
       }
     },
 
@@ -262,6 +291,7 @@ export const useContentStore = defineStore('content', {
         await Promise.allSettled([
           this.fetchHome(force),
           this.fetchAbout(force),
+          this.fetchPolitique(force),
           this.fetchSaintLaurent(force),
           this.fetchProducts({}, force),
           this.fetchBlog({}, force),
@@ -353,6 +383,8 @@ export const useContentStore = defineStore('content', {
           return await this.fetchBlog({}, force)
         case 'productList':
           return await this.fetchProductList(force)
+        case 'politique':
+          return await this.fetchPolitique(force)
         case 'all':
           return await this.fetchAllContent(force)
         default:
@@ -391,20 +423,22 @@ export const useContentStore = defineStore('content', {
         'fr-CA': {
           home: null,
           about: null,
-          saintLaurent: null,
-          products: [],
-          blog: [],
-          productList: null
-        },
-        'en': {
-          home: null,
-          about: null,
-          saintLaurent: null,
-          products: [],
-          blog: [],
-          productList: null
-        }
+        saintLaurent: null,
+        products: [],
+        blog: [],
+        productList: null,
+        politique: null
+      },
+      'en': {
+        home: null,
+        about: null,
+        saintLaurent: null,
+        products: [],
+        blog: [],
+        productList: null,
+        politique: null
       }
+    }
       this.currentLanguage = 'en'
       Object.keys(this.loading).forEach(key => { this.loading[key] = false })
       Object.keys(this.errors).forEach(key => { this.errors[key] = null })
@@ -419,7 +453,8 @@ export const useContentStore = defineStore('content', {
         saintLaurent: currentContent.saintLaurent,
         products: currentContent.products || [],
         blog: currentContent.blog || [],
-        productList: currentContent.productList
+        productList: currentContent.productList,
+        politique: currentContent.politique
       }
     },
 
@@ -439,6 +474,8 @@ export const useContentStore = defineStore('content', {
           return currentContent.blog || []
         case 'productList':
           return currentContent.productList
+        case 'politique':
+          return currentContent.politique
         default:
           return null
       }

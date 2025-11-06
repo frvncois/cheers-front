@@ -114,6 +114,13 @@ class StrapiAPI {
     })
   }
 
+  async getPolitique(locale = 'en') {
+    return this.fetch('politique', {
+      populate: '*',
+      locale
+    })
+  }
+
   async getSaintLaurent(locale = 'en') {
     return this.fetch('saint-laurent', {
       populate: ['Cover', 'Product', 'Product.Image'],
@@ -244,6 +251,7 @@ export default strapiAPI
 export const {
   getHome,
   getAbout,
+  getPolitique,
   getSaintLaurent,
   getProducts,
   getProductList,
