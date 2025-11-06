@@ -21,7 +21,7 @@ export const useTranslationStore = defineStore('translation', {
           instagram: 'Instagram',
           facebook: 'Facebook',
           newsletter: 'Infolettre',
-          policy: 'Politique'
+          policy: 'Politiques'
         },
         en: {
           home: 'Home',
