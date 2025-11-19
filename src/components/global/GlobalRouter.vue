@@ -261,7 +261,7 @@ defineExpose({
     gap: var(--space-rg);
     background: var(--yellow);
     color: var(--purple);
-    width: min(30em, 90vw);
+    width: min(30em, 60vw);
     padding: var(--space-md);
     text-align: center;
     border-radius: var(--space-sm);
@@ -422,5 +422,22 @@ button:disabled {
   transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
+
+
+@media screen and (max-width: 768px) {
+
+.router {
+  & > .is-wrap {
+    gap: var(--space-sm);
+    & > .is-locations {
+      padding: 0;
+    }
+  }
+  & p {
+    font-size: var(--font-rg);
+    line-height: 1;
+  }
+}
+}
 
 </style>
