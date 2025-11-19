@@ -19,7 +19,7 @@ export const useUserStore = defineStore('user', {
       rememberMe: false
     },
     availableLocations: [
-      { code: 'QC', name: 'Québec', legalAge: 18 },
+      { code: 'QC', name: 'Québec', legalAge: 21 },
       { code: 'ON', name: 'Ontario', legalAge: 19 },
       { code: 'AB', name: 'Alberta', legalAge: 18 },
       { code: 'DE', name: 'Germany', legalAge: 16 },
