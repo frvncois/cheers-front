@@ -53,7 +53,7 @@ export default async function handler(req, res) {
       },
       to: [
         {
-          email: "cheers@cheerscannabis.com",
+          email: "contact@cheerscannabis.com",
           name: "Cheers Cannabis"
         }
       ],
