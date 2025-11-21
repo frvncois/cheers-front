@@ -48,8 +48,8 @@ export default async function handler(req, res) {
     // Prepare email data for Brevo API
     const emailData = {
       sender: {
-        name: `${firstName} ${lastName}`,
-        email: email
+        name: "Cheers Cannabis",
+        email: "contact@cheerscannabis.com"
       },
       to: [
         {
